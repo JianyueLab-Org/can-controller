@@ -8,12 +8,17 @@ import EmptyState from "@/components/ui/EmptyState.vue";
 import PageHeader from "@/components/ui/PageHeader.vue";
 import Skeleton from "@/components/ui/Skeleton.vue";
 import StatCard from "@/components/ui/StatCard.vue";
+import HomeDivisionSetup from "@/components/HomeDivisionSetup.vue";
 import { apiFetch } from "@/lib/canApi";
 
 // Scoped to the `controllers.dashboard` namespace — this island used to be
 // handed the entire message dictionary just to read one branch of it.
 const props = defineProps<{
   messages: Record<string, unknown>;
+  /** `divisions` 命名空间，只传给第一次进来时的那道门。 */
+  divisionMessages: Record<string, unknown>;
+  /** `setup` 命名空间，同上。 */
+  setupMessages: Record<string, unknown>;
   sessionUserId: string;
 }>();
 const t = createTranslator(props.messages);
@@ -62,11 +67,20 @@ function getDivisionName(region: number) {
   return divisions[region] || t("unknownDivision");
 }
 
-onMounted(async () => {
+/**
+ * 拉这一页的两份数据。
+ *
+ * 抽成具名函数而不是留在 `onMounted` 里，是因为它现在有第二个调用方：设置完归属
+ * 分部之后要重新读一次，才能把席位权限和分部信息显示出来。整页 reload 也能做到，
+ * 但会话、外壳和侧栏都没有变，重新拉这一份就够了。
+ */
+async function load() {
   if (!props.sessionUserId) {
     loading.value = false;
     return;
   }
+  loading.value = true;
+  error.value = null;
   try {
     const userResponse = await apiFetch("/api/v1/pilot/data");
     if (!userResponse.ok) throw new Error("Failed to fetch user data");
@@ -83,7 +97,9 @@ onMounted(async () => {
   } finally {
     loading.value = false;
   }
-});
+}
+
+onMounted(load);
 
 function permsOf(div: DivisionData) {
   return [
@@ -121,6 +137,18 @@ function formatDate(d: string) {
   </AlertBox>
 
   <EmptyState v-else-if="!userData" icon="users" :title="t('noUserData')" />
+
+  <!--
+    还没有归属分部 —— 这一整页在那之前没有内容可显示：席位权限是空的、课程是空
+    的、管制时长是 0。所以它是一道门，不是概览上的一行「未分配」。理由写在
+    HomeDivisionSetup.vue 顶部。
+  -->
+  <HomeDivisionSetup
+    v-else-if="!userData.homeDivision"
+    :messages="divisionMessages"
+    :setup-messages="setupMessages"
+    @saved="load"
+  />
 
   <div v-else>
     <PageHeader

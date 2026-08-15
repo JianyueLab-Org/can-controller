@@ -42,6 +42,14 @@ const ALLOW_LIST: Record<string, Allowed> = {
   // 概览：成员自己的资料（席位权限、分部、等级）。
   "pilot/data": { methods: ["GET"], who: "Dashboard.vue" },
 
+  // 第一次进来时设置归属分部。**只开 POST，没有 GET。**
+  //
+  // 那条 GET 回的 `canSetHome` 的定义就是「还没有归属分部」，而概览页已经从
+  // pilot/data 知道了这件事；把它一起开着，等于给这个站开一条它根本不调用的路
+  // 径。这个写入是不可逆的（归属分部只能自己设一次），拦它的是 can-api 自己 ——
+  // 这里只负责「这条路径允许被转发吗」。
+  "pilot/divisions": { methods: ["POST"], who: "HomeDivisionSetup.vue" },
+
   // ATIS 制作器要的实时 METAR。
   //
   // 走的是 `controller/metar` 而不是公开的 `metar`：前者是 can-api 给管制端的
@@ -60,8 +68,9 @@ const ALLOW_LIST: Record<string, Allowed> = {
  * 读自己的管制时长。正则是**收紧的**而不是 `.*`：一个 `[^/]+` 就足以让
  * `pilot/../super/xxx` 这类东西有讨论余地，而这里根本不给它机会。
  *
- * 顺序上精确表先查 —— `pilot/data` 会被下面第一条也匹配上，但它有自己的条目，
- * 谁在用它写得更清楚。
+ * 顺序上精确表先查，这一点是**必须**的而不是顺手：`pilot/data` 和
+ * `pilot/divisions` 都会被下面第一条模式匹配上，而那条只允许 GET。先查精确表，
+ * 它们才能各自拿到自己的方法集 —— 否则设置归属分部的那个 POST 会被判成 405。
  */
 const ALLOW_PATTERNS: Array<Allowed & { test: RegExp }> = [
   {

@@ -75,6 +75,29 @@ cookie 完成。
 关。每一条都写着谁在用它。要加页面就要加条目 —— 而且要顺手把「谁在用」写清楚，
 否则以后没人敢删任何一条。
 
+### 第一次进来：没有归属分部就先选分部
+
+概览页（`/`）在成员**还没有归属分部**时，渲染的不是概览而是一道门
+（`src/components/HomeDivisionSetup.vue`）。这是这个站相对 can-web 唯一一处**行为**
+上的改动，不是搬家的副作用：
+
+- can-web 上，「没有归属分部」表现为概览上一张写着「未分配」的统计卡，夹在另外两
+  张有数字的卡中间 —— 看起来像一条状态，不像一件待办。
+- 而真正能设置它的界面在**考试中心**的一个设置页上（`/exams/divisions`），一个新
+  管制员没有理由会走到那里去。
+- 在那之前，这一页上几乎每一格都是空的：席位权限由分部授予，培训由归属分部的教员
+  安排，管制时长是 0。所以在设置完成之前不渲染概览的其余部分，不是在藏东西 ——
+  那些部分此刻没有内容。
+
+这个写入**不可逆**（归属分部只能自己设一次，之后的转部要教员来做），所以它和
+can-web 的 `Divisions.vue` 一样走一次显式确认，且确认框里重复一遍「设置后无法自行
+更改」。文案共用 `divisions` 那一批词条，只有「第一次」的那几句在 `setup` 里。
+
+它**不读** `/api/v1/pilot/divisions` 的 GET —— 那条 GET 回的 `canSetHome` 定义就是
+「还没有归属分部」，而概览页已经从 `pilot/data` 知道了。所以转发白名单里那一条只
+开了 POST；`ALLOW_LIST` 先于 `ALLOW_PATTERNS` 查也因此从「顺手」变成了**必须**，
+否则这个 POST 会被 `pilot/<id>` 那条只允许 GET 的模式判成 405。
+
 ### 会话与 rating
 
 `src/middleware.ts` 每个请求向 can-api 解一次会话，结果放进 `Astro.locals.user`。
@@ -126,10 +149,13 @@ can-dev、can-radar、can-efb 都是踩了才关的。
 `formatZulu`、`formatLocal`），文件名保持不变是为了让预约看板那个岛屿的 import
 路径一个字都不用改。文件顶上写着这件事。
 
-四本词典（`language/*.json`）是从 can-web 的对应文件里**整段切**出来的，键名一个
-字没改（`frame` / `controllers` / `atis` / `atcReservations` / `common` /
-`notFound` / `divisions.regions`）。所以往回同步一条翻译，是从 can-web 那边把同名
-的那一段拷过来，而不是手改。
+四本词典（`language/*.json`）里，下面这些命名空间是从 can-web 的对应文件里**整段
+切**出来的，键名一个字没改：`frame` / `controllers` / `atis` /
+`atcReservations` / `divisions` / `common` / `notFound`。所以往回同步一条翻译，是
+从 can-web 那边把同名的那一段拷过来，而不是手改。
+
+**`setup` 是例外，它是这个站自己的。** can-web 上没有对应的键，因为那边根本没有
+「第一次」这个概念（见下一节）。改它不用去看 can-web。
 
 ## 本地开发
 

@@ -280,6 +280,60 @@
     "submit": "提交",
     "errorDescriptionTooLong": "备注太长了，最多 {chars} 字。"
   },
+  "divisions": {
+    "title": "分部",
+    "description": "你的归属分部，以及作为管制员访问的其他分部。",
+    "navLabel": "分部",
+    "home": {
+      "title": "归属分部",
+      "description": "你所属的分部。培训与晋升由归属分部的教员负责。",
+      "none": "尚未设置归属分部",
+      "noneDescription": "在下方选择一个分部加入。",
+      "select": "选择分部",
+      "save": "设为归属",
+      "saving": "保存中…",
+      "permanentWarning": "设置后无法自行更改。如需转部，请联系教员。",
+      "locked": "归属分部已设置",
+      "lockedDescription": "转部由教员处理，如需变更请联系你的教员。",
+      "confirmTitle": "确认加入 {division} 作为归属分部？",
+      "confirm": "确认加入"
+    },
+    "visiting": {
+      "title": "访问分部",
+      "description": "除归属分部外，你还可以管制的分部。",
+      "none": "暂无访问分部",
+      "noneDescription": "添加后即可在归属分部之外提供管制服务。",
+      "add": "添加分部",
+      "adding": "添加中…",
+      "locked": "需要 {rating} 及以上",
+      "lockedDescription": "达到 {rating} 后即可添加访问分部。归属分部不受影响。",
+      "permanentNote": "已加入的分部会保留在记录中，如需移除请联系教员。",
+      "needsHome": "请先设置归属分部",
+      "needsHomeDescription": "访问分部需要在归属分部之外添加，请先选择归属分部。"
+    },
+    "regions": {
+      "1": "PRC · 中国大陆",
+      "2": "USA · 美国",
+      "3": "JPN · 日本",
+      "4": "HK · 香港"
+    },
+    "permissions": "席位权限",
+    "noPermissions": "暂无席位权限",
+    "active": "活跃",
+    "inactive": "非活跃",
+    "homeBadge": "归属",
+    "saved": "分部已更新",
+    "errors": {
+      "generic": "无法更新分部信息",
+      "load": "无法加载分部信息",
+      "invalidRegion": "无法加入该分部",
+      "alreadyMember": "你已经是该分部的成员",
+      "notEligible": "你的等级还不能添加访问分部",
+      "homeLocked": "归属分部已设置，无法在此更改",
+      "noHome": "请先设置归属分部，再添加访问分部"
+    },
+    "cancel": "取消"
+  },
   "common": {
     "loading": "加载中…",
     "retry": "重试",
@@ -310,12 +364,13 @@
     "radar": "打开在线地图",
     "docs": "浏览文档"
   },
-  "divisions": {
-    "regions": {
-      "1": "PRC · 中国大陆",
-      "2": "USA · 美国",
-      "3": "JPN · 日本",
-      "4": "HK · 香港"
+  "setup": {
+    "title": "先选择归属分部",
+    "description": "你还没有归属分部。管制员的席位权限、培训和晋升都由归属分部管理，所以这是第一步。",
+    "reasons": {
+      "permissions": "席位权限由分部授予——在设置归属分部之前，你没有任何可用席位。",
+      "training": "培训与晋升由归属分部的教员负责。",
+      "once": "归属分部只能自行设置一次，之后的转部要联系教员。"
     }
   }
 }

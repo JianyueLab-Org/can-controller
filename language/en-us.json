@@ -280,6 +280,60 @@
     "submit": "Submit",
     "errorDescriptionTooLong": "That note is too long — {chars} characters at most."
   },
+  "divisions": {
+    "title": "Division",
+    "description": "Your home division, and any divisions you visit as a controller.",
+    "navLabel": "Division",
+    "home": {
+      "title": "Home division",
+      "description": "Where you are based. Training and promotions are handled by your home division's instructors.",
+      "none": "No home division set",
+      "noneDescription": "Pick one below to join a division.",
+      "select": "Choose a division",
+      "save": "Set as home",
+      "saving": "Saving…",
+      "permanentWarning": "This cannot be changed later. Ask an instructor if you ever need to transfer.",
+      "locked": "Your home division is set",
+      "lockedDescription": "Transfers are handled by instructors — contact yours if you need to move.",
+      "confirmTitle": "Join {division} as your home division?",
+      "confirm": "Yes, join"
+    },
+    "visiting": {
+      "title": "Visiting divisions",
+      "description": "Divisions you control in besides your home division.",
+      "none": "No visiting divisions",
+      "noneDescription": "Add one to control outside your home division.",
+      "add": "Add division",
+      "adding": "Adding…",
+      "locked": "Requires {rating} or above",
+      "lockedDescription": "Visiting divisions open up once you reach {rating}. Your home division is unaffected.",
+      "permanentNote": "Divisions you join stay on your record. Ask an instructor if one needs removing.",
+      "needsHome": "Set a home division first",
+      "needsHomeDescription": "Visiting divisions sit alongside a home division, so pick that one first."
+    },
+    "regions": {
+      "1": "PRC · China Mainland",
+      "2": "USA · United States",
+      "3": "JPN · Japan",
+      "4": "HK · Hong Kong"
+    },
+    "permissions": "Position permissions",
+    "noPermissions": "No positions yet",
+    "active": "Active",
+    "inactive": "Inactive",
+    "homeBadge": "Home",
+    "saved": "Division updated",
+    "errors": {
+      "generic": "Could not update your divisions",
+      "load": "Could not load your divisions",
+      "invalidRegion": "That is not a division you can join",
+      "alreadyMember": "You are already a member of that division",
+      "notEligible": "Your rating does not allow visiting divisions yet",
+      "homeLocked": "Your home division is already set and cannot be changed here",
+      "noHome": "Set a home division before adding a visiting one"
+    },
+    "cancel": "Cancel"
+  },
   "common": {
     "loading": "Loading…",
     "retry": "Retry",
@@ -310,12 +364,13 @@
     "radar": "Open the radar",
     "docs": "Browse the docs"
   },
-  "divisions": {
-    "regions": {
-      "1": "PRC · China Mainland",
-      "2": "USA · United States",
-      "3": "JPN · Japan",
-      "4": "HK · Hong Kong"
+  "setup": {
+    "title": "Choose your home division first",
+    "description": "You have no home division yet. Position permissions, training and promotion are all handled by your home division, so this is the first step.",
+    "reasons": {
+      "permissions": "Positions are granted by a division — until you set a home division you have none.",
+      "training": "Training and promotion are run by your home division's instructors.",
+      "once": "You can set a home division once; transfers after that go through an instructor."
     }
   }
 }

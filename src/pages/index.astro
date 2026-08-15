@@ -6,12 +6,25 @@ import { getLocale, getMessages } from "@/lib/i18n";
 /**
  * 管制员概览。can-web 上的 `/controllers/` —— 这个站的首页就是它，前缀没了。
  */
-const messages = getMessages(getLocale(Astro.cookies), "controllers.dashboard");
+const locale = getLocale(Astro.cookies);
+const messages = getMessages(locale, "controllers.dashboard");
+// 没有归属分部的成员在这一页上会先撞见一道门，那道门要另外两个命名空间：
+// `divisions` 是和 can-web 的选分部界面共用的那批词条，`setup` 是只有这个站有的
+// 「第一次」那几句。分开传而不是把整本词典塞进 props —— 那正是 can-dev 特意避开
+// 的事，会让每个页面的 HTML 多出十几 KB。
+const divisionMessages = getMessages(locale, "divisions");
+const setupMessages = getMessages(locale, "setup");
 // 中间件保证到这里的人一定登录过，所以这个值不会是空串；写成兜底是因为
 // `Astro.locals.user` 的类型里它仍然可以是 null，而岛屿只要一个字符串。
 const sessionUserId = Astro.locals.user?.username ?? "";
 ---
 
 <AppLayout>
-  <Dashboard messages={messages} sessionUserId={sessionUserId} client:load />
+  <Dashboard
+    messages={messages}
+    divisionMessages={divisionMessages}
+    setupMessages={setupMessages}
+    sessionUserId={sessionUserId}
+    client:load
+  />
 </AppLayout>
