@@ -1,0 +1,28 @@
+---
+import AppLayout from "@/layouts/AppLayout.astro";
+import AtcReservations from "@/components/AtcReservations.vue";
+import { getLocale, getMessages } from "@/lib/i18n";
+import { MIN_SUP_RATING } from "@/lib/activities";
+
+const messages = getMessages(getLocale(Astro.cookies), "atcReservations");
+
+/**
+ * can-web 上的 `/controllers/atc-reservations`。路径短了一截，因为
+ * `atc-` 这个前缀在一个只有管制员的站点上没有区分作用了。
+ *
+ * 岛屿要知道访客是不是 SUP/ADM，才决定要不要给出「撤销他人预约」这个动作。
+ * rating 随会话一起来，所以这里没有第二次查询 —— 而且不管这个 flag 说什么，
+ * can-api 都会在服务端再判一次同样的规则。
+ */
+const sessionUserId = Astro.locals.user?.username ?? "";
+const isSup = (Astro.locals.user?.rating ?? -1) >= MIN_SUP_RATING;
+---
+
+<AppLayout title="ATC Reservations · Cerulean Aviation Network">
+  <AtcReservations
+    messages={messages}
+    sessionUserId={sessionUserId}
+    isSup={isSup}
+    client:load
+  />
+</AppLayout>

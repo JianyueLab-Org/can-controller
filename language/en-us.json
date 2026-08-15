@@ -1,0 +1,321 @@
+{
+  "frame": {
+    "controllers": {
+      "panel": "ATC Panel",
+      "atis": "ATIS Maker",
+      "rules": "ATC Rules",
+      "reservations": "ATC Reservations",
+      "quickAccess": {
+        "title": "Quick Access",
+        "Forum": "Forum",
+        "OnlineMap": "Online Map",
+        "DocsRegulations": "Docs & Regulations"
+      }
+    },
+    "instructors": {
+      "title": "Instructors",
+      "items": {
+        "roster": "Roster",
+        "promotion": "Promotion"
+      }
+    },
+    "admin": {
+      "title": "Admin (ADM)",
+      "items": {
+        "promote": "Promotion Approval"
+      }
+    },
+    "pilots": {
+      "title": "Home",
+      "flightplan": {
+        "title": "Flight Plan"
+      },
+      "flight": {
+        "title": "Flights",
+        "items": {
+          "flightPlan": "Flight Plan",
+          "flightRecords": "Flight Records"
+        }
+      },
+      "userStatistics": {
+        "title": "User Statistics"
+      },
+      "quickAccess": {
+        "title": "Quick Access",
+        "items": {
+          "Forum": "Forum",
+          "OnlineMap": "Online Map",
+          "DocsRegulations": "Docs & Regulations"
+        }
+      },
+      "apps": {
+        "title": "Authorized apps"
+      }
+    },
+    "docs": {
+      "home": "Home",
+      "docs": "Docs",
+      "regulation": "Regulations",
+      "atc": {
+        "title": "ATC",
+        "items": {
+          "professionalGuidelines": "Professional Guidelines"
+        }
+      },
+      "editions": {
+        "title": "Editions",
+        "items": {
+          "firstEdition": " First Edition",
+          "secondEdition": "Second Edition"
+        }
+      },
+      "history": {
+        "title": "History"
+      },
+      "nav": "Navigation",
+      "onThisPage": "On this page"
+    },
+    "signOut": "Sign Out",
+    "search": {
+      "label": "Search pages",
+      "placeholder": "Jump to a page…",
+      "noResults": "No matching page",
+      "hint": "Search"
+    },
+    "skipToContent": "Skip to main content",
+    "workspace": {
+      "label": "Workspace",
+      "pilots": "Pilots",
+      "controllers": "ATC",
+      "exams": "Exams"
+    },
+    "closeSidebar": "Close navigation",
+    "openSidebar": "Open navigation",
+    "atcRoster": "ATC Roster",
+    "division": "Division",
+    "training": "Training Materials",
+    "downloads": "Downloads",
+    "activities": "Activities",
+    "activitiesManage": "Manage Activities",
+    "rewards": "Points store",
+    "prizesManage": "Prizes",
+    "feedback": "Feedback outcomes",
+    "feedbackManage": "Feedback outcomes",
+    "support": "Issues & ideas"
+  },
+  "controllers": {
+    "dashboard": {
+      "welcome": "Welcome back",
+      "subtitle": "ATC Panel — your status and position permissions",
+      "onlineTime": "Online Time",
+      "currentRating": "Current Rating",
+      "homeDivision": "Home Division",
+      "sessionCount": " sessions",
+      "totalPermissions": " permissions",
+      "active": "Active",
+      "inactive": "Inactive",
+      "permissionDetails": "Position Permissions",
+      "futureCourses": "Future Courses",
+      "ratingInfo": "Rating Information",
+      "divisionInfo": "Division Information",
+      "basicInfo": "Basic Information",
+      "timeInfo": "Time Information",
+      "divisionName": "Division Name",
+      "status": "Status",
+      "joinTime": "Join Time",
+      "updateTime": "Update Time",
+      "shortName": "Short Name",
+      "chineseName": "Chinese Name",
+      "fullName": "Full Name",
+      "noCourses": "No scheduled courses",
+      "contactInstructor": "Please contact instructor to schedule training",
+      "loadingFailed": "Loading failed",
+      "noUserData": "No user data found",
+      "authorized": "Authorized",
+      "unauthorized": "Unauthorized",
+      "yes": "Yes",
+      "no": "No",
+      "unknownDivision": "Unknown Division",
+      "chinaMainlandDivision": "China Mainland",
+      "usaDivision": "United States",
+      "japanDivision": "Japan",
+      "hongkongDivision": "Hong Kong",
+      "unassigned": "Unassigned",
+      "permissions": {
+        "name": "Permissions",
+        "delivery": "Delivery",
+        "ground": "Ground",
+        "tower": "Tower",
+        "approach": "Approach",
+        "center": "Center",
+        "instructor": "Instructor"
+      }
+    },
+    "rules": {
+      "title": "ATC Rules",
+      "description": "Rules published by each division. When you control in a division's airspace you follow its rules on top of the CAN-wide regulations.",
+      "publishedCount": "{count} of {total} divisions have published rules",
+      "read": "Read the rules",
+      "pending": "Not published",
+      "pendingDescription": "This division has not published its ATC rules yet.",
+      "back": "Back to ATC Rules",
+      "onThisPage": "On this page",
+      "languageNote": "Published by the division in {language}; the original text governs."
+    }
+  },
+  "atis": {
+    "title": "EuroScope ATIS Maker",
+    "description": "Build an ATIS from live weather, then paste the URL EuroScope reads.",
+    "weather": {
+      "title": "Weather",
+      "subtitle": "Fetch the live METAR for an airport."
+    },
+    "icao": {
+      "label": "Airport ICAO",
+      "placeholder": "e.g. ZBAA",
+      "hint": "Four-letter ICAO code."
+    },
+    "fetch": "Fetch METAR",
+    "fetching": "Fetching…",
+    "metar": {
+      "raw": "Raw METAR"
+    },
+    "fields": {
+      "wind": "Wind",
+      "visibility": "Visibility",
+      "clouds": "Cloud",
+      "weather": "Weather",
+      "temp": "Temp / Dewpoint",
+      "qnh": "QNH"
+    },
+    "config": {
+      "title": "ATIS configuration",
+      "subtitle": "These feed the preview; runways and the letter update it live."
+    },
+    "info": {
+      "label": "Information letter"
+    },
+    "approach": {
+      "label": "Approach in use"
+    },
+    "arr": {
+      "label": "Arrival runway(s)",
+      "placeholder": "e.g. 36L, 36R",
+      "hint": "Comma-separated."
+    },
+    "dep": {
+      "label": "Departure runway(s)",
+      "placeholder": "e.g. 01",
+      "hint": "Comma-separated."
+    },
+    "tl": {
+      "label": "Transition level",
+      "placeholder": "e.g. 70",
+      "hint": "Optional; not carried in the METAR."
+    },
+    "remarks": {
+      "label": "Remarks",
+      "placeholder": "Optional extra line"
+    },
+    "preview": {
+      "title": "ATIS preview",
+      "subtitle": "Exactly what EuroScope will speak.",
+      "empty": "Fetch a METAR to preview the ATIS."
+    },
+    "url": {
+      "title": "EuroScope ATIS maker URL",
+      "subtitle": "Paste this once into EuroScope; it fills the weather itself.",
+      "step1": "In EuroScope open the Voice ATIS dialog (click the ATIS letter, top-left) and paste this URL into the 'ATIS maker URL' field.",
+      "step2": "Type your airport ICAO into the 'ATIS airport' field and press 'Get METAR' — the macros can't resolve until an airport and METAR are loaded.",
+      "step3": "Press 'Test URL' to see the ATIS, then connect your XXXX_ATIS position.",
+      "note": "The $atisairportA / $arrrwy / $deprwy / $atiscodeA / $metar macros are filled by EuroScope at runtime, so this URL never changes. The macros must carry the ATIS slot letter (A–D) — unsuffixed spellings resolve to no airport and EuroScope answers 'unable to extract names from URL'. If it still says that, the ATIS airport field for that slot is empty — load it and Get METAR first. The ICAO above is only for the preview here."
+    },
+    "slot": {
+      "label": "ATIS slot",
+      "hint": "Match the slot (A–D) this ATIS occupies in EuroScope; the macros are keyed to it."
+    },
+    "copy": "Copy",
+    "copied": "Copied",
+    "errors": {
+      "invalidIcao": "Enter a valid four-letter ICAO code.",
+      "notFound": "No METAR available for {icao}.",
+      "fetch": "Couldn't fetch the METAR. Please try again."
+    }
+  },
+  "atcReservations": {
+    "title": "ATC Reservations",
+    "description": "Tell the network which station you plan to staff and when, so other controllers can plan around the expected coverage.",
+    "create": "New reservation",
+    "createHint": "Announce an upcoming staffing slot. You can keep one active reservation at a time.",
+    "callsign": "Callsign",
+    "controller": "Controller",
+    "window": "Expected window",
+    "notes": "Notes",
+    "cancel": "Cancel",
+    "cancelSuccess": "Reservation cancelled.",
+    "cancelFailed": "Could not cancel the reservation.",
+    "cancelTitle": "Cancel reservation",
+    "cancelConfirm": "This removes the slot from the staffing board. The controller is not notified.",
+    "cancelKeep": "Keep it",
+    "cancelConfirmAction": "Cancel reservation",
+    "createSuccess": "Reservation created.",
+    "errorAlreadyReserved": "You already have an active reservation.",
+    "errorCallsign": "That callsign is not valid — use 3–16 characters, letters, digits, _ or -.",
+    "errorWindow": "That window is not valid. It must end in the future, run no longer than {hours} hours, and start within the next {days} days.",
+    "errorTooMany": "Too many reservation changes. Try again later.",
+    "errorGeneric": "Could not create the reservation.",
+    "loadFailed": "Could not load reservations.",
+    "noReservations": "No active reservations.",
+    "loading": "Loading reservations…",
+    "formCallsign": "Callsign",
+    "formCallsignHint": "The station you will staff, e.g. ZBAA_TWR.",
+    "formDescription": "Notes (optional)",
+    "formStartsAt": "Expected online time",
+    "formEndsAt": "Expected offline time",
+    "formEndsAtHint": "At most {hours} hours after the start time.",
+    "endBeforeStart": "End time must be after start time.",
+    "untilTime": "until {time}",
+    "timeWithLocal": "{zulu} · {local}",
+    "close": "Close",
+    "submit": "Submit",
+    "errorDescriptionTooLong": "That note is too long — {chars} characters at most."
+  },
+  "common": {
+    "loading": "Loading…",
+    "retry": "Retry",
+    "refresh": "Refresh",
+    "search": "Search",
+    "all": "All",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "back": "Back",
+    "close": "Close",
+    "loadMore": "Load more",
+    "showingOf": "Showing {shown} of {total}",
+    "draft": "Draft",
+    "draftTitle": "Draft",
+    "draftNotice": "This document has not been ratified by the division yet; it may still change and should not be treated as final.",
+    "photoBy": "Photo by {name} · RouteFrame",
+    "languages": {
+      "ja": "Japanese",
+      "zh": "Chinese",
+      "en": "English"
+    }
+  },
+  "notFound": {
+    "code": "404",
+    "title": "This page is off the charts",
+    "description": "The page you asked for does not exist, or it may have moved since you last flew here.",
+    "home": "Back to home",
+    "radar": "Open the radar",
+    "docs": "Browse the docs"
+  },
+  "divisions": {
+    "regions": {
+      "1": "PRC · China Mainland",
+      "2": "USA · United States",
+      "3": "JPN · Japan",
+      "4": "HK · Hong Kong"
+    }
+  }
+}

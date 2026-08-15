@@ -1,0 +1,31 @@
+---
+import AppLayout from "@/layouts/AppLayout.astro";
+import AtisMaker from "@/components/AtisMaker.vue";
+import { getLocale, getMessages } from "@/lib/i18n";
+import { CAN_WEB_ORIGIN } from "@/lib/config";
+
+const messages = getMessages(getLocale(Astro.cookies), "atis");
+
+/**
+ * 粘进 EuroScope 的那条 ATIS maker URL 指向 **airwaysn.org**，不是本站。
+ *
+ * can-web 上这里传的是 `Astro.url.origin`，因为那时候两者是同一台主机。搬家之
+ * 后不能顺手改成本站的地址，有两个各自独立的理由：
+ *
+ * 1. `/api/v1/atis` 是 can-api 的接口，而它对外的地址写在主站的转发白名单里
+ *    （can-web 的 `src/pages/api/[...path].ts` 第 57 行）。这条 URL 已经被一批
+ *    管制员粘进各自机器上的 EuroScope 了 —— 改掉它等于让那些人下次上线时 ATIS
+ *    静默失效，而且没有任何一边的 CI 会发现。
+ * 2. `Astro.url.origin` 在这个部署里本来就是错的：TLS 在 Cloudflare 那侧终止，
+ *    从 `Host` 头推出来的是 `http://`。粘一条 http 的 URL 进 EuroScope，它要么
+ *    被重定向、要么直接失败。`astro.config.mjs` 里关掉 `checkOrigin` 记的是同
+ *    一件事的另一半。
+ *
+ * 所以这里传的是显式配置的主站地址。本地开发时它默认就是线上主站，预览出来的
+ * URL 因此和线上一字不差 —— 那正是这一页要给人看的东西。
+ */
+---
+
+<AppLayout title="ATIS Maker · Cerulean Aviation Network">
+  <AtisMaker messages={messages} origin={CAN_WEB_ORIGIN} client:load />
+</AppLayout>

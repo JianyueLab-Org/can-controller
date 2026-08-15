@@ -1,0 +1,116 @@
+---
+import { getCollection, render } from "astro:content";
+import AppLayout from "@/layouts/AppLayout.astro";
+import AlertBox from "@/components/ui/AlertBox.vue";
+import { ICON_PATHS } from "@/components/icons";
+import { getLocale, useTranslations } from "@/lib/i18n";
+import { findAtcRuleDoc } from "@/lib/atcRules";
+
+const { division } = Astro.params;
+const rules = await getCollection("rules");
+const doc = findAtcRuleDoc(
+  division,
+  rules.map((entry) => entry.id),
+);
+
+if (!doc) {
+  return Astro.redirect("/rules");
+}
+
+const entry = rules.find((candidate) => candidate.id === doc.key)!;
+const { Content, headings } = await render(entry);
+// Chapters and appendices only — the document has 40+ articles, and a list of
+// every one of them is a wall, not a table of contents.
+const chapters = headings.filter((heading) => heading.depth === 2);
+
+const locale = getLocale(Astro.cookies);
+const t = useTranslations(locale, "controllers.rules");
+const tRegion = useTranslations(locale, "divisions.regions");
+const tCommon = useTranslations(locale, "common");
+const divisionName = tRegion(String(doc.region));
+---
+
+<AppLayout title={`${doc.title} · Cerulean Aviation Network`}>
+  <a
+    href="/rules"
+    class="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-airwaysn"
+  >
+    <svg
+      class="size-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d={ICON_PATHS.arrowLeft}></path>
+    </svg>
+    {t("back")}
+  </a>
+
+  <div class="mb-8">
+    <p
+      class="mb-1 text-xs font-semibold uppercase tracking-widest text-airwaysn"
+    >
+      {t("title")} · {divisionName}
+    </p>
+    <div class="flex flex-wrap items-center gap-3">
+      <h1
+        lang={doc.lang}
+        class="text-2xl font-bold tracking-tight text-ink sm:text-3xl"
+      >
+        {doc.title}
+      </h1>
+      {doc.draft && <span class="badge badge-warning">{tCommon("draft")}</span>}
+    </div>
+    <p class="mt-2 text-sm text-muted">
+      {t("languageNote", { language: tCommon(`languages.${doc.lang}`) })}
+    </p>
+    {
+      doc.draft && (
+        <AlertBox variant="warning" title={tCommon("draftTitle")} class="mt-4">
+          {tCommon("draftNotice")}
+        </AlertBox>
+      )
+    }
+  </div>
+
+  <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_16rem]">
+    <article class="card p-6 sm:p-8">
+      <div
+        lang={doc.lang}
+        class="doc-content prose max-w-none dark:prose-invert prose-headings:tracking-tight prose-a:font-medium"
+      >
+        <Content />
+      </div>
+    </article>
+
+    {
+      chapters.length > 0 && (
+        <aside class="order-first lg:order-none lg:sticky lg:top-24 lg:self-start">
+          <nav class="card p-4" aria-label={t("onThisPage")}>
+            <h2 class="mb-3 px-2.5 text-xs font-semibold uppercase tracking-widest text-faint">
+              {t("onThisPage")}
+            </h2>
+            <ul class="max-h-[60vh] space-y-0.5 overflow-y-auto">
+              {chapters.map((heading) => (
+                <li>
+                  <a
+                    href={`#${heading.slug}`}
+                    lang={doc.lang}
+                    class="block rounded-control px-2.5 py-1.5 text-sm text-muted transition-colors hover:bg-surface-sunken hover:text-ink"
+                  >
+                    {heading.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+      )
+    }
+  </div>
+</AppLayout>

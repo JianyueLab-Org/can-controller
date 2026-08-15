@@ -1,0 +1,119 @@
+---
+import { getCollection } from "astro:content";
+import AppLayout from "@/layouts/AppLayout.astro";
+import { ICON_PATHS } from "@/components/icons";
+import { getLocale, useTranslations } from "@/lib/i18n";
+import { buildAtcRules } from "@/lib/atcRules";
+
+const locale = getLocale(Astro.cookies);
+const t = useTranslations(locale, "controllers.rules");
+const tRegion = useTranslations(locale, "divisions.regions");
+const tCommon = useTranslations(locale, "common");
+
+const rules = await getCollection("rules");
+const divisions = buildAtcRules(rules.map((entry) => entry.id));
+const published = divisions.filter((division) => division.doc).length;
+---
+
+<AppLayout title={`${t("title")} · Cerulean Aviation Network`}>
+  <div class="mb-8">
+    <h1 class="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+      {t("title")}
+    </h1>
+    <p class="mt-2 max-w-2xl text-muted">{t("description")}</p>
+    <p class="mt-4 text-sm text-faint">
+      {t("publishedCount", { count: published, total: divisions.length })}
+    </p>
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    {
+      divisions.map((division) => {
+        const name = tRegion(String(division.region));
+        return division.doc && division.href ? (
+          <a
+            href={division.href}
+            class="card group flex flex-col p-5 transition-shadow hover:shadow-card-hover"
+          >
+            <div class="flex items-start justify-between gap-3">
+              <span class="flex size-10 items-center justify-center rounded-control bg-info-bg text-info-fg">
+                <svg
+                  class="size-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d={ICON_PATHS.documentText}
+                  />
+                </svg>
+              </span>
+              <div class="flex flex-wrap items-center justify-end gap-1.5">
+                {division.doc.draft && (
+                  <span class="badge badge-warning">{tCommon("draft")}</span>
+                )}
+                <span class="badge badge-info">
+                  {tCommon(`languages.${division.doc.lang}`)}
+                </span>
+              </div>
+            </div>
+            <h2 class="mt-4 text-base font-semibold text-ink">{name}</h2>
+            <p
+              lang={division.doc.lang}
+              class="mt-1.5 flex-1 text-sm text-muted"
+            >
+              {division.doc.title}
+            </p>
+            <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-airwaysn">
+              {t("read")}
+              <svg
+                class="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d={ICON_PATHS.arrowRight}
+                />
+              </svg>
+            </span>
+          </a>
+        ) : (
+          <div class="card flex flex-col p-5">
+            <div class="flex items-start justify-between gap-3">
+              <span class="flex size-10 items-center justify-center rounded-control bg-neutral-bg text-faint">
+                <svg
+                  class="size-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d={ICON_PATHS.documentText}
+                  />
+                </svg>
+              </span>
+              <span class="badge badge-neutral">{t("pending")}</span>
+            </div>
+            <h2 class="mt-4 text-base font-semibold text-muted">{name}</h2>
+            <p class="mt-1.5 flex-1 text-sm text-faint">
+              {t("pendingDescription")}
+            </p>
+          </div>
+        );
+      })
+    }
+  </div>
+</AppLayout>

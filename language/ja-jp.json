@@ -1,0 +1,321 @@
+{
+  "frame": {
+    "controllers": {
+      "panel": "管制員パネル",
+      "atis": "ATISメーカー",
+      "rules": "管制規則",
+      "reservations": "管制予約",
+      "quickAccess": {
+        "title": "クイックアクセス",
+        "Forum": "フォーラム",
+        "OnlineMap": "オンラインマップ",
+        "DocsRegulations": "ドキュメントと規程"
+      }
+    },
+    "instructors": {
+      "title": "教官",
+      "items": {
+        "roster": "名簿",
+        "promotion": "昇格"
+      }
+    },
+    "admin": {
+      "title": "管理者（ADM）",
+      "items": {
+        "promote": "昇格承認"
+      }
+    },
+    "pilots": {
+      "title": "ホーム",
+      "flightplan": {
+        "title": "フライトプラン"
+      },
+      "flight": {
+        "title": "フライト",
+        "items": {
+          "flightPlan": "フライトプラン",
+          "flightRecords": "飛行記録"
+        }
+      },
+      "userStatistics": {
+        "title": "ユーザー統計"
+      },
+      "quickAccess": {
+        "title": "クイックアクセス",
+        "items": {
+          "Forum": "フォーラム",
+          "OnlineMap": "オンラインマップ",
+          "DocsRegulations": "ドキュメントと規程"
+        }
+      },
+      "apps": {
+        "title": "許可済みアプリ"
+      }
+    },
+    "docs": {
+      "home": "ホーム",
+      "docs": "ドキュメント",
+      "regulation": "規程",
+      "atc": {
+        "title": "管制員",
+        "items": {
+          "professionalGuidelines": "職業準則"
+        }
+      },
+      "editions": {
+        "title": "版",
+        "items": {
+          "firstEdition": "第1版",
+          "secondEdition": "第2版"
+        }
+      },
+      "history": {
+        "title": "ネットワークの歩み"
+      },
+      "nav": "ナビゲーション",
+      "onThisPage": "このページの目次"
+    },
+    "signOut": "ログアウト",
+    "search": {
+      "label": "ページを検索",
+      "placeholder": "ページへ移動…",
+      "noResults": "一致するページがありません",
+      "hint": "検索"
+    },
+    "skipToContent": "本文へスキップ",
+    "workspace": {
+      "label": "ワークスペース",
+      "pilots": "パイロット",
+      "controllers": "管制員",
+      "exams": "試験センター"
+    },
+    "closeSidebar": "ナビゲーションを閉じる",
+    "openSidebar": "ナビゲーションを開く",
+    "atcRoster": "管制員名簿",
+    "division": "支部",
+    "training": "訓練教材",
+    "downloads": "ソフトウェア",
+    "activities": "イベント",
+    "activitiesManage": "イベント管理",
+    "rewards": "ポイント交換",
+    "prizesManage": "景品管理",
+    "feedback": "対応結果の公示",
+    "feedbackManage": "対応結果の公示",
+    "support": "不具合・ご要望"
+  },
+  "controllers": {
+    "dashboard": {
+      "welcome": "おかえりなさい",
+      "subtitle": "管制員パネル — 自分の状態と席位権限を確認できます",
+      "onlineTime": "管制時間",
+      "currentRating": "現在のレーティング",
+      "homeDivision": "所属支部",
+      "sessionCount": "回",
+      "totalPermissions": "件",
+      "active": "アクティブ",
+      "inactive": "非アクティブ",
+      "permissionDetails": "席位権限",
+      "futureCourses": "今後の講習",
+      "ratingInfo": "レーティング情報",
+      "divisionInfo": "支部情報",
+      "basicInfo": "基本情報",
+      "timeInfo": "日時情報",
+      "divisionName": "支部名",
+      "status": "状態",
+      "joinTime": "参加日時",
+      "updateTime": "更新日時",
+      "shortName": "略称",
+      "chineseName": "中国語名称",
+      "fullName": "英語正式名称",
+      "noCourses": "予定されている講習はありません",
+      "contactInstructor": "教官に連絡して訓練の日程を調整してください",
+      "loadingFailed": "読み込みに失敗しました",
+      "noUserData": "ユーザーデータが見つかりません",
+      "authorized": "権限あり",
+      "unauthorized": "権限なし",
+      "yes": "はい",
+      "no": "いいえ",
+      "unknownDivision": "不明な支部",
+      "chinaMainlandDivision": "中国本土支部",
+      "usaDivision": "アメリカ支部",
+      "japanDivision": "日本支部",
+      "hongkongDivision": "香港支部",
+      "unassigned": "未割当",
+      "permissions": {
+        "name": "権限",
+        "delivery": "デリバリー",
+        "ground": "グラウンド",
+        "tower": "タワー",
+        "approach": "アプローチ",
+        "center": "コントロール",
+        "instructor": "教官"
+      }
+    },
+    "rules": {
+      "title": "管制規則",
+      "description": "各支部が公布する管制規則です。ある支部の空域で管制業務を行うときは、CAN全体の規程に加えてその支部の規則にも従います。",
+      "publishedCount": "{total}支部中、{count}支部が規則を公布",
+      "read": "規則を読む",
+      "pending": "未公布",
+      "pendingDescription": "この支部はまだ管制規則を公布していません。",
+      "back": "管制規則へ戻る",
+      "onThisPage": "このページの目次",
+      "languageNote": "本規則は支部により{language}で公布されています。原文が優先します。"
+    }
+  },
+  "atis": {
+    "title": "EuroScope ATISメーカー",
+    "description": "実況天気からATISを作成し、EuroScopeが読み込むURLを貼り付けます。",
+    "weather": {
+      "title": "気象",
+      "subtitle": "飛行場の最新METARを取得します。"
+    },
+    "icao": {
+      "label": "飛行場ICAOコード",
+      "placeholder": "例：ZBAA",
+      "hint": "4文字のICAOコード。"
+    },
+    "fetch": "METARを取得",
+    "fetching": "取得中…",
+    "metar": {
+      "raw": "METAR原文"
+    },
+    "fields": {
+      "wind": "風",
+      "visibility": "視程",
+      "clouds": "雲",
+      "weather": "天気",
+      "temp": "気温／露点",
+      "qnh": "QNH"
+    },
+    "config": {
+      "title": "ATIS設定",
+      "subtitle": "プレビューに反映されます。滑走路と情報識別符号は即時に更新されます。"
+    },
+    "info": {
+      "label": "情報識別符号"
+    },
+    "approach": {
+      "label": "使用中の進入方式"
+    },
+    "arr": {
+      "label": "到着滑走路",
+      "placeholder": "例：36L, 36R",
+      "hint": "カンマ区切り。"
+    },
+    "dep": {
+      "label": "出発滑走路",
+      "placeholder": "例：01",
+      "hint": "カンマ区切り。"
+    },
+    "tl": {
+      "label": "トランジションレベル",
+      "placeholder": "例：70",
+      "hint": "任意。METARには含まれません。"
+    },
+    "remarks": {
+      "label": "備考",
+      "placeholder": "任意の追加行"
+    },
+    "preview": {
+      "title": "ATISプレビュー",
+      "subtitle": "EuroScopeが読み上げる内容そのものです。",
+      "empty": "METARを取得するとATISをプレビューできます。"
+    },
+    "url": {
+      "title": "EuroScope ATISメーカーURL",
+      "subtitle": "EuroScopeに一度貼り付ければ、気象は自動で埋まります。",
+      "step1": "EuroScopeでVoice ATISダイアログを開き（左上のATIS識別符号をクリック）、このURLを「ATIS maker URL」欄に貼り付けます。",
+      "step2": "「ATIS airport」欄に飛行場のICAOコードを入力し、「Get METAR」を押します。飛行場とMETARが読み込まれるまでマクロは解決できません。",
+      "step3": "「Test URL」でATISを確認し、XXXX_ATIS席に接続します。",
+      "note": "$atisairportA / $arrrwy / $deprwy / $atiscodeA / $metar の各マクロはEuroScopeが実行時に埋めるため、このURLは変わりません。マクロにはATISスロットの識別符号（A〜D）が必要です。付けない書き方では飛行場が解決されず、EuroScopeは「unable to extract names from URL」と応答します。それでも同じ表示になる場合は、そのスロットのATIS airport欄が空です。先に入力してGet METARを実行してください。上のICAOコードはここでのプレビュー用です。"
+    },
+    "slot": {
+      "label": "ATISスロット",
+      "hint": "このATISがEuroScopeで占めるスロット（A〜D）に合わせてください。マクロはスロットに対応しています。"
+    },
+    "copy": "コピー",
+    "copied": "コピーしました",
+    "errors": {
+      "invalidIcao": "有効な4文字のICAOコードを入力してください。",
+      "notFound": "{icao} のMETARを取得できません。",
+      "fetch": "METARを取得できませんでした。もう一度お試しください。"
+    }
+  },
+  "atcReservations": {
+    "title": "管制予約",
+    "description": "どの席をいつ担当する予定かをネットワークに知らせ、他の管制員が管制カバレッジを見越して計画できるようにします。",
+    "create": "新規予約",
+    "createHint": "今後の管制時間帯を予約します。同時に有効な予約は1件までです。",
+    "callsign": "コールサイン",
+    "controller": "管制員",
+    "window": "予定時間帯",
+    "notes": "備考",
+    "cancel": "取り消し",
+    "cancelSuccess": "予約を取り消しました。",
+    "cancelFailed": "予約を取り消せませんでした。",
+    "cancelTitle": "予約の取り消し",
+    "cancelConfirm": "この枠は管制予約ボードから削除されます。該当の管制員に通知は届きません。",
+    "cancelKeep": "そのままにする",
+    "cancelConfirmAction": "予約を取り消す",
+    "createSuccess": "予約を作成しました。",
+    "errorAlreadyReserved": "既に有効な予約があります。",
+    "errorCallsign": "コールサインが無効です。英数字・アンダースコア・ハイフンで 3〜16 文字にしてください。",
+    "errorWindow": "時間帯が無効です。終了時刻は現在より後、長さは最大 {hours} 時間、開始は {days} 日以内にしてください。",
+    "errorTooMany": "予約の操作が多すぎます。しばらくしてからお試しください。",
+    "errorGeneric": "予約を作成できませんでした。",
+    "loadFailed": "予約を読み込めませんでした。",
+    "noReservations": "有効な予約はありません。",
+    "loading": "予約を読み込み中…",
+    "formCallsign": "コールサイン",
+    "formCallsignHint": "担当する席（例：ZBAA_TWR）。",
+    "formDescription": "備考（任意）",
+    "formStartsAt": "予定接続時刻",
+    "formEndsAt": "予定終了時刻",
+    "formEndsAtHint": "開始時刻から最大 {hours} 時間までです。",
+    "endBeforeStart": "終了時刻は開始時刻より後でなければなりません。",
+    "untilTime": "〜{time}",
+    "timeWithLocal": "{zulu} · {local}",
+    "close": "閉じる",
+    "submit": "送信",
+    "errorDescriptionTooLong": "備考が長すぎます（最大 {chars} 文字）。"
+  },
+  "common": {
+    "loading": "読み込み中…",
+    "retry": "再試行",
+    "refresh": "更新",
+    "search": "検索",
+    "all": "すべて",
+    "cancel": "キャンセル",
+    "confirm": "確定",
+    "back": "戻る",
+    "close": "閉じる",
+    "loadMore": "さらに読み込む",
+    "showingOf": "{total}件中{shown}件を表示",
+    "draft": "草案",
+    "draftTitle": "草案",
+    "draftNotice": "本文書は支部によりまだ正式に公布されていません。内容が変更される可能性があるため、最終的な根拠として扱わないでください。",
+    "photoBy": "撮影：{name} · RouteFrame",
+    "languages": {
+      "ja": "日本語",
+      "zh": "中国語",
+      "en": "英語"
+    }
+  },
+  "notFound": {
+    "code": "404",
+    "title": "このページは航路から外れています",
+    "description": "お探しのページは存在しないか、前回のご訪問以降に移動された可能性があります。",
+    "home": "ホームへ戻る",
+    "radar": "レーダーを開く",
+    "docs": "ドキュメントを見る"
+  },
+  "divisions": {
+    "regions": {
+      "1": "PRC · 中国本土",
+      "2": "USA · アメリカ",
+      "3": "JPN · 日本",
+      "4": "HK · 香港"
+    }
+  }
+}

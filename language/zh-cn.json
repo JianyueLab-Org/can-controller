@@ -1,0 +1,321 @@
+{
+  "frame": {
+    "controllers": {
+      "panel": "管制员面板",
+      "atis": "ATIS 生成器",
+      "rules": "管制规则",
+      "reservations": "管制预约",
+      "quickAccess": {
+        "title": "快速访问",
+        "Forum": "论坛",
+        "OnlineMap": "在线地图",
+        "DocsRegulations": "文档 & 规章制度"
+      }
+    },
+    "instructors": {
+      "title": "教员",
+      "items": {
+        "roster": "花名册",
+        "promotion": "晋升"
+      }
+    },
+    "admin": {
+      "title": "管理员 (ADM)",
+      "items": {
+        "promote": "晋升审批"
+      }
+    },
+    "pilots": {
+      "title": "个人面板",
+      "flightplan": {
+        "title": "飞行计划"
+      },
+      "flight": {
+        "title": "飞行",
+        "items": {
+          "flightPlan": "飞行计划",
+          "flightRecords": "飞行记录"
+        }
+      },
+      "userStatistics": {
+        "title": "用户统计"
+      },
+      "quickAccess": {
+        "title": "快速访问",
+        "items": {
+          "Forum": "论坛",
+          "OnlineMap": "在线地图",
+          "DocsRegulations": "文档 & 规章制度"
+        }
+      },
+      "apps": {
+        "title": "已授权应用"
+      }
+    },
+    "docs": {
+      "home": "个人面板",
+      "docs": "文档",
+      "regulation": "规章制度",
+      "atc": {
+        "title": "管制员",
+        "items": {
+          "professionalGuidelines": "职业准则"
+        }
+      },
+      "editions": {
+        "title": "版本",
+        "items": {
+          "firstEdition": "第一版",
+          "secondEdition": "第二版"
+        }
+      },
+      "history": {
+        "title": "平台的历史"
+      },
+      "nav": "导航",
+      "onThisPage": "本页目录"
+    },
+    "signOut": "退出登录",
+    "search": {
+      "label": "搜索页面",
+      "placeholder": "跳转到页面…",
+      "noResults": "没有匹配的页面",
+      "hint": "搜索"
+    },
+    "skipToContent": "跳到主要内容",
+    "workspace": {
+      "label": "工作区",
+      "pilots": "飞行员",
+      "controllers": "管制员",
+      "exams": "考试中心"
+    },
+    "closeSidebar": "关闭导航",
+    "openSidebar": "打开导航",
+    "atcRoster": "管制员名册",
+    "division": "分部",
+    "training": "训练教材",
+    "downloads": "软件下载",
+    "activities": "活动",
+    "activitiesManage": "活动管理",
+    "rewards": "积分兑换",
+    "prizesManage": "奖品管理",
+    "feedback": "处理结果公示",
+    "feedbackManage": "处理结果公示",
+    "support": "问题与建议"
+  },
+  "controllers": {
+    "dashboard": {
+      "welcome": "欢迎回来",
+      "subtitle": "管制员面板 - 查看您的状态和权限信息",
+      "onlineTime": "上管时间",
+      "currentRating": "当前等级",
+      "homeDivision": "Home Division",
+      "sessionCount": "次上管",
+      "totalPermissions": "个权限",
+      "active": "活跃",
+      "inactive": "非活跃",
+      "permissionDetails": "席位权限",
+      "futureCourses": "未来课程",
+      "ratingInfo": "等级信息",
+      "divisionInfo": "分部信息",
+      "basicInfo": "基本信息",
+      "timeInfo": "时间信息",
+      "divisionName": "分部名称",
+      "status": "状态",
+      "joinTime": "加入时间",
+      "updateTime": "更新时间",
+      "shortName": "简称",
+      "chineseName": "中文名称",
+      "fullName": "英文全称",
+      "noCourses": "暂无预定课程",
+      "contactInstructor": "请联系教员安排培训课程",
+      "loadingFailed": "加载失败",
+      "noUserData": "未找到用户数据",
+      "authorized": "已授权",
+      "unauthorized": "未授权",
+      "yes": "是",
+      "no": "否",
+      "unknownDivision": "未知分部",
+      "chinaMainlandDivision": "中国大陆分部",
+      "usaDivision": "美国分部",
+      "japanDivision": "日本分部",
+      "hongkongDivision": "香港分部",
+      "unassigned": "未分配",
+      "permissions": {
+        "name": "权限",
+        "delivery": "放行",
+        "ground": "地面",
+        "tower": "塔台",
+        "approach": "进近",
+        "center": "区调",
+        "instructor": "教员"
+      }
+    },
+    "rules": {
+      "title": "管制规则",
+      "description": "各分部发布的管制规则。在某个分部的空域内提供管制服务时，除 CAN 的规章制度外，还须遵守该分部的规则。",
+      "publishedCount": "{total} 个分部中，{count} 个已发布规则",
+      "read": "阅读规则",
+      "pending": "尚未发布",
+      "pendingDescription": "该分部尚未发布管制规则。",
+      "back": "返回管制规则",
+      "onThisPage": "本页目录",
+      "languageNote": "本规则由分部以{language}发布，以原文为准。"
+    }
+  },
+  "atis": {
+    "title": "EuroScope ATIS 生成器",
+    "description": "根据实时天气生成 ATIS，并粘贴 EuroScope 读取的链接。",
+    "weather": {
+      "title": "天气",
+      "subtitle": "获取机场的实时 METAR。"
+    },
+    "icao": {
+      "label": "机场 ICAO",
+      "placeholder": "例如 ZBAA",
+      "hint": "四字机场 ICAO 代码。"
+    },
+    "fetch": "获取 METAR",
+    "fetching": "获取中…",
+    "metar": {
+      "raw": "原始 METAR"
+    },
+    "fields": {
+      "wind": "风",
+      "visibility": "能见度",
+      "clouds": "云",
+      "weather": "天气现象",
+      "temp": "温度 / 露点",
+      "qnh": "修正海压 QNH"
+    },
+    "config": {
+      "title": "ATIS 配置",
+      "subtitle": "以下内容用于预览；跑道与信息字母会实时更新。"
+    },
+    "info": {
+      "label": "信息字母"
+    },
+    "approach": {
+      "label": "使用进近方式"
+    },
+    "arr": {
+      "label": "落地跑道",
+      "placeholder": "例如 36L, 36R",
+      "hint": "用逗号分隔。"
+    },
+    "dep": {
+      "label": "起飞跑道",
+      "placeholder": "例如 01",
+      "hint": "用逗号分隔。"
+    },
+    "tl": {
+      "label": "过渡高度层",
+      "placeholder": "例如 70",
+      "hint": "可选；METAR 不包含此项。"
+    },
+    "remarks": {
+      "label": "备注",
+      "placeholder": "可选的附加内容"
+    },
+    "preview": {
+      "title": "ATIS 预览",
+      "subtitle": "即 EuroScope 将播报的内容。",
+      "empty": "获取 METAR 后即可预览 ATIS。"
+    },
+    "url": {
+      "title": "EuroScope ATIS 生成器链接",
+      "subtitle": "在 EuroScope 中粘贴一次，天气将自动填充。",
+      "step1": "在 EuroScope 中打开语音 ATIS 对话框（点击左上角的 ATIS 字母），并将此链接粘贴到 'ATIS maker URL' 字段。",
+      "step2": "在 'ATIS airport' 字段中输入机场 ICAO，然后点击 'Get METAR'——在加载机场和 METAR 之前，宏无法解析。",
+      "step3": "点击 'Test URL' 查看 ATIS，然后连接你的 XXXX_ATIS 席位。",
+      "note": "$atisairportA / $arrrwy / $deprwy / $atiscodeA / $metar 等宏由 EuroScope 在运行时填充，因此此链接始终不变。宏必须带上 ATIS 位号字母（A–D）——不带字母的写法无法对应到任何机场，EuroScope 会提示 'unable to extract names from URL'。若仍出现该提示，则表示该位号的 ATIS airport 字段为空——请先填入机场并 Get METAR。上方的 ICAO 仅用于此处预览。"
+    },
+    "slot": {
+      "label": "ATIS 位号",
+      "hint": "对应 EuroScope 中该 ATIS 的位号（A–D），须与链接中的宏一致。"
+    },
+    "copy": "复制",
+    "copied": "已复制",
+    "errors": {
+      "invalidIcao": "请输入有效的四字 ICAO 代码。",
+      "notFound": "未找到 {icao} 的 METAR。",
+      "fetch": "获取 METAR 失败，请重试。"
+    }
+  },
+  "atcReservations": {
+    "title": "管制预约",
+    "description": "向全网络告知你计划何时值守哪个席位，方便其他管制员据此安排。",
+    "create": "新建预约",
+    "createHint": "预告未来的值守时段。同一时间你只能保留一条有效预约。",
+    "callsign": "呼号",
+    "controller": "管制员",
+    "window": "预计时段",
+    "notes": "备注",
+    "cancel": "取消",
+    "cancelSuccess": "预约已取消。",
+    "cancelFailed": "无法取消预约。",
+    "cancelTitle": "取消预约",
+    "cancelConfirm": "该时段将从值守看板上移除，系统不会通知该管制员。",
+    "cancelKeep": "保留",
+    "cancelConfirmAction": "取消预约",
+    "createSuccess": "预约已创建。",
+    "errorAlreadyReserved": "你已有一条有效预约。",
+    "errorCallsign": "呼号无效——请使用 3–16 位字母、数字、下划线或连字符。",
+    "errorWindow": "时段无效。结束时间须晚于当前时间，时长不超过 {hours} 小时，且开始时间在 {days} 天之内。",
+    "errorTooMany": "预约操作过于频繁，请稍后再试。",
+    "errorGeneric": "无法创建预约。",
+    "loadFailed": "无法加载预约列表。",
+    "noReservations": "暂无有效预约。",
+    "loading": "正在加载预约…",
+    "formCallsign": "呼号",
+    "formCallsignHint": "计划值守的席位，如 ZBAA_TWR。",
+    "formDescription": "备注（可选）",
+    "formStartsAt": "预计上线时间",
+    "formEndsAt": "预计下线时间",
+    "formEndsAtHint": "最长为开始时间之后 {hours} 小时。",
+    "endBeforeStart": "下线时间必须晚于上线时间。",
+    "untilTime": "至 {time}",
+    "timeWithLocal": "{zulu} · {local}",
+    "close": "关闭",
+    "submit": "提交",
+    "errorDescriptionTooLong": "备注太长了，最多 {chars} 字。"
+  },
+  "common": {
+    "loading": "加载中…",
+    "retry": "重试",
+    "refresh": "刷新",
+    "search": "搜索",
+    "all": "全部",
+    "cancel": "取消",
+    "confirm": "确认",
+    "back": "返回",
+    "close": "关闭",
+    "loadMore": "加载更多",
+    "showingOf": "显示 {shown} / {total}",
+    "draft": "草案",
+    "draftTitle": "草案",
+    "draftNotice": "本文档尚未由分部正式公布，内容仍可能变更，请勿作为最终依据。",
+    "photoBy": "摄影：{name} · RouteFrame",
+    "languages": {
+      "ja": "日语",
+      "zh": "中文",
+      "en": "英语"
+    }
+  },
+  "notFound": {
+    "code": "404",
+    "title": "这个页面偏离了航路",
+    "description": "你访问的页面不存在，或者已经被移动到了别处。",
+    "home": "返回首页",
+    "radar": "打开在线地图",
+    "docs": "浏览文档"
+  },
+  "divisions": {
+    "regions": {
+      "1": "PRC · 中国大陆",
+      "2": "USA · 美国",
+      "3": "JPN · 日本",
+      "4": "HK · 香港"
+    }
+  }
+}

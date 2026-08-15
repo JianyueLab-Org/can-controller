@@ -1,0 +1,16 @@
+# Build output and generated types.
+dist/
+.astro/
+
+# Static data served verbatim, not source. tracon.geojson is 1.6 MB on a single
+# line: formatting it would produce a six-figure line count and change nothing
+# anybody reads. airports.json is the same kind of thing, smaller.
+public/airports.json
+public/tracon.geojson
+
+# Navigation data, gzipped and built by scripts/build-navdata.mjs.
+#
+# Leading slash: an unanchored `data/` matches a directory of that name at any
+# depth, which quietly took `src/data/` — the ATIS configuration — out of the
+# check as well.
+/data/

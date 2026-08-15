@@ -1,11 +1,17 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import AppLayout from "@/layouts/AppLayout.astro";
+import Dashboard from "@/components/Dashboard.vue";
+import { getLocale, getMessages } from "@/lib/i18n";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+/**
+ * 管制员概览。can-web 上的 `/controllers/` —— 这个站的首页就是它，前缀没了。
+ */
+const messages = getMessages(getLocale(Astro.cookies), "controllers.dashboard");
+// 中间件保证到这里的人一定登录过，所以这个值不会是空串；写成兜底是因为
+// `Astro.locals.user` 的类型里它仍然可以是 null，而岛屿只要一个字符串。
+const sessionUserId = Astro.locals.user?.username ?? "";
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<AppLayout>
+  <Dashboard messages={messages} sessionUserId={sessionUserId} client:load />
+</AppLayout>
