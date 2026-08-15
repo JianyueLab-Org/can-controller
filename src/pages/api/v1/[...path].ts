@@ -77,7 +77,9 @@ const ALLOW_PATTERNS: Array<Allowed & { test: RegExp }> = [
 ];
 
 function lookup(path: string): Allowed | undefined {
-  return ALLOW_LIST[path] ?? ALLOW_PATTERNS.find((entry) => entry.test.test(path));
+  return (
+    ALLOW_LIST[path] ?? ALLOW_PATTERNS.find((entry) => entry.test.test(path))
+  );
 }
 
 const UNSAFE = new Set(["POST", "PATCH", "PUT", "DELETE"]);

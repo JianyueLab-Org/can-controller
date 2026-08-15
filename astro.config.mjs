@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
+import { unified } from "@astrojs/markdown-remark";
 import node from "@astrojs/node";
 import vue from "@astrojs/vue";
 import mdx from "@astrojs/mdx";
@@ -68,7 +69,13 @@ export default defineConfig({
   output: "server",
   adapter: node({ mode: "standalone" }),
   integrations: [vue(), mdx()],
-  markdown: { rehypePlugins: [rehypeScrollableTables] },
+  // `markdown.rehypePlugins` is the deprecated spelling — the pipeline is
+  // configured by handing `markdown.processor` a `unified()` instance instead.
+  // `@astrojs/markdown-remark` is pinned to the exact version astro itself
+  // resolves so both end up on one module: astro identifies its own processor
+  // by instance, not by shape, and two copies means the plugin silently does
+  // nothing.
+  markdown: { processor: unified({ rehypePlugins: [rehypeScrollableTables] }) },
   security: { checkOrigin: false },
   vite: { plugins: [tailwindcss()] },
 });

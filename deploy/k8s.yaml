@@ -1,0 +1,131 @@
+# 管制员中心在 jyl-tyo 上的部署。
+#
+# 形状照着 can-efb 来（它照的是 can-dev，can-dev 照的是 llm-web）：一个应用一个
+# namespace，Deployment 和 Service 都叫 app，Service 暴露 80，Ingress 走默认的
+# cloudflare-tunnel —— 这个集群没有别的 ingress class，控制器会顺手把 DNS 记录
+# 建好，所以这里**没有** cert-manager 注解、也**没有** tls: 块，TLS 在
+# Cloudflare 那一侧终止。
+#
+# **这个站没有 Secret，一个都不需要。** can-dev 要手工注册一个 OAuth 应用、要
+# CAN_CLIENT_SECRET 和 SESSION_SECRET；这里一样都不要，因为它根本不参与 OAuth：
+# 会话由 can-api 签在**父域**上，成员在主站登录过，cookie 就跟着同源请求到这
+# 里，这个站只负责把它转发回 can-api。少一份凭据就少一个泄漏面 —— 如果哪天有人
+# 要在这里加 Secret，先确认那件事不能靠转发 cookie 完成。
+#
+# 上线前要做的两件事：
+#
+# 1. 把 controller.airwaysn.org 这个主机名接进 Cloudflare 隧道（控制器会自己登
+#    记），并确认 can-api 的会话 cookie 域覆盖 `.airwaysn.org`。
+# 2. 在 can-web 上给 /controllers/* 加转向。**这一步不能省**：那四个地址在成员
+#    的书签、Discord 的置顶和各分部自己的文档里躺了很久，而这个仓库里的任何东
+#    西都通知不到它们。
+#
+# **不需要**把这个域加进 can-api 的 ALLOWED_ORIGINS —— 浏览器只打本站的同源反
+# 代，从不直连 can-api，那正是 src/pages/api/v1/[...path].ts 存在的理由。
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: can-controller
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: can-controller
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: can-controller
+  template:
+    metadata:
+      labels:
+        app: can-controller
+    spec:
+      containers:
+        - name: app
+          # 按 sha 钉住，别用 :latest —— 那个标签没有回滚故事：没有更早的标签
+          # 可指，而「重启一下」实际上等于「用最后推上去的那个」。CI 两个标签
+          # 都推，所以换成 sha 只是改这一行。
+          image: ghcr.io/jianyuelab-org/can-controller:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4321
+          env:
+            # 数据全部来自 can-api。
+            - name: CAN_API_ORIGIN
+              value: https://api.airwaysn.org
+            # 登录页、侧栏里那一排跨站链接，以及 ATIS maker URL 的主机名。
+            # 最后一条尤其不能改成本站：那条 URL 已经粘进管制员各自机器上的
+            # EuroScope 了，见 src/pages/atis.astro。
+            - name: CAN_WEB_ORIGIN
+              value: https://airwaysn.org
+            # 写操作的 Origin 比对基准。必须是显式值：反代后面从 Host 推出来的
+            # 是 http://，浏览器发的是 https://，永远对不上。
+            - name: PUBLIC_ORIGIN
+              value: https://controller.airwaysn.org
+          # 探的是 /healthz，不是 /。`/` 在这个站上会先问一次 can-api 再 302，
+          # 拿它当探活等于每 10 秒给上游加一次白流量，而且会把上游的抖动放大成
+          # 自己的 Pod 重启。详见 src/pages/healthz.ts。
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 4321
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 4321
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+          # runAsUser 必须是数字：镜像里写的是 USER 1000，但即使写成名字
+          # kubelet 也不解析，配上 runAsNonRoot 会直接 CreateContainerConfigError。
+          # can-radar 上线时踩过这一脚。
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop: ["ALL"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app
+  namespace: can-controller
+spec:
+  selector:
+    app: can-controller
+  ports:
+    - port: 80
+      targetPort: 4321
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: can-controller
+  namespace: can-controller
+spec:
+  ingressClassName: cloudflare-tunnel
+  rules:
+    - host: controller.airwaysn.org
+      http:
+        paths:
+          - backend:
+              service:
+                name: app
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
