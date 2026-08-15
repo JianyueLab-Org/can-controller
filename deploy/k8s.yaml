@@ -6,7 +6,9 @@
 # 建好，所以这里**没有** cert-manager 注解、也**没有** tls: 块，TLS 在
 # Cloudflare 那一侧终止。
 #
-# **这个站没有 Secret，一个都不需要。** can-dev 要手工注册一个 OAuth 应用、要
+# **这个站没有应用级 Secret，一个都不需要。**（下面那枚 `ghcr-pull` 不算：它是
+# kubelet 拉私有镜像的凭据，和这个应用运行时读什么无关，Pod 里读不到它。）
+# can-dev 要手工注册一个 OAuth 应用、要
 # CAN_CLIENT_SECRET 和 SESSION_SECRET；这里一样都不要，因为它根本不参与 OAuth：
 # 会话由 can-api 签在**父域**上，成员在主站登录过，cookie 就跟着同源请求到这
 # 里，这个站只负责把它转发回 can-api。少一份凭据就少一个泄漏面 —— 如果哪天有人
@@ -43,6 +45,17 @@ spec:
       labels:
         app: can-controller
     spec:
+      # 这个仓库是私有的，于是 ghcr 上那个包也是私有的，kubelet 拉不动它 ——
+      # 症状是 ImagePullBackOff，而 `kubectl get pods` 上看起来只是「起不来」。
+      #
+      # 这枚 secret 不在这份清单里，它由部署工作流用 GHCR_PULL_TOKEN 现建
+      # （见 JianyueLab-Org/actions 的 deploy-k8s.yml，「Ensure image pull
+      # secret」那一步），所以这里只引用名字。can-api 是同样的安排，也是同样的
+      # 理由；can-dev / can-radar / can-exam 不需要，因为它们是公开仓库、公开包。
+      #
+      # 哪天这个仓库改成公开，这三行可以一起删掉；在那之前删掉它 = 全站拉不起来。
+      imagePullSecrets:
+        - name: ghcr-pull
       containers:
         - name: app
           # 按 sha 钉住，别用 :latest —— 那个标签没有回滚故事：没有更早的标签
