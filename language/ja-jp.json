@@ -15,7 +15,8 @@
       "title": "教官",
       "items": {
         "roster": "名簿",
-        "promotion": "昇格"
+        "promotion": "昇格",
+        "sweatbox": "シミュレータ・シナリオ"
       }
     },
     "admin": {
