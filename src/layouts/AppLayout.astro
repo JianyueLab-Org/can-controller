@@ -15,14 +15,16 @@ const frameMessages = getMessages(locale, "frame");
 const t = useTranslations(locale, "frame");
 
 /**
- * 侧栏的门槛读的是会话里的 rating —— can-api 每个请求都解一次，所以一次晋升在
- * 下一次翻页时就生效，而不是等到下次登录。
+ * 侧栏对每个登录成员都是同一份，所以这里不给 `buildNavigation()` 传 rating。
  *
- * 这是**便利，不是边界**：菜单少一项不等于那个页面被保护起来了，多一项也不等
- * 于放开了什么。真正的判断在 can-api 每条路由自己的守卫上。
+ * 以前是传的：教员 / SUP / 管理那几项按 rating 出现或消失。那几项现在不在这个
+ * 站上了（`lib/nav.ts` 上写着为什么），于是这个便利也一起没了 —— 而它本来就只
+ * 是便利，不是边界：菜单少一项不等于那个页面被保护起来了。真正的判断在 can-api
+ * 每条路由自己的守卫上，页面内的门槛（如预约看板的「撤销他人预约」）仍然各自读
+ * `Astro.locals.user.rating`。
  */
 const user = Astro.locals.user;
-const navigation = buildNavigation(t, user?.rating);
+const navigation = buildNavigation(t);
 const secondary = buildSecondary(t);
 const workspaces = buildWorkspaces(t);
 const pathname = Astro.url.pathname;

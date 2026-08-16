@@ -4,14 +4,31 @@
  * 它在 can-web 上叫 `ControllersShell.vue`，是一个 Vue 组件；搬过来之后拆成了
  * 「数据在这里、渲染交给 `ui/AppShell.vue`」两半，原因只有一个但很硬：
  *
- * **这个站的一半链接现在是跨站的绝对地址**，而那些地址来自环境变量。
+ * **这个站的一部分链接是跨站的绝对地址**，而那些地址来自环境变量。
  * `src/lib/config.ts` 在模块顶层读 `process.env`，任何被岛屿 import 的模块这么
  * 做都会在浏览器里炸成 `process is not defined`。所以链接在 Astro 侧（服务端）
  * 拼好，作为 props 进岛屿 —— can-efb 出于同一个理由这么做。
  *
  * 名字是 i18n 的**键**，不是文案：翻译发生在 `buildNavigation()` 里，键名一个
  * 字都没改，和 can-web 的 `frame` 命名空间对得上，所以四本词典是从那边整段切
- * 过来的而不是重写的。
+ * 过来的而不是重写的 —— 只是切过来之后又删掉了一批，见下一条。
+ *
+ * **这个站的侧栏只放管制员的东西。**
+ *
+ * 搬家的第一版把 can-web 的整条侧栏原样带了过来 —— 教员 / SUP / 管理的入口
+ * （`/super/roster`、`/super/promote`、`/super/promotions`、`/super/activities`、
+ * `/super/prizes`、`/super/feedback`），以及活动、积分兑换、处理结果公示、问题
+ * 与建议这几条面向全体成员的快捷入口。它们当时是**跨站链接**，理由是「菜单还在
+ * 原来的位置」。
+ *
+ * 那条理由不成立：它们没有一条是管制员在这个域名上要做的事。网络的管理面和成员
+ * 服务留在主站，成员本来就要回主站去用；在这里复制一份入口，只是把主站的目录结
+ * 构又抄了一遍，而且抄的是一份会和主站慢慢对不上的副本。所以现在的规矩是**加一
+ * 条之前先回答「管制员在管制的时候用得到它吗」**，答案是否就不加。
+ *
+ * 删掉的条目连同它们的词条一起从四本词典里去掉了，不是留在那里没人引用：
+ * `AppLayout.astro` 把整本 `frame` 词典当 prop 序列化进岛屿，所以一条没人用的
+ * 文案是每个页面都要发一遍的字节。
  */
 import type { Translator } from "@/lib/i18n";
 import type { NavItem, NavSecondary } from "@/components/ui/SidebarNav.vue";
@@ -40,84 +57,32 @@ const PANEL: Array<{ key: string; href: string; icon: string }> = [
 ];
 
 /**
- * 教员 / SUP / 管理的入口**没有**跟着搬过来，它们仍然是主站的页面。
- *
- * 这不是漏搬。花名册、晋升审批、活动管理、奖品、反馈处理都不是「管制员自己的
- * 那四件事」—— 它们是网络的管理面，飞行员那一侧也用得到其中几个。搬走它们等
- * 于把主站的 `/super` 掏空一半，而那是另一次搬家该做的决定。
- *
- * 于是这里留下的是**链接**：菜单还在原来的位置，点下去去主站。门槛判断
- * （rating）也照抄 can-web，因为它决定的只是「这个菜单出不出现」；真正的守卫
- * 在 can-api 每条路由上。
- */
-const RATING_INSTRUCTOR = 8;
-const RATING_SUP = 11;
-const RATING_ADMIN = 12;
-
-/**
  * 把上面的键解析成当前语言的文案。在 Astro 侧调用，结果作为 props 进岛屿。
  *
  * `t` 是 `frame` 命名空间上的翻译器。
+ *
+ * 这里**不再读 rating**。以前读它是为了决定教员 / SUP / 管理那几项出不出现；那
+ * 几项已经不在这个站上了，于是侧栏对每个登录成员都是同一份 —— 权限差异体现在页
+ * 面内容里（预约看板上的「撤销他人预约」仍然看 rating，见
+ * `pages/reservations.astro`），不再体现在导航上。
  */
-export function buildNavigation(t: Translator, rating?: number): NavItem[] {
-  const has = (min: number) => typeof rating === "number" && rating >= min;
-
-  const items: NavItem[] = PANEL.map((entry) => ({
+export function buildNavigation(t: Translator): NavItem[] {
+  return PANEL.map((entry) => ({
     name: t(entry.key),
     href: entry.href,
     icon: entry.icon,
   }));
-
-  if (has(RATING_INSTRUCTOR)) {
-    items.push({
-      name: t("instructors.title"),
-      icon: "shieldCheck",
-      children: [
-        { name: t("instructors.items.roster"), href: webUrl("/super/roster") },
-        {
-          name: t("instructors.items.promotion"),
-          href: webUrl("/super/promote"),
-        },
-      ],
-    });
-  }
-
-  // 活动管理是 SUP/ADM（rating >= 11）—— 那是发分的人，因此也是决定这些分能换
-  // 什么的人。
-  if (has(RATING_SUP)) {
-    items.push(
-      {
-        name: t("activitiesManage"),
-        href: webUrl("/super/activities"),
-        icon: "calendarDays",
-      },
-      { name: t("prizesManage"), href: webUrl("/super/prizes"), icon: "gift" },
-      {
-        name: t("feedbackManage"),
-        href: webUrl("/super/feedback"),
-        icon: "megaphone",
-      },
-    );
-  }
-
-  if (rating === RATING_ADMIN) {
-    items.push({
-      name: t("admin.title"),
-      icon: "shieldCheck",
-      children: [
-        { name: t("admin.items.promote"), href: webUrl("/super/promotions") },
-      ],
-    });
-  }
-
-  return items;
 }
 
 /**
  * 钉在轨底的常用链接。
  *
- * 全部是跨站的：这个站只有四个页面，成员要回主站看花名册、活动、文档的次数比
- * 在这里翻页还多。藏进折叠菜单等于让最常用的几条多两次点击。
+ * 全部是跨站的，但每一条都先过了上面那道题。留下的四条是管制员在管制的时候真的
+ * 会开的：看谁在线上（雷达）、看谁有权限（管制员名册）、装客户端（软件下载）、
+ * 查规章（文档）。
+ *
+ * 它们是钉住的而不是一个「快速访问」折叠菜单 —— can-web 上正是后者，那让最常用
+ * 的几条多了两次点击。
  */
 export function buildSecondary(t: Translator): NavSecondary {
   return {
@@ -130,18 +95,10 @@ export function buildSecondary(t: Translator): NavSecondary {
       },
       { name: t("atcRoster"), href: webUrl("/roster"), icon: "users" },
       {
-        name: t("activities"),
-        href: webUrl("/activities"),
-        icon: "calendarDays",
-      },
-      { name: t("rewards"), href: webUrl("/rewards"), icon: "gift" },
-      { name: t("feedback"), href: webUrl("/feedback"), icon: "megaphone" },
-      {
         name: t("downloads"),
         href: webUrl("/downloads"),
         icon: "arrowDownTray",
       },
-      { name: t("support"), href: webUrl("/support"), icon: "inbox" },
       {
         name: t("controllers.quickAccess.DocsRegulations"),
         href: webUrl("/docs"),
@@ -153,6 +110,10 @@ export function buildSecondary(t: Translator): NavSecondary {
 
 /**
  * 顶上的分区切换器。
+ *
+ * 它**不是**上面那道题的例外，而是根本不在题里：它不是管制员中心的内容，是网络
+ * 外壳的一部分 —— 成员从这个域名走出去的唯一一条路。删掉它，离开这个站就只剩下
+ * 浏览器的地址栏。
  *
  * 在 can-web 上这是站内的三个前缀；现在三个分区住在三台主机上，切换器还是同一
  * 个 —— 成员不需要知道哪一段是哪个仓库部署的。管制员这一项指向本站的 `/`，
