@@ -14,13 +14,12 @@
 # 里，这个站只负责把它转发回 can-api。少一份凭据就少一个泄漏面 —— 如果哪天有人
 # 要在这里加 Secret，先确认那件事不能靠转发 cookie 完成。
 #
-# 上线前要做的两件事：
+# **已经上线**：controller.airwaysn.org，2026-08-16。主机名由
+# cloudflare-tunnel 控制器自己登记，无需手工建 DNS 记录。
 #
-# 1. 把 controller.airwaysn.org 这个主机名接进 Cloudflare 隧道（控制器会自己登
-#    记），并确认 can-api 的会话 cookie 域覆盖 `.airwaysn.org`。
-# 2. 在 can-web 上给 /controllers/* 加转向。**这一步不能省**：那四个地址在成员
-#    的书签、Discord 的置顶和各分部自己的文档里躺了很久，而这个仓库里的任何东
-#    西都通知不到它们。
+# 还欠一件事，不在这个仓库里：**在 can-web 上给 /controllers/* 加转向**。那四个
+# 地址在成员的书签、Discord 的置顶和各分部自己的文档里躺了很久，而这个仓库里的
+# 任何东西都通知不到它们。在那之前两边都活着，主站那份是权威的。
 #
 # **不需要**把这个域加进 can-api 的 ALLOWED_ORIGINS —— 浏览器只打本站的同源反
 # 代，从不直连 can-api，那正是 src/pages/api/v1/[...path].ts 存在的理由。
@@ -45,15 +44,23 @@ spec:
       labels:
         app: can-controller
     spec:
-      # 这个仓库是私有的，于是 ghcr 上那个包也是私有的，kubelet 拉不动它 ——
-      # 症状是 ImagePullBackOff，而 `kubectl get pods` 上看起来只是「起不来」。
+      # **仓库是公开的，但 ghcr 上那个包仍然是私有的**，所以这几行还得留着。
       #
-      # 这枚 secret 不在这份清单里，它由部署工作流用 GHCR_PULL_TOKEN 现建
-      # （见 JianyueLab-Org/actions 的 deploy-k8s.yml，「Ensure image pull
-      # secret」那一步），所以这里只引用名字。can-api 是同样的安排，也是同样的
-      # 理由；can-dev / can-radar / can-exam 不需要，因为它们是公开仓库、公开包。
+      # 这两件事不联动，是这里唯一需要记住的点：包是在仓库还私有的时候第一次推
+      # 上去的，于是它继承了「私有」；后来把仓库改成公开，**包的可见性不会跟着
+      # 变**，而且它也改不了 —— GHCR 的 container package 可见性只能在网页上
+      # 改，REST API 没有这个端点（PATCH .../packages/container/<name> 是 404）。
       #
-      # 哪天这个仓库改成公开，这三行可以一起删掉；在那之前删掉它 = 全站拉不起来。
+      # 私有包的症状是 ImagePullBackOff，在 `kubectl get pods` 上只表现为「起不
+      # 来」，不会说是权限问题。
+      #
+      # secret 本身不在这份清单里，由部署工作流用 GHCR_PULL_TOKEN 现建（见
+      # JianyueLab-Org/actions 的 deploy-k8s.yml，「Ensure image pull secret」那
+      # 一步），所以这里只引用名字。
+      #
+      # can-dev / can-radar / can-exam 都没有这几行，因为它们的包是公开的 ——
+      # 想和它们对齐，就去网页上把这个包改成 public，然后删掉这三行；顺序反了
+      # 会让全站拉不起来。
       imagePullSecrets:
         - name: ghcr-pull
       containers:

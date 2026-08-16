@@ -182,12 +182,51 @@ PUBLIC_ORIGIN=http://localhost:4326 bun run dev
 `localhost` 上没有，所以本地看到的多半是 302 去登录页）。要连本地的 can-api 就把
 两个变量都指过去。
 
-## 上线之前
+## 部署
 
-1. 把 `controller.airwaysn.org` 接进 Cloudflare 隧道，确认 can-api 的会话 cookie
-   域覆盖 `.airwaysn.org`。
-2. **在 can-web 上给 `/controllers/*` 加转向。** 这一步不能省：那四个地址在成员
-   的书签、Discord 的置顶和各分部自己的文档里躺了很久，这个仓库里没有任何东西通
-   知得到它们。
-3. **不要**把这个域加进 can-api 的 `ALLOWED_ORIGINS`。浏览器从不直连 can-api，
-   那正是同源反代存在的理由。
+**已经上线：`https://controller.airwaysn.org`（2026-08-16，jyl-tyo 的
+`can-controller` namespace）。** 推 `main` 由 CI 出镜像并滚 Deployment，和另外几
+个卫星站一样，不要手工 `kubectl rollout restart`。
+
+主机名不用手工建 DNS：`cloudflare-tunnel` 控制器读 Ingress 自己登记，TLS 在
+Cloudflare 那侧终止。所以清单里没有 cert-manager 注解，也没有 `tls:` 块。
+
+### 这个仓库为什么必须是公开的
+
+**JianyueLab-Org 是 GitHub Free 计划，组织级 secret 到不了私有仓库。** 部署要的
+`KUBECONFIG_B64` 和 `GHCR_PULL_TOKEN` 都是组织级的，所以仓库只要是私有的，CI 就
+拿不到它们 —— 表现为 deploy 在「Check cluster credentials」那一步失败，报「缺少
+KUBECONFIG_B64」。这个仓库最初建成私有，正是这么红了一次。
+
+这也解释了组织里的分布：跑在 jyl-tyo 上的几个（can-dev / can-radar / can-exam /
+这个）全是公开仓库，而私有的那些（can-web / can-efb / can-atc / can-audio）一个
+都没部署。can-api 是私有且已部署，但它在**另一个组织**（`JianyueLab`）下，不是
+反例。
+
+改回私有 = CI 立刻不能部署。
+
+### 用 curl 探这个站永远是 403
+
+Cloudflare 对整个 zone 开着 bot challenge，`cf-mitigated: challenge`。
+`exam.airwaysn.org` 和 `radar.airwaysn.org` 这两个活得好好的站对 curl 也一样答
+403 —— 所以**403 不是这个站坏了**。要验证 Pod 真的在服务，绕过 Cloudflare：
+
+```bash
+kubectl -n can-controller port-forward svc/app 18080:80
+curl -o /dev/null -w '%{http_code}\n' http://127.0.0.1:18080/healthz        # 200
+curl -o /dev/null -w '%{redirect_url}\n' http://127.0.0.1:18080/            # → 主站 /signin
+curl http://127.0.0.1:18080/api/v1/pilot/data                               # 401 = 够得着 can-api
+```
+
+最后那条值得单独说：不带 cookie 时它必须是 **401**（can-api 答的），不是 502。
+502 意味着 Pod 连不上 can-api，而首页那个 302 两种情况下**看起来一模一样** ——
+会话解不出来和上游挂了都会把人送去登录页。
+
+## 还欠的一件事
+
+**在 can-web 上给 `/controllers/*` 加转向。** 那四个地址在成员的书签、Discord 的
+置顶和各分部自己的文档里躺了很久，这个仓库里没有任何东西通知得到它们。在那之前
+两边都活着，主站那份是权威的。
+
+另外：**不要**把这个域加进 can-api 的 `ALLOWED_ORIGINS`。浏览器从不直连
+can-api，那正是同源反代存在的理由。

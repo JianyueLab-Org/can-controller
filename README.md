@@ -35,10 +35,17 @@ bun run build
 
 ## 部署
 
+**已上线：<https://controller.airwaysn.org>**（jyl-tyo，`can-controller`
+namespace）。
+
 推到 `main` 触发 CI：构建镜像推 `ghcr.io/jianyuelab-org/can-controller`，然后
 `kubectl apply -f deploy/k8s.yaml` 到 jyl-tyo 的 `can-controller` namespace。
 Ingress 走 `cloudflare-tunnel`，TLS 在 Cloudflare 那侧终止 —— 所以清单里没有
 cert-manager 注解，也没有 `tls:` 块。
+
+**这个仓库必须保持公开**：组织是 GitHub Free 计划，组织级 secret
+（`KUBECONFIG_B64`、`GHCR_PULL_TOKEN`）到不了私有仓库，改回私有 CI 立刻不能部
+署。理由和排查方法见 [`AGENTS.md`](./AGENTS.md)。
 
 更深的东西（接缝、不变量、哪些文件是从 can-web 复制的、上线前要做什么）看
 [`AGENTS.md`](./AGENTS.md)。
