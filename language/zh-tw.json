@@ -15,7 +15,8 @@
       "title": "教員",
       "items": {
         "roster": "花名冊",
-        "promotion": "晉升"
+        "promotion": "晉升",
+        "sweatbox": "模擬機場景"
       }
     },
     "admin": {

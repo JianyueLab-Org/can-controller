@@ -15,7 +15,8 @@
       "title": "Instructors",
       "items": {
         "roster": "Roster",
-        "promotion": "Promotion"
+        "promotion": "Promotion",
+        "sweatbox": "SweatBox"
       }
     },
     "admin": {

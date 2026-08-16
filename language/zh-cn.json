@@ -15,7 +15,8 @@
       "title": "教员",
       "items": {
         "roster": "花名册",
-        "promotion": "晋升"
+        "promotion": "晋升",
+        "sweatbox": "模拟机场景"
       }
     },
     "admin": {

@@ -83,6 +83,9 @@ const RATING_ADMIN = 12;
 const INSTRUCTOR: Array<{ key: string; path: string }> = [
   { key: "instructors.items.roster", path: "/super/roster" },
   { key: "instructors.items.promotion", path: "/super/promote" },
+  // SweatBox 场景生成器。过了那道题：教员要带学员上模拟机，这是他备课时开的东
+  // 西，和花名册、晋升同一类 —— 不是网络的管理面。页面在主站。
+  { key: "instructors.items.sweatbox", path: "/super/sweatbox" },
 ];
 
 const ADMIN: Array<{ key: string; path: string }> = [
