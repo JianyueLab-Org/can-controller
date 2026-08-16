@@ -46,7 +46,7 @@ cookie 完成。
 `src/styles/globals.css`、`src/components/icons.ts`）。
 
 **没搬：** SUP 的那几个入口（`/super/activities`、`/super/prizes`、
-`/super/feedback`），以及晋升那条流程的三页本身（`/super/roster`、`/super/promote`、
+`/super/feedback`），以及晋升那条流程的三页本身（`/instr/roster`、`/instr/promote`、
 `/super/promotions`）—— 搬过来的只有它们的**菜单**，见下一节。前者不是「管制员自
 己的那四件事」：活动、奖品、反馈都是网络的管理面，飞行员那一侧也用得到其中几个。搬
 走它们等于把主站的 `/super` 掏空一半，那是另一次搬家该做的决定。
@@ -82,7 +82,7 @@ cookie 完成。
 | 教员（`>= 8`）  | 「教员」组：花名册、晋升、模拟机场景 |
 | ADM（`=== 12`） | 「管理员 (ADM)」组：晋升审批         |
 
-「模拟机场景」是主站的 SweatBox 场景生成器（`/super/sweatbox`）：勾席位、定流量，
+「模拟机场景」是主站的 SweatBox 场景生成器（`/instr/sweatbox`）：勾席位、定流量，
 它把 EuroScope 模拟机的训练场景写出来。它过了上面那道题的理由和花名册、晋升一样 ——
 教员带学员上模拟机时要开它，那是管制员的事，不是网络的管理面。
 
@@ -95,7 +95,7 @@ cookie 完成。
 
 还有三件容易弄错的事：
 
-**收起来的是菜单，不是页面。** 那三条指向的是主站的 `/super/roster`、`/super/promote`
+**收起来的是菜单，不是页面。** 那三条指向的是主站的 `/instr/roster`、`/instr/promote`
 和 `/super/promotions`；拦住普通管制员的是 can-web 的守卫和 can-api 每条路由自己的守
 卫。这里的门槛只是为了不给人看一组他点下去必然被拒的链接 —— 把 8 改小不会放开任何东
 西，只会让菜单多出几个 403。反过来说，**这里加一条门槛也不等于给对面加了一道守卫**。
@@ -112,7 +112,7 @@ cookie 完成。
 升 / 管理员 (ADM) / 晋升审批）仍然随整本 `frame` 词典发给每一个人 —— 那是
 `AppLayout.astro` 一次性序列化的 prop，而这几条只在服务端被 `buildNavigation()` 读，
 岛屿自己从不碰。所以普通管制员的页面源码里搜得到「教员」两个字，侧栏里没有那两组，也
-没有任何一条指向 `/super/*` 的地址。想清楚这是可以接受的：它们是标签，不是名单。
+没有任何一条指向 `/instr/*` 或 `/super/*` 的地址。想清楚这是可以接受的：它们是标签，不是名单。
 
 ## 接缝
 

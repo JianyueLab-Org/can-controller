@@ -74,18 +74,24 @@ const RATING_INSTRUCTOR = 8;
 const RATING_ADMIN = 12;
 
 /**
- * 教员那一组，和 ADM 那一组。三条都是**主站的**页面 —— 搬过来的只有菜单，不是
+ * 教员那一组，和 ADM 那一组。四条都是**主站的**页面 —— 搬过来的只有菜单，不是
  * 页面本身。
  *
  * 晋升审批和「晋升」分开，是因为它们是同一条流程的两端：教员提，ADM 批。合成一
  * 组会让一个只有 I1 的人以为自己按得动那个按钮。
+ *
+ * **两组的前缀不一样，这不是笔误。** 主站把教员那三页从 `/super` 拆到了
+ * `/instr`：`super` 读作「监理」（SUP，等级 11），而花名册、晋升、SweatBox 是教
+ * 员（等级 8）的活。晋升审批留在 `/super`，它确实要 ADM。主站上三条旧地址有重定
+ * 向接着，所以写错也不会立刻坏 —— 但那意味着写错了也发现不了，改这里之前先去看
+ * `can-web/src/components/StaffShell.vue`，那是同一份菜单的另一半。
  */
 const INSTRUCTOR: Array<{ key: string; path: string }> = [
-  { key: "instructors.items.roster", path: "/super/roster" },
-  { key: "instructors.items.promotion", path: "/super/promote" },
+  { key: "instructors.items.roster", path: "/instr/roster" },
+  { key: "instructors.items.promotion", path: "/instr/promote" },
   // SweatBox 场景生成器。过了那道题：教员要带学员上模拟机，这是他备课时开的东
   // 西，和花名册、晋升同一类 —— 不是网络的管理面。页面在主站。
-  { key: "instructors.items.sweatbox", path: "/super/sweatbox" },
+  { key: "instructors.items.sweatbox", path: "/instr/sweatbox" },
 ];
 
 const ADMIN: Array<{ key: string; path: string }> = [
