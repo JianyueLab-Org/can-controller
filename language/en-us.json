@@ -11,6 +11,13 @@
         "DocsRegulations": "Docs & Regulations"
       }
     },
+    "instructors": {
+      "title": "Instructors",
+      "items": {
+        "roster": "Roster",
+        "promotion": "Promotion"
+      }
+    },
     "signOut": "Sign Out",
     "search": {
       "label": "Search pages",

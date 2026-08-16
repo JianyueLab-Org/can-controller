@@ -13,20 +13,25 @@
  * 字都没改，和 can-web 的 `frame` 命名空间对得上，所以四本词典是从那边整段切
  * 过来的而不是重写的 —— 只是切过来之后又删掉了一批，见下一条。
  *
- * **这个站的侧栏只放管制员的东西。**
+ * **这个站的侧栏只放管制员的东西 —— 而管制员分教员和普通两类。**
  *
- * 搬家的第一版把 can-web 的整条侧栏原样带了过来 —— 教员 / SUP / 管理的入口
- * （`/super/roster`、`/super/promote`、`/super/promotions`、`/super/activities`、
- * `/super/prizes`、`/super/feedback`），以及活动、积分兑换、处理结果公示、问题
- * 与建议这几条面向全体成员的快捷入口。它们当时是**跨站链接**，理由是「菜单还在
- * 原来的位置」。
+ * 搬家的第一版把 can-web 的整条侧栏原样带了过来，理由是「菜单还在原来的位置」。
+ * 那条理由不成立：加一条之前要先回答**「管制员在管制的时候用得到它吗」**，答案
+ * 是否就不加 —— 在这里复制一份入口，只是把主站的目录结构又抄了一遍，抄的还是一
+ * 份会和主站慢慢对不上的副本。据此去掉的是 SUP / 管理那几项（`/super/promotions`、
+ * `/super/activities`、`/super/prizes`、`/super/feedback`）和活动、积分兑换、处
+ * 理结果公示、问题与建议这几条面向全体成员的服务：它们是网络的管理面，飞行员那
+ * 一侧也用得到，留在主站。
  *
- * 那条理由不成立：它们没有一条是管制员在这个域名上要做的事。网络的管理面和成员
- * 服务留在主站，成员本来就要回主站去用；在这里复制一份入口，只是把主站的目录结
- * 构又抄了一遍，而且抄的是一份会和主站慢慢对不上的副本。所以现在的规矩是**加一
- * 条之前先回答「管制员在管制的时候用得到它吗」**，答案是否就不加。
+ * **教员那一组不在此列，它过了那道题。** 教员是管制员的一种，花名册和晋升是他
+ * 带学员时要做的事，不是网络的管理面 —— 所以它属于管制员中心。**但它只对教员出
+ * 现**：普通管制员的侧栏里没有这一组，见 `RATING_INSTRUCTOR`。
  *
- * 删掉的条目连同它们的词条一起从四本词典里去掉了，不是留在那里没人引用：
+ * 收起来的是**菜单**，不是页面：那两页仍然是主站的，各自有 can-web 的守卫和
+ * can-api 的路由守卫。这里少一项不等于那一页被保护起来了，多一项也不等于放开了
+ * 什么 —— 门槛写在这里只是为了不给普通管制员看一组他点下去必然被拒的链接。
+ *
+ * 去掉的条目连同它们的词条一起从四本词典里去掉了，不是留在那里没人引用：
  * `AppLayout.astro` 把整本 `frame` 词典当 prop 序列化进岛屿，所以一条没人用的
  * 文案是每个页面都要发一遍的字节。
  */
@@ -57,21 +62,54 @@ const PANEL: Array<{ key: string; href: string; icon: string }> = [
 ];
 
 /**
+ * 教员的门槛，照抄 can-web 的 `ratingTrans`：8 及以上是教员（I1/I2/I3）。
+ *
+ * 上面那四个页面每个管制员都有；这一行是「普通」和「教员」的分界，也是这个站上
+ * 唯一一处按身份改变导航的地方。
+ */
+const RATING_INSTRUCTOR = 8;
+
+/**
+ * 教员那一组。两条都是**主站的**页面 —— 搬过来的只有菜单，不是页面本身。
+ */
+const INSTRUCTOR: Array<{ key: string; path: string }> = [
+  { key: "instructors.items.roster", path: "/super/roster" },
+  { key: "instructors.items.promotion", path: "/super/promote" },
+];
+
+/**
  * 把上面的键解析成当前语言的文案。在 Astro 侧调用，结果作为 props 进岛屿。
  *
- * `t` 是 `frame` 命名空间上的翻译器。
+ * `t` 是 `frame` 命名空间上的翻译器；`rating` 来自会话（`Astro.locals.user`），
+ * can-api 每个请求都解一次，所以一次晋升在下一次翻页时就生效，而不是等到下次登
+ * 录。
  *
- * 这里**不再读 rating**。以前读它是为了决定教员 / SUP / 管理那几项出不出现；那
- * 几项已经不在这个站上了，于是侧栏对每个登录成员都是同一份 —— 权限差异体现在页
- * 面内容里（预约看板上的「撤销他人预约」仍然看 rating，见
- * `pages/reservations.astro`），不再体现在导航上。
+ * **rating 缺失时按普通管制员处理**，而不是按教员 —— 一个读不出等级的会话应该
+ * 看到更少的东西而不是更多。`isInstructor` 里那个 `typeof` 判断就是为了这个：
+ * `undefined >= 8` 本来就是 `false`，但写成 `rating! >= 8` 等于把这件事交给运气，
+ * 而这一行是这个站上唯一一处按身份改变导航的地方。
  */
-export function buildNavigation(t: Translator): NavItem[] {
-  return PANEL.map((entry) => ({
+export function buildNavigation(t: Translator, rating?: number): NavItem[] {
+  const items: NavItem[] = PANEL.map((entry) => ({
     name: t(entry.key),
     href: entry.href,
     icon: entry.icon,
   }));
+
+  const isInstructor =
+    typeof rating === "number" && rating >= RATING_INSTRUCTOR;
+  if (isInstructor) {
+    items.push({
+      name: t("instructors.title"),
+      icon: "shieldCheck",
+      children: INSTRUCTOR.map((entry) => ({
+        name: t(entry.key),
+        href: webUrl(entry.path),
+      })),
+    });
+  }
+
+  return items;
 }
 
 /**

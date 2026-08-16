@@ -11,6 +11,13 @@
         "DocsRegulations": "文档 & 规章制度"
       }
     },
+    "instructors": {
+      "title": "教员",
+      "items": {
+        "roster": "花名册",
+        "promotion": "晋升"
+      }
+    },
     "signOut": "退出登录",
     "search": {
       "label": "搜索页面",

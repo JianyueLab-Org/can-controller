@@ -11,6 +11,13 @@
         "DocsRegulations": "文件與規章制度"
       }
     },
+    "instructors": {
+      "title": "教員",
+      "items": {
+        "roster": "花名冊",
+        "promotion": "晉升"
+      }
+    },
     "signOut": "登出",
     "search": {
       "label": "搜尋頁面",

@@ -11,6 +11,13 @@
         "DocsRegulations": "ドキュメントと規程"
       }
     },
+    "instructors": {
+      "title": "教官",
+      "items": {
+        "roster": "名簿",
+        "promotion": "昇格"
+      }
+    },
     "signOut": "ログアウト",
     "search": {
       "label": "ページを検索",
