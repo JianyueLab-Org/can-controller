@@ -18,6 +18,12 @@
         "promotion": "昇格"
       }
     },
+    "admin": {
+      "title": "管理者（ADM）",
+      "items": {
+        "promote": "昇格承認"
+      }
+    },
     "signOut": "ログアウト",
     "search": {
       "label": "ページを検索",

@@ -62,19 +62,31 @@ const PANEL: Array<{ key: string; href: string; icon: string }> = [
 ];
 
 /**
- * 教员的门槛，照抄 can-web 的 `ratingTrans`：8 及以上是教员（I1/I2/I3）。
+ * 两道门槛，都照抄 can-web 的 `ratingTrans`：8 及以上是教员（I1/I2/I3），12 是
+ * ADM。上面那四个页面每个管制员都有；这两行是这个站上仅有的按身份改变导航的地方。
  *
- * 上面那四个页面每个管制员都有；这一行是「普通」和「教员」的分界，也是这个站上
- * 唯一一处按身份改变导航的地方。
+ * **ADM 这条是 `===` 而不是 `>=`，和 can-web 逐字相同。** 今天两种写法结果一样，
+ * 因为 12 就是最高的一级；哪天 `ratingTrans` 上面再加一级，`===` 会让那一级看不
+ * 到晋升审批。改它之前先去改 can-web —— 两边对同一个菜单给出不同答案，比这个菜
+ * 单本身错了更难查。
  */
 const RATING_INSTRUCTOR = 8;
+const RATING_ADMIN = 12;
 
 /**
- * 教员那一组。两条都是**主站的**页面 —— 搬过来的只有菜单，不是页面本身。
+ * 教员那一组，和 ADM 那一组。三条都是**主站的**页面 —— 搬过来的只有菜单，不是
+ * 页面本身。
+ *
+ * 晋升审批和「晋升」分开，是因为它们是同一条流程的两端：教员提，ADM 批。合成一
+ * 组会让一个只有 I1 的人以为自己按得动那个按钮。
  */
 const INSTRUCTOR: Array<{ key: string; path: string }> = [
   { key: "instructors.items.roster", path: "/super/roster" },
   { key: "instructors.items.promotion", path: "/super/promote" },
+];
+
+const ADMIN: Array<{ key: string; path: string }> = [
+  { key: "admin.items.promote", path: "/super/promotions" },
 ];
 
 /**
@@ -86,8 +98,8 @@ const INSTRUCTOR: Array<{ key: string; path: string }> = [
  *
  * **rating 缺失时按普通管制员处理**，而不是按教员 —— 一个读不出等级的会话应该
  * 看到更少的东西而不是更多。`isInstructor` 里那个 `typeof` 判断就是为了这个：
- * `undefined >= 8` 本来就是 `false`，但写成 `rating! >= 8` 等于把这件事交给运气，
- * 而这一行是这个站上唯一一处按身份改变导航的地方。
+ * `undefined >= 8` 本来就是 `false`，但写成 `rating! >= 8` 等于把这件事交给运气。
+ * ADM 那一条用的是 `===`，缺失时天然落空。
  */
 export function buildNavigation(t: Translator, rating?: number): NavItem[] {
   const items: NavItem[] = PANEL.map((entry) => ({
@@ -96,17 +108,20 @@ export function buildNavigation(t: Translator, rating?: number): NavItem[] {
     icon: entry.icon,
   }));
 
-  const isInstructor =
-    typeof rating === "number" && rating >= RATING_INSTRUCTOR;
-  if (isInstructor) {
-    items.push({
-      name: t("instructors.title"),
-      icon: "shieldCheck",
-      children: INSTRUCTOR.map((entry) => ({
-        name: t(entry.key),
-        href: webUrl(entry.path),
-      })),
-    });
+  const group = (titleKey: string, entries: typeof INSTRUCTOR): NavItem => ({
+    name: t(titleKey),
+    icon: "shieldCheck",
+    children: entries.map((entry) => ({
+      name: t(entry.key),
+      href: webUrl(entry.path),
+    })),
+  });
+
+  if (typeof rating === "number" && rating >= RATING_INSTRUCTOR) {
+    items.push(group("instructors.title", INSTRUCTOR));
+  }
+  if (rating === RATING_ADMIN) {
+    items.push(group("admin.title", ADMIN));
   }
 
   return items;

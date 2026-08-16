@@ -18,6 +18,12 @@
         "promotion": "晉升"
       }
     },
+    "admin": {
+      "title": "管理員",
+      "items": {
+        "promote": "晉升審核"
+      }
+    },
     "signOut": "登出",
     "search": {
       "label": "搜尋頁面",

@@ -18,6 +18,12 @@
         "promotion": "Promotion"
       }
     },
+    "admin": {
+      "title": "Admin (ADM)",
+      "items": {
+        "promote": "Promotion Approval"
+      }
+    },
     "signOut": "Sign Out",
     "search": {
       "label": "Search pages",
