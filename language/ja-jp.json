@@ -7,7 +7,6 @@
       "reservations": "管制予約",
       "quickAccess": {
         "title": "クイックアクセス",
-        "Forum": "フォーラム",
         "OnlineMap": "オンラインマップ",
         "DocsRegulations": "ドキュメントと規程"
       }
@@ -25,62 +24,11 @@
         "promote": "昇格承認"
       }
     },
-    "pilots": {
-      "title": "ホーム",
-      "flightplan": {
-        "title": "フライトプラン"
-      },
-      "flight": {
-        "title": "フライト",
-        "items": {
-          "flightPlan": "フライトプラン",
-          "flightRecords": "飛行記録"
-        }
-      },
-      "userStatistics": {
-        "title": "ユーザー統計"
-      },
-      "quickAccess": {
-        "title": "クイックアクセス",
-        "items": {
-          "Forum": "フォーラム",
-          "OnlineMap": "オンラインマップ",
-          "DocsRegulations": "ドキュメントと規程"
-        }
-      },
-      "apps": {
-        "title": "許可済みアプリ"
-      }
-    },
-    "docs": {
-      "home": "ホーム",
-      "docs": "ドキュメント",
-      "regulation": "規程",
-      "atc": {
-        "title": "管制員",
-        "items": {
-          "professionalGuidelines": "職業準則"
-        }
-      },
-      "editions": {
-        "title": "版",
-        "items": {
-          "firstEdition": "第1版",
-          "secondEdition": "第2版"
-        }
-      },
-      "history": {
-        "title": "ネットワークの歩み"
-      },
-      "nav": "ナビゲーション",
-      "onThisPage": "このページの目次"
-    },
     "signOut": "ログアウト",
     "search": {
       "label": "ページを検索",
       "placeholder": "ページへ移動…",
-      "noResults": "一致するページがありません",
-      "hint": "検索"
+      "noResults": "一致するページがありません"
     },
     "skipToContent": "本文へスキップ",
     "workspace": {
@@ -92,16 +40,7 @@
     "closeSidebar": "ナビゲーションを閉じる",
     "openSidebar": "ナビゲーションを開く",
     "atcRoster": "管制員名簿",
-    "division": "支部",
-    "training": "訓練教材",
-    "downloads": "ソフトウェア",
-    "activities": "イベント",
-    "activitiesManage": "イベント管理",
-    "rewards": "ポイント交換",
-    "prizesManage": "景品管理",
-    "feedback": "対応結果の公示",
-    "feedbackManage": "対応結果の公示",
-    "support": "不具合・ご要望"
+    "downloads": "ソフトウェア"
   },
   "controllers": {
     "dashboard": {

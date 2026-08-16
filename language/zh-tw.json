@@ -7,7 +7,6 @@
       "reservations": "管制預約",
       "quickAccess": {
         "title": "快速存取",
-        "Forum": "論壇",
         "OnlineMap": "線上地圖",
         "DocsRegulations": "文件與規章制度"
       }
@@ -25,62 +24,11 @@
         "promote": "晉升審核"
       }
     },
-    "pilots": {
-      "title": "個人面板",
-      "flightplan": {
-        "title": "飛航計畫"
-      },
-      "flight": {
-        "title": "飛行",
-        "items": {
-          "flightPlan": "飛航計畫",
-          "flightRecords": "飛行紀錄"
-        }
-      },
-      "userStatistics": {
-        "title": "使用者資料"
-      },
-      "quickAccess": {
-        "title": "快速存取",
-        "items": {
-          "Forum": "論壇",
-          "OnlineMap": "線上地圖",
-          "DocsRegulations": "文件與規章制度"
-        }
-      },
-      "apps": {
-        "title": "已授權應用"
-      }
-    },
-    "docs": {
-      "home": "個人面板",
-      "docs": "文件",
-      "regulation": "規章制度",
-      "atc": {
-        "title": "管制員",
-        "items": {
-          "professionalGuidelines": "職業準則"
-        }
-      },
-      "editions": {
-        "title": "版本",
-        "items": {
-          "firstEdition": "第一版",
-          "secondEdition": "第二版"
-        }
-      },
-      "history": {
-        "title": "平台的歷史"
-      },
-      "nav": "導覽",
-      "onThisPage": "本頁目錄"
-    },
     "signOut": "登出",
     "search": {
       "label": "搜尋頁面",
       "placeholder": "跳至頁面…",
-      "noResults": "沒有符合的頁面",
-      "hint": "搜尋"
+      "noResults": "沒有符合的頁面"
     },
     "skipToContent": "跳至主要內容",
     "workspace": {
@@ -92,16 +40,7 @@
     "closeSidebar": "關閉導覽",
     "openSidebar": "開啟導覽",
     "atcRoster": "管制員名冊",
-    "division": "分部",
-    "training": "訓練教材",
-    "downloads": "軟體下載",
-    "activities": "活動",
-    "activitiesManage": "活動管理",
-    "rewards": "積分兌換",
-    "prizesManage": "獎品管理",
-    "feedback": "處理結果公示",
-    "feedbackManage": "處理結果公示",
-    "support": "問題與建議"
+    "downloads": "軟體下載"
   },
   "controllers": {
     "dashboard": {

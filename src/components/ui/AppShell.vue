@@ -401,14 +401,11 @@ function handleSignOut() {
                     #{{ userId }}
                   </p>
                 </div>
-                <a
-                  href="/pilots/status"
-                  role="menuitem"
-                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-muted transition-colors hover:bg-surface-sunken hover:text-ink"
-                >
-                  <Icon name="users" class="size-4" />
-                  {{ t("pilots.userStatistics.title") }}
-                </a>
+                <!-- 「用户统计」跟着 can-web 的外壳一起被复制了过来，指向
+                     `/pilots/status`。它有两个毛病，各自都足以删掉它：那是飞行
+                     员那一侧的页面，不是管制员在这个域名上要做的事；而且这个相
+                     对地址在 controller.airwaysn.org 上根本不存在，点下去是本站
+                     的 404，不是主站的那一页。 -->
                 <button
                   type="button"
                   role="menuitem"

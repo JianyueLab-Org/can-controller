@@ -7,7 +7,6 @@
       "reservations": "ATC Reservations",
       "quickAccess": {
         "title": "Quick Access",
-        "Forum": "Forum",
         "OnlineMap": "Online Map",
         "DocsRegulations": "Docs & Regulations"
       }
@@ -25,62 +24,11 @@
         "promote": "Promotion Approval"
       }
     },
-    "pilots": {
-      "title": "Home",
-      "flightplan": {
-        "title": "Flight Plan"
-      },
-      "flight": {
-        "title": "Flights",
-        "items": {
-          "flightPlan": "Flight Plan",
-          "flightRecords": "Flight Records"
-        }
-      },
-      "userStatistics": {
-        "title": "User Statistics"
-      },
-      "quickAccess": {
-        "title": "Quick Access",
-        "items": {
-          "Forum": "Forum",
-          "OnlineMap": "Online Map",
-          "DocsRegulations": "Docs & Regulations"
-        }
-      },
-      "apps": {
-        "title": "Authorized apps"
-      }
-    },
-    "docs": {
-      "home": "Home",
-      "docs": "Docs",
-      "regulation": "Regulations",
-      "atc": {
-        "title": "ATC",
-        "items": {
-          "professionalGuidelines": "Professional Guidelines"
-        }
-      },
-      "editions": {
-        "title": "Editions",
-        "items": {
-          "firstEdition": " First Edition",
-          "secondEdition": "Second Edition"
-        }
-      },
-      "history": {
-        "title": "History"
-      },
-      "nav": "Navigation",
-      "onThisPage": "On this page"
-    },
     "signOut": "Sign Out",
     "search": {
       "label": "Search pages",
       "placeholder": "Jump to a page…",
-      "noResults": "No matching page",
-      "hint": "Search"
+      "noResults": "No matching page"
     },
     "skipToContent": "Skip to main content",
     "workspace": {
@@ -92,16 +40,7 @@
     "closeSidebar": "Close navigation",
     "openSidebar": "Open navigation",
     "atcRoster": "ATC Roster",
-    "division": "Division",
-    "training": "Training Materials",
-    "downloads": "Downloads",
-    "activities": "Activities",
-    "activitiesManage": "Manage Activities",
-    "rewards": "Points store",
-    "prizesManage": "Prizes",
-    "feedback": "Feedback outcomes",
-    "feedbackManage": "Feedback outcomes",
-    "support": "Issues & ideas"
+    "downloads": "Downloads"
   },
   "controllers": {
     "dashboard": {

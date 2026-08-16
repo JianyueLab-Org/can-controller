@@ -7,7 +7,6 @@
       "reservations": "管制预约",
       "quickAccess": {
         "title": "快速访问",
-        "Forum": "论坛",
         "OnlineMap": "在线地图",
         "DocsRegulations": "文档 & 规章制度"
       }
@@ -25,62 +24,11 @@
         "promote": "晋升审批"
       }
     },
-    "pilots": {
-      "title": "个人面板",
-      "flightplan": {
-        "title": "飞行计划"
-      },
-      "flight": {
-        "title": "飞行",
-        "items": {
-          "flightPlan": "飞行计划",
-          "flightRecords": "飞行记录"
-        }
-      },
-      "userStatistics": {
-        "title": "用户统计"
-      },
-      "quickAccess": {
-        "title": "快速访问",
-        "items": {
-          "Forum": "论坛",
-          "OnlineMap": "在线地图",
-          "DocsRegulations": "文档 & 规章制度"
-        }
-      },
-      "apps": {
-        "title": "已授权应用"
-      }
-    },
-    "docs": {
-      "home": "个人面板",
-      "docs": "文档",
-      "regulation": "规章制度",
-      "atc": {
-        "title": "管制员",
-        "items": {
-          "professionalGuidelines": "职业准则"
-        }
-      },
-      "editions": {
-        "title": "版本",
-        "items": {
-          "firstEdition": "第一版",
-          "secondEdition": "第二版"
-        }
-      },
-      "history": {
-        "title": "平台的历史"
-      },
-      "nav": "导航",
-      "onThisPage": "本页目录"
-    },
     "signOut": "退出登录",
     "search": {
       "label": "搜索页面",
       "placeholder": "跳转到页面…",
-      "noResults": "没有匹配的页面",
-      "hint": "搜索"
+      "noResults": "没有匹配的页面"
     },
     "skipToContent": "跳到主要内容",
     "workspace": {
@@ -92,16 +40,7 @@
     "closeSidebar": "关闭导航",
     "openSidebar": "打开导航",
     "atcRoster": "管制员名册",
-    "division": "分部",
-    "training": "训练教材",
-    "downloads": "软件下载",
-    "activities": "活动",
-    "activitiesManage": "活动管理",
-    "rewards": "积分兑换",
-    "prizesManage": "奖品管理",
-    "feedback": "处理结果公示",
-    "feedbackManage": "处理结果公示",
-    "support": "问题与建议"
+    "downloads": "软件下载"
   },
   "controllers": {
     "dashboard": {
