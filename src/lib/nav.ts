@@ -162,8 +162,10 @@ export function buildSecondary(t: Translator): NavSecondary {
         icon: "arrowDownTray",
       },
       {
+        // 会员文档不在主站了，它是 can-docs（docs.airwaysn.org）。所以这一条
+        // 写死绝对地址，和上面的雷达一样，不走 `webUrl()`。
         name: t("controllers.quickAccess.DocsRegulations"),
-        href: webUrl("/docs"),
+        href: "https://docs.airwaysn.org",
         icon: "bookOpen",
       },
     ],
