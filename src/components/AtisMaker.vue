@@ -195,13 +195,13 @@ async function copy(value: string, which: "url" | "text") {
     <div class="grid gap-6 lg:grid-cols-2">
       <!-- Left: weather + configuration -->
       <div class="space-y-6">
-        <BaseCard :title="t('weather.title')" :subtitle="t('weather.subtitle')">
+        <Card :title="t('weather.title')" :subtitle="t('weather.subtitle')">
           <form
             class="flex flex-col gap-3 sm:flex-row sm:items-end"
             @submit.prevent="fetchMetar"
           >
             <div class="flex-1">
-              <BaseInput
+              <Input
                 v-model="icao"
                 name="icao"
                 :label="t('icao.label')"
@@ -211,12 +211,12 @@ async function copy(value: string, which: "url" | "text") {
                 autocomplete="off"
               />
             </div>
-            <BaseButton type="submit" :loading="loading">
+            <Button type="submit" :loading="loading">
               <template #icon
                 ><Icon name="magnifyingGlass" class="size-4"
               /></template>
               {{ loading ? t("fetching") : t("fetch") }}
-            </BaseButton>
+            </Button>
           </form>
 
           <template v-if="parsed">
@@ -246,59 +246,59 @@ async function copy(value: string, which: "url" | "text") {
               </div>
             </div>
           </template>
-        </BaseCard>
+        </Card>
 
-        <BaseCard :title="t('config.title')" :subtitle="t('config.subtitle')">
+        <Card :title="t('config.title')" :subtitle="t('config.subtitle')">
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <BaseSelect
+            <Select
               v-model="info"
               name="info"
               :label="t('info.label')"
               :options="infoOptions"
             />
-            <BaseSelect
+            <Select
               v-model="approach"
               name="approach"
               :label="t('approach.label')"
               :options="approachOptions"
             />
-            <BaseInput
+            <Input
               v-model="arr"
               name="arr"
               :label="t('arr.label')"
               :placeholder="t('arr.placeholder')"
               :hint="t('arr.hint')"
             />
-            <BaseInput
+            <Input
               v-model="dep"
               name="dep"
               :label="t('dep.label')"
               :placeholder="t('dep.placeholder')"
               :hint="t('dep.hint')"
             />
-            <BaseInput
+            <Input
               v-model="tl"
               name="tl"
               :label="t('tl.label')"
               :placeholder="t('tl.placeholder')"
               :hint="t('tl.hint')"
             />
-            <BaseInput
+            <Input
               v-model="remarks"
               name="remarks"
               :label="t('remarks.label')"
               :placeholder="t('remarks.placeholder')"
             />
           </div>
-        </BaseCard>
+        </Card>
       </div>
 
       <!-- Right: preview + EuroScope URL -->
       <div class="space-y-6">
-        <BaseCard :title="t('preview.title')" :subtitle="t('preview.subtitle')">
+        <Card :title="t('preview.title')" :subtitle="t('preview.subtitle')">
           <template v-if="preview">
             <div class="mb-3 flex justify-end">
-              <BaseButton
+              <Button
                 size="sm"
                 variant="secondary"
                 @click="copy(preview, 'text')"
@@ -310,7 +310,7 @@ async function copy(value: string, which: "url" | "text") {
                   />
                 </template>
                 {{ copied === "text" ? t("copied") : t("copy") }}
-              </BaseButton>
+              </Button>
             </div>
             <pre
               class="overflow-x-auto whitespace-pre-line rounded-control bg-surface-sunken p-4 font-mono text-sm leading-relaxed text-ink"
@@ -322,11 +322,11 @@ async function copy(value: string, which: "url" | "text") {
             compact
             :title="t('preview.empty')"
           />
-        </BaseCard>
+        </Card>
 
-        <BaseCard :title="t('url.title')" :subtitle="t('url.subtitle')">
+        <Card :title="t('url.title')" :subtitle="t('url.subtitle')">
           <div class="mb-3 max-w-[12rem]">
-            <BaseSelect
+            <Select
               v-model="slot"
               name="slot"
               :label="t('slot.label')"
@@ -338,7 +338,7 @@ async function copy(value: string, which: "url" | "text") {
             <p class="break-all font-mono text-xs text-ink">{{ makerUrl }}</p>
           </div>
           <div class="mt-3 flex justify-end">
-            <BaseButton size="sm" @click="copy(makerUrl, 'url')">
+            <Button size="sm" @click="copy(makerUrl, 'url')">
               <template #icon>
                 <Icon
                   :name="copied === 'url' ? 'checkCircle' : 'documentText'"
@@ -346,7 +346,7 @@ async function copy(value: string, which: "url" | "text") {
                 />
               </template>
               {{ copied === "url" ? t("copied") : t("copy") }}
-            </BaseButton>
+            </Button>
           </div>
 
           <ol class="mt-4 space-y-2 text-sm text-muted">
@@ -368,7 +368,7 @@ async function copy(value: string, which: "url" | "text") {
             <Icon name="informationCircle" class="mt-0.5 size-4 shrink-0" />
             <p>{{ t("url.note") }}</p>
           </div>
-        </BaseCard>
+        </Card>
       </div>
     </div>
   </div>

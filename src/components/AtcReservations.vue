@@ -232,10 +232,10 @@ onMounted(load);
       icon="calendarDays"
     >
       <template #actions>
-        <BaseButton @click="openCreate">
+        <Button @click="openCreate">
           <template #icon><Icon name="plus" class="size-4" /></template>
           {{ t("create") }}
-        </BaseButton>
+        </Button>
       </template>
     </PageHeader>
 
@@ -249,7 +249,7 @@ onMounted(load);
       {{ feedback.text }}
     </AlertBox>
 
-    <BaseCard padding="none">
+    <Card padding="none">
       <div class="p-6">
         <DataTable
           :columns="columns"
@@ -275,22 +275,22 @@ onMounted(load);
           </template>
           <template #cell-actions="{ row }">
             <div class="flex justify-end gap-2">
-              <BaseButton
+              <Button
                 v-if="canManage(row)"
                 size="sm"
                 variant="ghost"
                 @click="askCancel(row)"
               >
                 {{ t("cancel") }}
-              </BaseButton>
+              </Button>
               <span v-else class="text-xs text-faint">—</span>
             </div>
           </template>
         </DataTable>
       </div>
-    </BaseCard>
+    </Card>
 
-    <BaseDialog
+    <Dialog
       v-model:open="createOpen"
       :title="t('create')"
       :description="t('createHint')"
@@ -300,7 +300,7 @@ onMounted(load);
         <AlertBox v-if="dialogError" variant="danger">{{
           dialogError
         }}</AlertBox>
-        <BaseInput
+        <Input
           v-model="form.callsign"
           name="reservation-callsign"
           :label="t('formCallsign')"
@@ -308,20 +308,20 @@ onMounted(load);
           :maxlength="16"
           required
         />
-        <BaseInput
+        <Input
           v-model="form.description"
           name="reservation-description"
           :label="t('formDescription')"
           :maxlength="MAX_RESERVATION_DESCRIPTION"
         />
-        <BaseInput
+        <Input
           v-model="form.startsAt"
           type="datetime-local"
           name="reservation-starts"
           :label="t('formStartsAt')"
           required
         />
-        <BaseInput
+        <Input
           v-model="form.endsAt"
           type="datetime-local"
           name="reservation-ends"
@@ -332,19 +332,19 @@ onMounted(load);
         />
       </form>
       <template #footer>
-        <BaseButton variant="secondary" @click="createOpen = false">{{
+        <Button variant="secondary" @click="createOpen = false">{{
           t("close")
-        }}</BaseButton>
-        <BaseButton :loading="creating" @click="createForm?.requestSubmit()">
+        }}</Button>
+        <Button :loading="creating" @click="createForm?.requestSubmit()">
           <template #icon><Icon name="plus" class="size-4" /></template>
           {{ t("submit") }}
-        </BaseButton>
+        </Button>
       </template>
-    </BaseDialog>
+    </Dialog>
 
     <!-- Cancelling takes a slot off the public board — and a SUP/ADM does it to
          another member's row — so it is confirmed against the callsign. -->
-    <BaseDialog
+    <Dialog
       :open="!!cancelTarget"
       size="sm"
       :title="t('cancelTitle')"
@@ -362,17 +362,13 @@ onMounted(load);
         <span class="ml-2 text-muted">{{ cancelTarget?.username }}</span>
       </p>
       <template #footer>
-        <BaseButton variant="secondary" @click="cancelTarget = null">
+        <Button variant="secondary" @click="cancelTarget = null">
           {{ t("cancelKeep") }}
-        </BaseButton>
-        <BaseButton
-          variant="danger"
-          :loading="cancelling"
-          @click="confirmCancel"
-        >
+        </Button>
+        <Button variant="danger" :loading="cancelling" @click="confirmCancel">
           {{ t("cancelConfirmAction") }}
-        </BaseButton>
+        </Button>
       </template>
-    </BaseDialog>
+    </Dialog>
   </div>
 </template>

@@ -120,7 +120,7 @@ async function commit() {
 
 <template>
   <div class="mx-auto max-w-2xl py-4 sm:py-8">
-    <BaseCard padding="lg">
+    <Card padding="lg">
       <div class="flex flex-col items-center text-center">
         <span
           class="flex size-14 items-center justify-center rounded-full bg-warning-bg text-warning-fg"
@@ -156,7 +156,7 @@ async function commit() {
 
       <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-end">
         <div class="flex-1">
-          <BaseSelect
+          <Select
             v-model="choice"
             name="home-division"
             :label="t('home.select')"
@@ -164,18 +164,18 @@ async function commit() {
             :placeholder="t('home.select')"
           />
         </div>
-        <BaseButton size="lg" :disabled="!choice || busy" @click="ask">
+        <Button size="lg" :disabled="!choice || busy" @click="ask">
           {{ t("home.save") }}
-        </BaseButton>
+        </Button>
       </div>
 
       <AlertBox variant="warning" class="mt-4">
         {{ t("home.permanentWarning") }}
       </AlertBox>
-    </BaseCard>
+    </Card>
 
     <!-- 不可逆的写入，走一次显式确认。 -->
-    <BaseDialog
+    <Dialog
       v-model:open="confirmOpen"
       size="sm"
       :close-label="t('cancel')"
@@ -189,13 +189,13 @@ async function commit() {
         {{ t("home.permanentWarning") }}
       </p>
       <template #footer>
-        <BaseButton variant="ghost" :disabled="busy" @click="pending = null">
+        <Button variant="ghost" :disabled="busy" @click="pending = null">
           {{ t("cancel") }}
-        </BaseButton>
-        <BaseButton :loading="busy" @click="commit">
+        </Button>
+        <Button :loading="busy" @click="commit">
           {{ t("home.confirm") }}
-        </BaseButton>
+        </Button>
       </template>
-    </BaseDialog>
+    </Dialog>
   </div>
 </template>
