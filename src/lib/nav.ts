@@ -151,7 +151,7 @@ export function buildSecondary(t: Translator): NavSecondary {
     items: [
       {
         name: t("controllers.quickAccess.OnlineMap"),
-        href: "https://radar.airwaysn.org",
+        href: "https://radar.ceruleanavi.net",
         icon: "mapPin",
       },
       { name: t("atcRoster"), href: webUrl("/roster"), icon: "users" },
@@ -161,10 +161,10 @@ export function buildSecondary(t: Translator): NavSecondary {
         icon: "arrowDownTray",
       },
       {
-        // 会员文档不在主站了，它是 can-docs（docs.airwaysn.org）。所以这一条
+        // 会员文档不在主站了，它是 can-docs（docs.ceruleanavi.net）。所以这一条
         // 写死绝对地址，和上面的雷达一样，不走 `webUrl()`。
         name: t("controllers.quickAccess.DocsRegulations"),
-        href: "https://docs.airwaysn.org",
+        href: "https://docs.ceruleanavi.net",
         icon: "bookOpen",
       },
     ],
@@ -199,7 +199,7 @@ export function buildWorkspaces(t: Translator): Workspace[] {
     {
       key: "exams",
       name: t("workspace.exams"),
-      href: "https://exam.airwaysn.org",
+      href: "https://exam.ceruleanavi.net",
       icon: "academicCap",
     },
   ];

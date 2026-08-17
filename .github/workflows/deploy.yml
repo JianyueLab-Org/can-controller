@@ -20,5 +20,5 @@ jobs:
       image: ghcr.io/jianyuelab-org/can-controller
       namespace: can-controller
       manifest: deploy/k8s.yaml
-      environment_url: https://controller.airwaysn.org
+      environment_url: https://controller.ceruleanavi.net
     secrets: inherit

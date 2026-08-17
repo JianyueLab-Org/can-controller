@@ -14,7 +14,7 @@
 # 里，这个站只负责把它转发回 can-api。少一份凭据就少一个泄漏面 —— 如果哪天有人
 # 要在这里加 Secret，先确认那件事不能靠转发 cookie 完成。
 #
-# **已经上线**：controller.airwaysn.org，2026-08-16。主机名由
+# **已经上线**：controller.ceruleanavi.net，2026-08-16。主机名由
 # cloudflare-tunnel 控制器自己登记，无需手工建 DNS 记录。
 #
 # 还欠一件事，不在这个仓库里：**在 can-web 上给 /controllers/* 加转向**。那四个
@@ -75,16 +75,16 @@ spec:
           env:
             # 数据全部来自 can-api。
             - name: CAN_API_ORIGIN
-              value: https://api.airwaysn.org
+              value: https://api.ceruleanavi.net
             # 登录页、侧栏里那一排跨站链接，以及 ATIS maker URL 的主机名。
             # 最后一条尤其不能改成本站：那条 URL 已经粘进管制员各自机器上的
             # EuroScope 了，见 src/pages/atis.astro。
             - name: CAN_WEB_ORIGIN
-              value: https://airwaysn.org
+              value: https://ceruleanavi.net
             # 写操作的 Origin 比对基准。必须是显式值：反代后面从 Host 推出来的
             # 是 http://，浏览器发的是 https://，永远对不上。
             - name: PUBLIC_ORIGIN
-              value: https://controller.airwaysn.org
+              value: https://controller.ceruleanavi.net
           # 探的是 /healthz，不是 /。`/` 在这个站上会先问一次 can-api 再 302，
           # 拿它当探活等于每 10 秒给上游加一次白流量，而且会把上游的抖动放大成
           # 自己的 Pod 重启。详见 src/pages/healthz.ts。
@@ -139,7 +139,7 @@ metadata:
 spec:
   ingressClassName: cloudflare-tunnel
   rules:
-    - host: controller.airwaysn.org
+    - host: controller.ceruleanavi.net
       http:
         paths:
           - backend:

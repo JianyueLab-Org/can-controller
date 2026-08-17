@@ -4,7 +4,7 @@
 
 ## 这是什么
 
-**管制员中心** —— `controller.airwaysn.org`，Cerulean Aviation Network 的第五个
+**管制员中心** —— `controller.ceruleanavi.net`，Cerulean Aviation Network 的第五个
 卫星站点。它是从 can-web 的 `/controllers/*` 整段搬出来的，搬的是**四个页面**：
 
 | 这里                      | 原来在 can-web                  | 岛屿                  |
@@ -27,7 +27,7 @@ SSR（standalone Node 适配器）+ Vue 岛屿 + Tailwind v4，跑在 jyl-tyo �
 **没有数据库口令。** 一条都没有，将来也不该有。所有数据都来自 can-api。
 
 **没有 Secret，一个都没有。** 和 can-efb 一样，比 can-dev 更严：这个站不参与
-OAuth，也不签会话。会话是 can-api 签在**父域** `.airwaysn.org` 上的那一枚
+OAuth，也不签会话。会话是 can-api 签在**父域** `.ceruleanavi.net` 上的那一枚
 cookie，成员在主站登录过，浏览器本来就把它带到这里来；这个站做的全部事情是把它
 **原样转发**回 can-api，再读回答案。多存一份 `SESSION_SECRET` 等于多一处能签发任
 何人身份的地方，省下的只是一次内网 HTTP。
@@ -126,7 +126,7 @@ cookie 完成。
 是这么上线过的**）。
 
 唯一的差别：这里打的是**同源**的 `/api/v1/...`，由
-`src/pages/api/v1/[...path].ts` 转给 can-api，而不是直连 `api.airwaysn.org`。
+`src/pages/api/v1/[...path].ts` 转给 can-api，而不是直连 `api.ceruleanavi.net`。
 理由和 can-efb、can-radar 一样 —— can-api 的 `ALLOWED_ORIGINS` 里没有这个域，加
 进去要改它的部署环境变量并重启。同源反代让这个站今天就能跑，一行 can-api 都不用
 动。
@@ -174,7 +174,7 @@ can-web 的 `Divisions.vue` 一样走一次显式确认，且确认框里重复�
 ### ATIS maker URL 指向主站，不是本站
 
 `src/pages/atis.astro` 传给岛屿的 `origin` 是 `CAN_WEB_ORIGIN`
-（`https://airwaysn.org`），不是本站。两个各自独立的理由，那个文件上写全了：
+（`https://ceruleanavi.net`），不是本站。两个各自独立的理由，那个文件上写全了：
 
 1. `/api/v1/atis` 对外的地址在**主站的转发白名单**里，而那条 URL 已经被一批管制
    员粘进各自机器上的 EuroScope 了。改掉它等于让那些人下次上线时 ATIS 静默失
@@ -241,13 +241,13 @@ PUBLIC_ORIGIN=http://localhost:4326 bun run dev
 ```
 
 `CAN_API_ORIGIN` 和 `CAN_WEB_ORIGIN` 默认就是线上地址，所以开着本地站点也能读到
-真实数据（读的是你自己那枚 cookie —— 前提是浏览器上有 `.airwaysn.org` 的会话，
+真实数据（读的是你自己那枚 cookie —— 前提是浏览器上有 `.ceruleanavi.net` 的会话，
 `localhost` 上没有，所以本地看到的多半是 302 去登录页）。要连本地的 can-api 就把
 两个变量都指过去。
 
 ## 部署
 
-**已经上线：`https://controller.airwaysn.org`（2026-08-16，jyl-tyo 的
+**已经上线：`https://controller.ceruleanavi.net`（2026-08-16，jyl-tyo 的
 `can-controller` namespace）。** 推 `main` 由 CI 出镜像并滚 Deployment，和另外几
 个卫星站一样，不要手工 `kubectl rollout restart`。
 
@@ -271,7 +271,7 @@ KUBECONFIG_B64」。这个仓库最初建成私有，正是这么红了一次。
 ### 用 curl 探这个站永远是 403
 
 Cloudflare 对整个 zone 开着 bot challenge，`cf-mitigated: challenge`。
-`exam.airwaysn.org` 和 `radar.airwaysn.org` 这两个活得好好的站对 curl 也一样答
+`exam.ceruleanavi.net` 和 `radar.ceruleanavi.net` 这两个活得好好的站对 curl 也一样答
 403 —— 所以**403 不是这个站坏了**。要验证 Pod 真的在服务，绕过 Cloudflare：
 
 ```bash

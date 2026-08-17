@@ -10,7 +10,7 @@
  *
  * 有一处**关键差别**：这里打的是**同源**的 `/api/v1/...`，由本站的反代
  * （`src/pages/api/v1/[...path].ts`）转给 can-api，而不是直连
- * api.airwaysn.org。理由和 can-efb、can-radar 一样：can-api 的
+ * api.ceruleanavi.net。理由和 can-efb、can-radar 一样：can-api 的
  * `ALLOWED_ORIGINS` 里没有 controller 这个域，加进去要改它的部署环境变量并
  * 重启。同源反代让这个站**今天**就能跑，一行 can-api 都不用动。
  *

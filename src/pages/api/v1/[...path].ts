@@ -6,8 +6,8 @@ export const prerender = false;
 /**
  * 走白名单的 can-api 反代。
  *
- * **为什么有这一层，而不是让岛屿直接打 api.airwaysn.org。** can-web 是直连
- * 的，因为 `airwaysn.org` 写在 can-api 的 `ALLOWED_ORIGINS` 里；管制员中心这
+ * **为什么有这一层，而不是让岛屿直接打 api.ceruleanavi.net。** can-web 是直连
+ * 的，因为 `ceruleanavi.net` 写在 can-api 的 `ALLOWED_ORIGINS` 里；管制员中心这
  * 个域没写，加进去要改 can-api 的部署环境变量并重启。同源反代让这个站**今天**
  * 就能跑，一行 can-api 都不用动 —— can-radar 代理 `/track` 和 `/metar`、
  * can-efb 代理它那一组，都是同一个理由。
@@ -64,7 +64,7 @@ const ALLOW_LIST: Record<string, Allowed> = {
 /**
  * 带一个动态段的路径。
  *
- * 精确白名单表达不了 `/api/v1/pilot/<ASN ID>` 这种形状，而概览页确实要按 ID
+ * 精确白名单表达不了 `/api/v1/pilot/<CAN ID>` 这种形状，而概览页确实要按 ID
  * 读自己的管制时长。正则是**收紧的**而不是 `.*`：一个 `[^/]+` 就足以让
  * `pilot/../super/xxx` 这类东西有讨论余地，而这里根本不给它机会。
  *
