@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { createTranslator } from "@/lib/i18n";
-import AlertBox from "@/components/ui/AlertBox.vue";
-import BaseBadge from "@/components/ui/BaseBadge.vue";
-import BaseCard from "@/components/ui/BaseCard.vue";
-import EmptyState from "@/components/ui/EmptyState.vue";
-import PageHeader from "@/components/ui/PageHeader.vue";
-import Skeleton from "@/components/ui/Skeleton.vue";
-import StatCard from "@/components/ui/StatCard.vue";
+import {
+  AlertBox,
+  Badge,
+  Card,
+  EmptyState,
+  PageHeader,
+  Skeleton,
+  StatCard,
+} from "@jianyuelab-org/can-ui";
 import HomeDivisionSetup from "@/components/HomeDivisionSetup.vue";
 import { apiFetch } from "@/lib/canApi";
 

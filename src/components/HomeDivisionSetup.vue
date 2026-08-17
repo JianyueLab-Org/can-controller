@@ -24,12 +24,14 @@
 import { computed, ref } from "vue";
 import { createTranslator } from "@/lib/i18n";
 import { SELECTABLE_REGIONS } from "@/lib/divisions";
-import AlertBox from "@/components/ui/AlertBox.vue";
-import BaseButton from "@/components/ui/BaseButton.vue";
-import BaseCard from "@/components/ui/BaseCard.vue";
-import BaseDialog from "@/components/ui/BaseDialog.vue";
-import BaseSelect from "@/components/ui/BaseSelect.vue";
-import Icon from "@/components/ui/Icon.vue";
+import {
+  AlertBox,
+  Button,
+  Card,
+  Dialog,
+  Icon,
+  Select,
+} from "@jianyuelab-org/can-ui";
 import { apiFetch } from "@/lib/canApi";
 
 const props = defineProps<{
