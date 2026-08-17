@@ -1,6 +1,6 @@
 # can-controller
 
-Cerulean Aviation Network 的**管制员中心** —— `controller.airwaysn.org`。
+Cerulean Aviation Network 的**管制员中心** —— `controller.ceruleanavi.net`。
 
 从 can-web 的 `/controllers/*` 拆出来的独立站点，四个页面：
 
@@ -25,17 +25,17 @@ bun run build
 
 ## 环境变量
 
-| 变量             | 默认值                            | 用途                                          |
-| ---------------- | --------------------------------- | --------------------------------------------- |
-| `CAN_API_ORIGIN` | `https://api.airwaysn.org`        | 数据层。SSR 和同源反代都打它                  |
-| `CAN_WEB_ORIGIN` | `https://airwaysn.org`            | 登录页、侧栏跨站链接、ATIS maker URL 的主机名 |
-| `PUBLIC_ORIGIN`  | `https://controller.airwaysn.org` | 写操作的 Origin 比对基准，**必须显式配置**    |
+| 变量             | 默认值                               | 用途                                          |
+| ---------------- | ------------------------------------ | --------------------------------------------- |
+| `CAN_API_ORIGIN` | `https://api.ceruleanavi.net`        | 数据层。SSR 和同源反代都打它                  |
+| `CAN_WEB_ORIGIN` | `https://ceruleanavi.net`            | 登录页、侧栏跨站链接、ATIS maker URL 的主机名 |
+| `PUBLIC_ORIGIN`  | `https://controller.ceruleanavi.net` | 写操作的 Origin 比对基准，**必须显式配置**    |
 
 三个都不是密钥，容器里以明文环境变量传（`deploy/k8s.yaml`）。
 
 ## 部署
 
-**已上线：<https://controller.airwaysn.org>**（jyl-tyo，`can-controller`
+**已上线：<https://controller.ceruleanavi.net>**（jyl-tyo，`can-controller`
 namespace）。
 
 推到 `main` 触发 CI：构建镜像推 `ghcr.io/jianyuelab-org/can-controller`，然后

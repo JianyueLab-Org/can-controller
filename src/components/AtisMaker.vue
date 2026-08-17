@@ -351,15 +351,15 @@ async function copy(value: string, which: "url" | "text") {
 
           <ol class="mt-4 space-y-2 text-sm text-muted">
             <li class="flex gap-2">
-              <span class="font-semibold text-airwaysn">1.</span
+              <span class="font-semibold text-can">1.</span
               ><span>{{ t("url.step1") }}</span>
             </li>
             <li class="flex gap-2">
-              <span class="font-semibold text-airwaysn">2.</span
+              <span class="font-semibold text-can">2.</span
               ><span>{{ t("url.step2") }}</span>
             </li>
             <li class="flex gap-2">
-              <span class="font-semibold text-airwaysn">3.</span
+              <span class="font-semibold text-can">3.</span
               ><span>{{ t("url.step3") }}</span>
             </li>
           </ol>
