@@ -36,8 +36,7 @@
  * 文案是每个页面都要发一遍的字节。
  */
 import type { Translator } from "@/lib/i18n";
-import type { NavItem, NavSecondary } from "@/components/ui/SidebarNav.vue";
-import type { Workspace } from "@/components/ui/AppShell.vue";
+import type { NavItem, NavSecondary, Workspace } from "@jianyuelab-org/can-ui";
 import { webUrl } from "@/lib/config";
 
 /**

@@ -1,7 +1,7 @@
 ---
 import "@/styles/globals.css";
-import ThemeScript from "@/components/ThemeScript.astro";
-import AppShell from "@/components/ui/AppShell.vue";
+import ThemeScript from "@jianyuelab-org/can-ui/components/ThemeScript.astro";
+import AppFrame from "@/components/AppFrame.vue";
 import { getLocale, getMessages, useTranslations } from "@/lib/i18n";
 import { buildNavigation, buildSecondary, buildWorkspaces } from "@/lib/nav";
 
@@ -47,7 +47,7 @@ const pathname = Astro.url.pathname;
     <ThemeScript />
   </head>
   <body>
-    <AppShell
+    <AppFrame
       navigation={navigation}
       secondary={secondary}
       workspaces={workspaces}
@@ -60,6 +60,6 @@ const pathname = Astro.url.pathname;
       client:load
     >
       <slot />
-    </AppShell>
+    </AppFrame>
   </body>
 </html>

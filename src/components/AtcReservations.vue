@@ -8,14 +8,16 @@ import {
   MAX_RESERVATION_LEAD_DAYS,
   reservationWindowError,
 } from "@/lib/atcReservations";
-import AlertBox from "@/components/ui/AlertBox.vue";
-import BaseButton from "@/components/ui/BaseButton.vue";
-import BaseCard from "@/components/ui/BaseCard.vue";
-import BaseDialog from "@/components/ui/BaseDialog.vue";
-import BaseInput from "@/components/ui/BaseInput.vue";
-import DataTable from "@/components/ui/DataTable.vue";
-import Icon from "@/components/ui/Icon.vue";
-import PageHeader from "@/components/ui/PageHeader.vue";
+import {
+  AlertBox,
+  Button,
+  Card,
+  DataTable,
+  Dialog,
+  Icon,
+  Input,
+  PageHeader,
+} from "@jianyuelab-org/can-ui";
 import { apiFetch, unwrapList } from "@/lib/canApi";
 
 const props = defineProps<{

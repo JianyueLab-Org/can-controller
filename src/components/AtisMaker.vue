@@ -20,14 +20,16 @@ import {
   type AtisSlot,
   type ParsedWind,
 } from "@/lib/atis";
-import AlertBox from "@/components/ui/AlertBox.vue";
-import BaseButton from "@/components/ui/BaseButton.vue";
-import BaseCard from "@/components/ui/BaseCard.vue";
-import BaseInput from "@/components/ui/BaseInput.vue";
-import BaseSelect from "@/components/ui/BaseSelect.vue";
-import EmptyState from "@/components/ui/EmptyState.vue";
-import Icon from "@/components/ui/Icon.vue";
-import PageHeader from "@/components/ui/PageHeader.vue";
+import {
+  AlertBox,
+  Button,
+  Card,
+  EmptyState,
+  Icon,
+  Input,
+  PageHeader,
+  Select,
+} from "@jianyuelab-org/can-ui";
 import { apiFetch } from "@/lib/canApi";
 
 const props = defineProps<{
