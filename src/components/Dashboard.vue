@@ -158,7 +158,7 @@ function formatDate(d: string) {
       :description="t('subtitle')"
     >
       <template #actions>
-        <BaseBadge variant="info">{{ userData.rating.short }}</BaseBadge>
+        <Badge variant="info">{{ userData.rating.short }}</Badge>
       </template>
     </PageHeader>
 
@@ -194,7 +194,7 @@ function formatDate(d: string) {
 
       <!-- Detail panels -->
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <BaseCard :title="t('permissionDetails')" padding="none">
+        <Card :title="t('permissionDetails')" padding="none">
           <ul role="list" class="divide-y divide-subtle">
             <li
               v-for="perm in permissions"
@@ -202,30 +202,27 @@ function formatDate(d: string) {
               class="flex items-center justify-between gap-3 px-6 py-3"
             >
               <span class="text-sm font-medium text-ink">{{ perm.label }}</span>
-              <BaseBadge
-                :variant="perm.value ? 'success' : 'neutral'"
-                size="sm"
-              >
+              <Badge :variant="perm.value ? 'success' : 'neutral'" size="sm">
                 {{ authLabel(perm.value) }}
-              </BaseBadge>
+              </Badge>
             </li>
             <li v-if="!permissions.length" class="px-6">
               <EmptyState compact icon="shieldCheck" :title="t('unassigned')" />
             </li>
           </ul>
-        </BaseCard>
+        </Card>
 
-        <BaseCard :title="t('futureCourses')" padding="none">
+        <Card :title="t('futureCourses')" padding="none">
           <EmptyState
             icon="calendarDays"
             :title="t('noCourses')"
             :description="t('contactInstructor')"
           />
-        </BaseCard>
+        </Card>
       </div>
 
       <!-- Rating info -->
-      <BaseCard :title="t('ratingInfo')" padding="none">
+      <Card :title="t('ratingInfo')" padding="none">
         <dl class="grid grid-cols-1 gap-4 p-6 md:grid-cols-3">
           <div class="rounded-control bg-surface-sunken p-4 text-center">
             <dt class="text-xs uppercase tracking-wider text-faint">
@@ -252,10 +249,10 @@ function formatDate(d: string) {
             </dd>
           </div>
         </dl>
-      </BaseCard>
+      </Card>
 
       <!-- Division info -->
-      <BaseCard
+      <Card
         v-if="userData.division && userData.division.length > 0"
         :title="t('divisionInfo')"
         padding="none"
@@ -282,12 +279,12 @@ function formatDate(d: string) {
                 <div class="flex items-center justify-between gap-3">
                   <dt class="text-muted">{{ t("status") }}</dt>
                   <dd>
-                    <BaseBadge
+                    <Badge
                       :variant="div.status ? 'success' : 'neutral'"
                       size="sm"
                     >
                       {{ div.status ? t("active") : t("inactive") }}
-                    </BaseBadge>
+                    </Badge>
                   </dd>
                 </div>
                 <div class="flex items-center justify-between gap-3">
@@ -313,19 +310,19 @@ function formatDate(d: string) {
                 >
                   <dt class="text-muted">{{ perm.label }}</dt>
                   <dd>
-                    <BaseBadge
+                    <Badge
                       :variant="perm.value ? 'success' : 'neutral'"
                       size="sm"
                     >
                       {{ authLabel(perm.value) }}
-                    </BaseBadge>
+                    </Badge>
                   </dd>
                 </div>
               </dl>
             </div>
           </div>
         </div>
-      </BaseCard>
+      </Card>
     </div>
   </div>
 </template>
