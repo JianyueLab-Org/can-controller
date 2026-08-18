@@ -6,9 +6,7 @@
       "rules": "管制規則",
       "reservations": "管制預約",
       "quickAccess": {
-        "title": "快速存取",
-        "OnlineMap": "線上地圖",
-        "DocsRegulations": "文件與規章制度"
+        "title": "快速存取"
       }
     },
     "instructors": {

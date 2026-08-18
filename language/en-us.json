@@ -6,9 +6,7 @@
       "rules": "ATC Rules",
       "reservations": "ATC Reservations",
       "quickAccess": {
-        "title": "Quick Access",
-        "OnlineMap": "Online Map",
-        "DocsRegulations": "Docs & Regulations"
+        "title": "Quick Access"
       }
     },
     "instructors": {

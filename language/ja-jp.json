@@ -6,9 +6,7 @@
       "rules": "管制規則",
       "reservations": "管制予約",
       "quickAccess": {
-        "title": "クイックアクセス",
-        "OnlineMap": "オンラインマップ",
-        "DocsRegulations": "ドキュメントと規程"
+        "title": "クイックアクセス"
       }
     },
     "instructors": {
