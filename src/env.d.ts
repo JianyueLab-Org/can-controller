@@ -16,6 +16,8 @@ interface ImportMetaEnv {
   readonly PUBLIC_CAN_API_ORIGIN?: string;
   /** can-web 的 origin；登录页和那些没搬过来的页面。 */
   readonly PUBLIC_CAN_WEB_ORIGIN?: string;
+  /** can-portal 的 origin；侧栏里教员那一组和 ADM 那一条。 */
+  readonly PUBLIC_CAN_PORTAL_ORIGIN?: string;
   /** 本站自己的 origin；写操作的 Origin 比对基准。 */
   readonly PUBLIC_ORIGIN?: string;
 }

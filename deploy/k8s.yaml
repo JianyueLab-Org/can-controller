@@ -81,6 +81,11 @@ spec:
             # EuroScope 了，见 src/pages/atis.astro。
             - name: CAN_WEB_ORIGIN
               value: https://ceruleanavi.net
+            # 侧栏里教员那一组和 ADM 那一条指向的门户。那几个页面原本在主站，
+            # 后来整段搬去了 can-portal —— 主站上还有转发页接着，所以这一条配错
+            # 不会立刻坏，只会让每一次点击多一跳 301。
+            - name: CAN_PORTAL_ORIGIN
+              value: https://portal.ceruleanavi.net
             # 写操作的 Origin 比对基准。必须是显式值：反代后面从 Host 推出来的
             # 是 http://，浏览器发的是 https://，永远对不上。
             - name: PUBLIC_ORIGIN

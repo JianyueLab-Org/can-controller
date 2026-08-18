@@ -46,6 +46,21 @@ export const CAN_WEB_ORIGIN =
   "https://ceruleanavi.net";
 
 /**
+ * can-portal 的 origin。侧栏里教员那一组和 ADM 那一条指向它。
+ *
+ * 那四个页面**原本在主站**（`ceruleanavi.net/instr/*` 和 `/super/promotions`），
+ * 后来整段搬去了教员与管理门户。主站上留着转发页，所以继续写 `webUrl()` 也到得
+ * 了 —— 但那是 301 之后再一次请求，而且会让这个文件一直说着一件不再为真的事。
+ *
+ * 单独一个变量而不是复用 `CAN_WEB_ORIGIN`：can-dev 当年把两个地址塞进同一个
+ * `CAN_ISSUER`，结果是改其中一个的人以为自己改完了。
+ */
+export const CAN_PORTAL_ORIGIN =
+  clean(process.env.CAN_PORTAL_ORIGIN) ||
+  clean(import.meta.env.PUBLIC_CAN_PORTAL_ORIGIN) ||
+  "https://portal.ceruleanavi.net";
+
+/**
  * 本站自己的 origin，写操作的 Origin 头要和它比对。
  *
  * 必须是**显式配置**的值，不能从 `Host` 头推：这个站跑在 TLS 终止的反代后面，
@@ -63,17 +78,31 @@ export function origin(): string {
 /**
  * 登录去哪儿。
  *
- * **不带 callbackUrl。** can-web 的 `/signin` 只接受站内绝对路径
- * （`/^\/(?!\/)/`），那是一道防开放重定向的检查，把
- * `https://controller.ceruleanavi.net/...` 传过去只会被丢掉、回落到 `/pilots`。
- * 要让成员登录完回到这里，得先在 can-web 那边显式放行这个域 —— 那是一处对钓鱼
- * 很敏感的改动，属于 can-web 的评审范围，不该在这里偷偷绕过去。
+ * **现在带 callbackUrl 了。** 从前这里写着「不带」，理由是 can-web 的 `/signin`
+ * 只接受站内绝对路径 —— 那是一道防开放重定向的检查，把跨站地址传过去只会被丢
+ * 掉、回落到 `/pilots`，于是成员登录完停在主站还得自己走回来。
+ *
+ * can-web 现在有一份显式白名单（`src/lib/callbackUrl.ts`，配一套只测「必须被拒
+ * 的输入」的测试），这个域在名单上。
  */
-export function signInUrl(): string {
-  return `${CAN_WEB_ORIGIN}/signin`;
+export function signInUrl(returnTo?: URL): string {
+  const base = `${CAN_WEB_ORIGIN}/signin`;
+  if (!returnTo) return base;
+  // 用 origin() 而不是 returnTo.origin：这个站跑在 TLS 终止的反代后面，请求 URL
+  // 的 origin 推出来是 http://，那既配不上 can-web 白名单里的 https://（于是被
+  // 拒、回落 /pilots，白做一场），也会把成员从 https 降到 http。
+  //
+  // 片段（#...）不带：它本来就不会发到服务端。
+  const target = `${origin()}${returnTo.pathname}${returnTo.search}`;
+  return `${base}?callbackUrl=${encodeURIComponent(target)}`;
 }
 
 /** 主站上某个页面的绝对地址。侧栏的跨站链接都由它拼。 */
 export function webUrl(path: string): string {
   return `${CAN_WEB_ORIGIN}${path}`;
+}
+
+/** 教员与管理门户上某个页面的绝对地址。教员组和 ADM 那条由它拼。 */
+export function portalUrl(path: string): string {
+  return `${CAN_PORTAL_ORIGIN}${path}`;
 }

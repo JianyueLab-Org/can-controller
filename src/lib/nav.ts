@@ -18,18 +18,18 @@
  * 搬家的第一版把 can-web 的整条侧栏原样带了过来，理由是「菜单还在原来的位置」。
  * 那条理由不成立：加一条之前要先回答**「管制员在管制的时候用得到它吗」**，答案
  * 是否就不加 —— 在这里复制一份入口，只是把主站的目录结构又抄了一遍，抄的还是一
- * 份会和主站慢慢对不上的副本。据此去掉的是 SUP / 管理那几项（`/super/promotions`、
- * `/super/activities`、`/super/prizes`、`/super/feedback`）和活动、积分兑换、处
- * 理结果公示、问题与建议这几条面向全体成员的服务：它们是网络的管理面，飞行员那
- * 一侧也用得到，留在主站。
+ * 份会和主站慢慢对不上的副本。据此去掉的是 SUP / 管理那几项（活动管理、奖品管
+ * 理、处理结果公示）和活动、积分兑换、问题与建议这几条面向全体成员的服务：它们
+ * 是网络的管理面，飞行员那一侧也用得到。
  *
  * **教员那一组不在此列，它过了那道题。** 教员是管制员的一种，花名册和晋升是他
  * 带学员时要做的事，不是网络的管理面 —— 所以它属于管制员中心。**但它只对教员出
  * 现**：普通管制员的侧栏里没有这一组，见 `RATING_INSTRUCTOR`。
  *
- * 收起来的是**菜单**，不是页面：那两页仍然是主站的，各自有 can-web 的守卫和
- * can-api 的路由守卫。这里少一项不等于那一页被保护起来了，多一项也不等于放开了
- * 什么 —— 门槛写在这里只是为了不给普通管制员看一组他点下去必然被拒的链接。
+ * 收起来的是**菜单**，不是页面：那几页现在是 **can-portal 的**
+ * （`portal.ceruleanavi.net`，教员与管理门户），各自有那个站的评级守卫和 can-api
+ * 的路由守卫。这里少一项不等于那一页被保护起来了，多一项也不等于放开了什么 ——
+ * 门槛写在这里只是为了不给普通管制员看一组他点下去必然被拒的链接。
  *
  * 去掉的条目连同它们的词条一起从四本词典里去掉了，不是留在那里没人引用：
  * `AppLayout.astro` 把整本 `frame` 词典当 prop 序列化进岛屿，所以一条没人用的
@@ -37,7 +37,7 @@
  */
 import type { Translator } from "@/lib/i18n";
 import type { NavItem, NavSecondary, Workspace } from "@jianyuelab-org/can-ui";
-import { webUrl } from "@/lib/config";
+import { portalUrl, webUrl } from "@/lib/config";
 
 /**
  * 搬过来的四个页面。
@@ -73,23 +73,28 @@ const RATING_INSTRUCTOR = 8;
 const RATING_ADMIN = 12;
 
 /**
- * 教员那一组，和 ADM 那一组。四条都是**主站的**页面 —— 搬过来的只有菜单，不是
- * 页面本身。
+ * 教员那一组，和 ADM 那一组。四条都是 **can-portal 的**页面 —— 搬过来的只有菜
+ * 单，不是页面本身。
+ *
+ * **它们原来在主站，现在不是了。** 那七个页面（这四条加上活动、奖品、公示）整段
+ * 搬去了教员与管理门户 `portal.ceruleanavi.net`；主站上 `/instr` 和 `/super` 各自
+ * 只剩一个转发页。继续写 `webUrl()` 也到得了，但那是 301 之后再一次请求 —— 而且
+ * 会让这个文件一直说着一件不再为真的事。所以下面用的是 `portalUrl()`。
  *
  * 晋升审批和「晋升」分开，是因为它们是同一条流程的两端：教员提，ADM 批。合成一
  * 组会让一个只有 I1 的人以为自己按得动那个按钮。
  *
- * **两组的前缀不一样，这不是笔误。** 主站把教员那三页从 `/super` 拆到了
- * `/instr`：`super` 读作「监理」（SUP，等级 11），而花名册、晋升、SweatBox 是教
- * 员（等级 8）的活。晋升审批留在 `/super`，它确实要 ADM。主站上三条旧地址有重定
- * 向接着，所以写错也不会立刻坏 —— 但那意味着写错了也发现不了，改这里之前先去看
- * `can-web/src/components/StaffShell.vue`，那是同一份菜单的另一半。
+ * **两组的前缀不一样，这不是笔误，而且搬家之后也没有拉平。** `super` 读作「监
+ * 理」（SUP，等级 11），而花名册、晋升、SweatBox 是教员（等级 8）的活；晋升审批
+ * 确实要 ADM。门户留着这两个前缀是刻意的 —— 拉平会丢掉那道评级边界，也会让
+ * `/promote` 和 `/promotions` 撞成一字之差的两个页面。can-portal 的 `AGENTS.md`
+ * 上写着这道题，`src/lib/nav.ts` 是同一份菜单的另一半：改这里之前先去看它。
  */
 const INSTRUCTOR: Array<{ key: string; path: string }> = [
   { key: "instructors.items.roster", path: "/instr/roster" },
   { key: "instructors.items.promotion", path: "/instr/promote" },
   // SweatBox 场景生成器。过了那道题：教员要带学员上模拟机，这是他备课时开的东
-  // 西，和花名册、晋升同一类 —— 不是网络的管理面。页面在主站。
+  // 西，和花名册、晋升同一类 —— 不是网络的管理面。页面在门户。
   { key: "instructors.items.sweatbox", path: "/instr/sweatbox" },
 ];
 
@@ -121,7 +126,7 @@ export function buildNavigation(t: Translator, rating?: number): NavItem[] {
     icon: "shieldCheck",
     children: entries.map((entry) => ({
       name: t(entry.key),
-      href: webUrl(entry.path),
+      href: portalUrl(entry.path),
     })),
   });
 
