@@ -37,6 +37,7 @@
  */
 import type { Translator } from "@/lib/i18n";
 import type { NavItem, NavSecondary, Workspace } from "@jianyuelab-org/can-ui";
+import { visibleSites } from "@jianyuelab-org/can-ui";
 import { portalUrl, webUrl } from "@/lib/config";
 
 /**
@@ -143,35 +144,43 @@ export function buildNavigation(t: Translator, rating?: number): NavItem[] {
 /**
  * 钉在轨底的常用链接。
  *
- * 全部是跨站的，但每一条都先过了上面那道题。留下的四条是管制员在管制的时候真的
- * 会开的：看谁在线上（雷达）、看谁有权限（管制员名册）、装客户端（软件下载）、
- * 查规章（文档）。
+ * 两类东西，来源不同，这个区分是这次改动的重点：
+ *
+ * - **主站上的页面**（管制员名册、软件下载）—— 那是 can-web 的两页，不是站点，
+ *   所以仍然由本仓库用 `webUrl()` 拼，也仍然要过那道题：管制员在管制的时候真的
+ *   会开它吗。
+ * - **网络上的其它站** —— 从前这里硬编码着雷达和文档两条，而全网另外三个仓库各
+ *   自维护着一份**不一样**的清单，考试中心和 EFB 干脆一条都没有。现在它们来自
+ *   can-ui 的 `visibleSites`：九个站一份，连站名的四种语言一起，门户和资料库按
+ *   评级决定露不露。
  *
  * 它们是钉住的而不是一个「快速访问」折叠菜单 —— can-web 上正是后者，那让最常用
  * 的几条多了两次点击。
  */
-export function buildSecondary(t: Translator): NavSecondary {
+export function buildSecondary(
+  t: Translator,
+  opts: { locale: string; rating?: number; signedIn: boolean },
+): NavSecondary {
   return {
     label: t("controllers.quickAccess.title"),
     items: [
-      {
-        name: t("controllers.quickAccess.OnlineMap"),
-        href: "https://radar.ceruleanavi.net",
-        icon: "mapPin",
-      },
       { name: t("atcRoster"), href: webUrl("/roster"), icon: "users" },
       {
         name: t("downloads"),
         href: webUrl("/downloads"),
         icon: "arrowDownTray",
       },
-      {
-        // 会员文档不在主站了，它是 can-docs（docs.ceruleanavi.net）。所以这一条
-        // 写死绝对地址，和上面的雷达一样，不走 `webUrl()`。
-        name: t("controllers.quickAccess.DocsRegulations"),
-        href: "https://docs.ceruleanavi.net",
-        icon: "bookOpen",
-      },
+      ...visibleSites({
+        locale: opts.locale,
+        current: "controller",
+        rating: opts.rating,
+        signedIn: opts.signedIn,
+        excludeCurrent: true,
+      }).map((site) => ({
+        name: site.name,
+        href: site.href,
+        icon: site.icon,
+      })),
     ],
   };
 }
