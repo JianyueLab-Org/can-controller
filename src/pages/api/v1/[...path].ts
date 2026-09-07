@@ -85,10 +85,23 @@ const ALLOW_PATTERNS: Array<Allowed & { test: RegExp }> = [
   },
 ];
 
+/**
+ * 精确表先查，模式表后查。
+ *
+ * **精确表必须走 `Object.hasOwn`，不能直接 `ALLOW_LIST[path]`。** 对象字面量
+ * 继承 `Object.prototype`，所以表里从来没写过的一批键**查得到东西**：
+ * `constructor` / `toString` / `valueOf` / `hasOwnProperty` 都返回真值函数，
+ * `__proto__` 返回 `Object.prototype`。于是调用方那道 `if (!entry) return 404`
+ * 放行，紧接着的 `entry.methods.includes(method)` 抛 TypeError —— 一个匿名的
+ * `GET /api/v1/toString` 拿到的不是 `{"error":"not_allowed"}` 而是一个 500。
+ *
+ * 这**不是**鉴权绕过：异常发生在向上游 `fetch` 之前，一个字节都没转出去。它是
+ * 一条公开路径上匿名可触发的未捕获异常，而 500 的响应体长得像堆栈 —— 在一个自
+ * 称「专门用来做高权限操作」的域上尤其不该出现。
+ */
 function lookup(path: string): Allowed | undefined {
-  return (
-    ALLOW_LIST[path] ?? ALLOW_PATTERNS.find((entry) => entry.test.test(path))
-  );
+  const exact = Object.hasOwn(ALLOW_LIST, path) ? ALLOW_LIST[path] : undefined;
+  return exact ?? ALLOW_PATTERNS.find((entry) => entry.test.test(path));
 }
 
 const UNSAFE = new Set(["POST", "PATCH", "PUT", "DELETE"]);
