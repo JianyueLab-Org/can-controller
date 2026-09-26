@@ -36,9 +36,30 @@
  * 文案是每个页面都要发一遍的字节。
  */
 import type { Translator } from "@/lib/i18n";
-import type { IconName, NavItem, NavSecondary } from "@jianyuelab-org/can-ui";
+import type {
+  IconName,
+  NavItem,
+  NavSecondary,
+  SiteOrigins,
+} from "@jianyuelab-org/can-ui";
 import { visibleSites, WORKSPACE_SITE_KEYS } from "@jianyuelab-org/can-ui";
-import { portalUrl, webUrl } from "@/lib/config";
+import {
+  CAN_PORTAL_ORIGIN,
+  CAN_WEB_ORIGIN,
+  portalUrl,
+  webUrl,
+} from "@/lib/config";
+
+/**
+ * 传给 `visibleSites`/`buildWorkspaces` 的 dev/staging 覆盖。只覆盖这个仓库的
+ * `config.ts` 本来就读得到的那两个变量，本地和 staging 上点开常用链接、分区切换
+ * 器才会落在对应环境自己的主站/门户，而不是永远指向线上。生产环境这两个变量本
+ * 来就是线上地址，所以行为不变。
+ */
+export const SITE_ORIGINS: SiteOrigins = {
+  web: CAN_WEB_ORIGIN,
+  portal: CAN_PORTAL_ORIGIN,
+};
 
 /**
  * 搬过来的四个页面。
@@ -179,6 +200,7 @@ export function buildSecondary(
         rating: opts.rating,
         signedIn: opts.signedIn,
         excludeCurrent: true,
+        origins: SITE_ORIGINS,
       })
         .filter((site) => !WORKSPACE_SITE_KEYS.includes(site.key))
         .map((site) => ({
