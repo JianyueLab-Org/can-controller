@@ -3,7 +3,8 @@ import "@/styles/globals.css";
 import ThemeScript from "@jianyuelab-org/can-ui/components/ThemeScript.astro";
 import AppFrame from "@/components/AppFrame.vue";
 import { getLocale, getMessages, useTranslations } from "@/lib/i18n";
-import { buildNavigation, buildSecondary, buildWorkspaces } from "@/lib/nav";
+import { buildWorkspaces } from "@jianyuelab-org/can-ui";
+import { buildNavigation, buildSecondary } from "@/lib/nav";
 
 interface Props {
   title?: string;
@@ -34,7 +35,15 @@ const secondary = buildSecondary(t, {
   rating: user?.rating,
   signedIn: !!user,
 });
-const workspaces = buildWorkspaces(t);
+/**
+ * 顶上的分区切换器，来自 can-ui —— 四个 AppShell 站一份。它不是管制员中心的内
+ * 容，是网络外壳的一部分：成员从这个域名走出去的唯一一条路。「管制员」那一格
+ * 指本站的 `/`，另外两格是绝对地址。
+ */
+const workspaces = buildWorkspaces(t, {
+  current: "controller",
+  rating: user?.rating,
+});
 const pathname = Astro.url.pathname;
 ---
 

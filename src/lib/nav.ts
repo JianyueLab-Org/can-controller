@@ -36,7 +36,7 @@
  * 文案是每个页面都要发一遍的字节。
  */
 import type { Translator } from "@/lib/i18n";
-import type { NavItem, NavSecondary, Workspace } from "@jianyuelab-org/can-ui";
+import type { IconName, NavItem, NavSecondary } from "@jianyuelab-org/can-ui";
 import { visibleSites } from "@jianyuelab-org/can-ui";
 import { portalUrl, webUrl } from "@/lib/config";
 
@@ -50,7 +50,7 @@ import { portalUrl, webUrl } from "@/lib/config";
  * `/` 带斜杠是给 `SidebarNav.isCurrentPath()` 看的：以斜杠结尾的条目只精确匹
  * 配，否则「概览」会在每一个子页面上都亮着。
  */
-const PANEL: Array<{ key: string; href: string; icon: string }> = [
+const PANEL: Array<{ key: string; href: string; icon: IconName }> = [
   { key: "controllers.panel", href: "/", icon: "home" },
   { key: "controllers.atis", href: "/atis", icon: "speakerWave" },
   { key: "controllers.rules", href: "/rules", icon: "documentText" },
@@ -183,38 +183,4 @@ export function buildSecondary(
       })),
     ],
   };
-}
-
-/**
- * 顶上的分区切换器。
- *
- * 它**不是**上面那道题的例外，而是根本不在题里：它不是管制员中心的内容，是网络
- * 外壳的一部分 —— 成员从这个域名走出去的唯一一条路。删掉它，离开这个站就只剩下
- * 浏览器的地址栏。
- *
- * 在 can-web 上这是站内的三个前缀；现在三个分区住在三台主机上，切换器还是同一
- * 个 —— 成员不需要知道哪一段是哪个仓库部署的。管制员这一项指向本站的 `/`，
- * 另外两项是绝对地址。
- */
-export function buildWorkspaces(t: Translator): Workspace[] {
-  return [
-    {
-      key: "pilots",
-      name: t("workspace.pilots"),
-      href: webUrl("/pilots/"),
-      icon: "paperAirplane",
-    },
-    {
-      key: "controllers",
-      name: t("workspace.controllers"),
-      href: "/",
-      icon: "signal",
-    },
-    {
-      key: "exams",
-      name: t("workspace.exams"),
-      href: "https://exam.ceruleanavi.net",
-      icon: "academicCap",
-    },
-  ];
 }
