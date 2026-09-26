@@ -14,6 +14,7 @@ import {
   AppShell,
   type NavItem,
   type NavSecondary,
+  type SiteOrigins,
   type Workspace,
 } from "@jianyuelab-org/can-ui";
 import { api } from "@/lib/canApi";
@@ -28,6 +29,8 @@ const props = defineProps<{
   activeWorkspace?: string;
   userName?: string;
   userId?: string;
+  /** AppShell 自己的页脚（SiteFooter compact）也要照这份地址走，和分区切换器同一份 SITE_ORIGINS。 */
+  origins?: SiteOrigins;
 }>();
 
 function handleSignOut() {
