@@ -37,7 +37,7 @@
  */
 import type { Translator } from "@/lib/i18n";
 import type { IconName, NavItem, NavSecondary } from "@jianyuelab-org/can-ui";
-import { visibleSites } from "@jianyuelab-org/can-ui";
+import { visibleSites, WORKSPACE_SITE_KEYS } from "@jianyuelab-org/can-ui";
 import { portalUrl, webUrl } from "@/lib/config";
 
 /**
@@ -170,17 +170,22 @@ export function buildSecondary(
         href: webUrl("/downloads"),
         icon: "arrowDownTray",
       },
+      // `excludeCurrent` 只去掉「管制员中心」自己；分区切换器已经在轨顶画着
+      // 管制员中心和考试中心，这里要再去掉 WORKSPACE_SITE_KEYS 里剩下的那个
+      // （考试中心），不然它在切换器和这份常用链接里各出现一次。
       ...visibleSites({
         locale: opts.locale,
         current: "controller",
         rating: opts.rating,
         signedIn: opts.signedIn,
         excludeCurrent: true,
-      }).map((site) => ({
-        name: site.name,
-        href: site.href,
-        icon: site.icon,
-      })),
+      })
+        .filter((site) => !WORKSPACE_SITE_KEYS.includes(site.key))
+        .map((site) => ({
+          name: site.name,
+          href: site.href,
+          icon: site.icon,
+        })),
     ],
   };
 }
