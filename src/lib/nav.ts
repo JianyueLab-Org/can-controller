@@ -2,7 +2,7 @@
  * 侧栏是**一份**数据，不是每个页面各自拼的一串链接。
  *
  * 它在 can-web 上叫 `ControllersShell.vue`，是一个 Vue 组件；搬过来之后拆成了
- * 「数据在这里、渲染交给 `ui/AppShell.vue`」两半，原因只有一个但很硬：
+ * 「数据在这里、渲染交给 can-ui 的 `CanFrame`」两半，原因只有一个但很硬：
  *
  * **这个站的一部分链接是跨站的绝对地址**，而那些地址来自环境变量。
  * `src/lib/config.ts` 在模块顶层读 `process.env`，任何被岛屿 import 的模块这么
@@ -42,7 +42,12 @@ import type {
   NavSecondary,
   SiteOrigins,
 } from "@jianyuelab-org/can-ui";
-import { visibleSites, WORKSPACE_SITE_KEYS } from "@jianyuelab-org/can-ui";
+import {
+  RATING_ADMIN,
+  RATING_INSTRUCTOR,
+  visibleSites,
+  WORKSPACE_SITE_KEYS,
+} from "@jianyuelab-org/can-ui";
 import {
   CAN_PORTAL_ORIGIN,
   CAN_WEB_ORIGIN,
@@ -83,16 +88,12 @@ const PANEL: Array<{ key: string; href: string; icon: IconName }> = [
 ];
 
 /**
- * 两道门槛，都照抄 can-web 的 `ratingTrans`：8 及以上是教员（I1/I2/I3），12 是
- * ADM。上面那四个页面每个管制员都有；这两行是这个站上仅有的按身份改变导航的地方。
+ * 两道门槛来自 can-ui：`RATING_INSTRUCTOR`（8）和 `RATING_ADMIN`（12）。上面那四个
+ * 页面每个管制员都有；`buildNavigation()` 里那两行是这个站上仅有的按身份改变导航
+ * 的地方。
  *
- * **ADM 这条是 `===` 而不是 `>=`，和 can-web 逐字相同。** 今天两种写法结果一样，
- * 因为 12 就是最高的一级；哪天 `ratingTrans` 上面再加一级，`===` 会让那一级看不
- * 到晋升审批。改它之前先去改 can-web —— 两边对同一个菜单给出不同答案，比这个菜
- * 单本身错了更难查。
+ * **ADM 这条是 `===` 而不是 `>=`，和 can-web 逐字相同。** 改它之前先去改 can-web。
  */
-const RATING_INSTRUCTOR = 8;
-const RATING_ADMIN = 12;
 
 /**
  * 教员那一组，和 ADM 那一组。四条都是 **can-portal 的**页面 —— 搬过来的只有菜

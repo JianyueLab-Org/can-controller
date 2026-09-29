@@ -110,9 +110,13 @@ cookie 完成。
 "number"` 不是多余的防御：一个解不出等级的会话应该看到更少的东西而不是更多。（ADM 那
 条用 `===`，缺失时天然落空。）
 
-**⌘K 快捷跳转不需要单独过滤。** `AppShell.vue` 的 `flatNav` 是把 `navigation` 摊平，
-而那份数据已经在 Astro 侧按 rating 筛过了。这一点是**依赖关系**而不是巧合：哪天有人
-让岛屿自己去取一份完整导航，这个搜索框就会把那三条名字漏给每一个普通管制员。
+**⌘K 快捷跳转不需要单独过滤。** 外壳是 can-ui 的 `CanFrame`（`src/components/Frame.vue`）。
+⌘K 先列本站的 `nav`（已在 Astro 侧按 rating 筛过），再列 can-ui `SITE_PAGES` 里其他站的
+页面（按 `minRating` 筛）。这一点是**依赖关系**：哪天有人让岛屿自己去取一份完整导航，
+这个搜索框就会把那三条名字漏给每一个普通管制员。
+
+**⌘K 页面表。** can-ui 的 `SITE_PAGES.controller` 列着 `/`、`/atis`、`/rules`、
+`/reservations`。`bun run check:pages` 在 CI 里核对它们都有路由；改这四条路径之前先改 can-ui。
 
 被筛掉的是**链接**。`frame.instructors` 和 `frame.admin` 的文案（教员 / 花名册 / 晋
 升 / 管理员 (ADM) / 晋升审批）仍然随整本 `frame` 词典发给每一个人 —— 那是
@@ -214,8 +218,8 @@ can-dev、can-radar、can-efb 都是踩了才关的。
 `src/styles/globals.css` 保持和 can-web 逐字一致（连那段用不上的 Leaflet 覆盖样
 式也留着），这样 `diff` 一下就能看出有没有漂移。
 
-`src/lib/activities.ts` 是个例外：它只切了三样东西（`MIN_SUP_RATING`、
-`formatZulu`、`formatLocal`），文件名保持不变是为了让预约看板那个岛屿的 import
+`src/lib/activities.ts` 是个例外：它只切了两样东西（`formatZulu`、
+`formatLocal`），门槛是 can-ui 的 `RATING_SUP`，文件名保持不变是为了让预约看板那个岛屿的 import
 路径一个字都不用改。文件顶上写着这件事。
 
 四本词典（`language/*.json`）里，下面这些命名空间是从 can-web 的对应文件里**整段

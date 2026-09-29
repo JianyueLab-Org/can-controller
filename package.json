@@ -18,13 +18,14 @@
     "typecheck": "astro check && node ./scripts/typecheck-vue.mjs",
     "typecheck:astro": "astro check",
     "typecheck:vue": "node ./scripts/typecheck-vue.mjs",
-    "lint": "bun run format:check && bun run typecheck"
+    "lint": "bun run format:check && bun run typecheck",
+    "check:pages": "can-ui-check-pages controller"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.1",
     "@astrojs/node": "^11.0.0",
     "@astrojs/vue": "^7.0.0",
-    "@jianyuelab-org/can-ui": "^0.4.2",
+    "@jianyuelab-org/can-ui": "27.1.0",
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.2.2",

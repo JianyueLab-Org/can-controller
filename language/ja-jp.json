@@ -39,7 +39,25 @@
     "closeSidebar": "ナビゲーションを閉じる",
     "openSidebar": "ナビゲーションを開く",
     "atcRoster": "管制員名簿",
-    "downloads": "ソフトウェア"
+    "downloads": "ソフトウェア",
+    "signIn": "ログイン",
+    "signingOut": "ログアウト中…",
+    "close": "閉じる",
+    "dismiss": "通知を閉じる",
+    "sidebar": "サイドバー",
+    "openUserMenu": "ユーザーメニューを開く",
+    "openMenu": "メニューを開く",
+    "siteNavigation": "サイト内ナビゲーション",
+    "signOutFailed": "ログアウトに失敗しました。もう一度お試しください。",
+    "theme": {
+      "label": "外観",
+      "light": "ライト",
+      "dark": "ダーク",
+      "system": "システムに合わせる"
+    },
+    "language": {
+      "label": "言語を選択"
+    }
   },
   "controllers": {
     "dashboard": {
