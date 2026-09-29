@@ -39,7 +39,25 @@
     "closeSidebar": "關閉導覽",
     "openSidebar": "開啟導覽",
     "atcRoster": "管制員名冊",
-    "downloads": "軟體下載"
+    "downloads": "軟體下載",
+    "signIn": "登入",
+    "signingOut": "正在登出…",
+    "close": "關閉",
+    "dismiss": "關閉提示",
+    "sidebar": "側欄",
+    "openUserMenu": "開啟使用者選單",
+    "openMenu": "開啟選單",
+    "siteNavigation": "站內導覽",
+    "signOutFailed": "登出失敗，請重試。",
+    "theme": {
+      "label": "外觀",
+      "light": "淺色",
+      "dark": "深色",
+      "system": "跟隨系統"
+    },
+    "language": {
+      "label": "選擇語言"
+    }
   },
   "controllers": {
     "dashboard": {

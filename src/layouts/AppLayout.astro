@@ -1,7 +1,7 @@
 ---
 import "@/styles/globals.css";
 import ThemeScript from "@jianyuelab-org/can-ui/components/ThemeScript.astro";
-import AppFrame from "@/components/AppFrame.vue";
+import Frame from "@/components/Frame.vue";
 import { getLocale, getMessages, useTranslations } from "@/lib/i18n";
 import { buildWorkspaces } from "@jianyuelab-org/can-ui";
 import { buildNavigation, buildSecondary, SITE_ORIGINS } from "@/lib/nav";
@@ -21,9 +21,8 @@ const t = useTranslations(locale, "frame");
  * 升在下一次翻页时就生效，而不是等到下次登录。分界和它的边角写在 `lib/nav.ts`。
  *
  * **这是便利，不是边界。** 菜单少一项不等于那一页被保护起来了：那几条指向的都是
- * 主站的页面，拦住普通管制员的是 can-web 的守卫和 can-api 每条路由自己的守卫。这
- * 里的门槛只是为了不给人看一组他点下去必然被拒的链接 —— 把它改小不会放开任何东
- * 西，只会让菜单多出几个 403。
+ * 门户的页面，拦住普通管制员的是 can-portal 的守卫和 can-api 每条路由自己的守卫。
+ * 这里的门槛只是为了不给人看一组他点下去必然被拒的链接。
  *
  * 页面内的门槛（如预约看板的「撤销他人预约」）另有各自的判断，同样读
  * `Astro.locals.user.rating`。
@@ -36,18 +35,18 @@ const secondary = buildSecondary(t, {
   signedIn: !!user,
 });
 /**
- * 顶上的分区切换器，来自 can-ui —— 四个 AppShell 站一份。它不是管制员中心的内
- * 容，是网络外壳的一部分：成员从这个域名走出去的唯一一条路。「管制员」那一格
- * 指本站的 `/`，另外两格是绝对地址。
- *
- * `origins` 和 `buildSecondary` 用的是同一份 `SITE_ORIGINS`（`lib/nav.ts`），让
- * 「飞行员」那一格在开发/预发环境里落到本环境自己的主站，而不是永远指向线上。
+ * 外壳侧栏顶上的分区切换器，来自 can-ui。「管制员」那一格指本站的 `/`，另外两格
+ * 是绝对地址。`origins` 和 `buildSecondary` 用同一份 `SITE_ORIGINS`（`lib/nav.ts`）。
  */
 const workspaces = buildWorkspaces(t, {
   current: "controller",
   rating: user?.rating,
   origins: SITE_ORIGINS,
 });
+/** 账户菜单显示名字和 `#CID`；CID 是会话里的 `username`。 */
+const frameUser = user
+  ? { name: user.name, id: user.username, rating: user.rating }
+  : null;
 const pathname = Astro.url.pathname;
 ---
 
@@ -64,20 +63,18 @@ const pathname = Astro.url.pathname;
     <ThemeScript />
   </head>
   <body>
-    <AppFrame
-      navigation={navigation}
+    <Frame
+      locale={locale}
+      pathname={pathname}
+      nav={navigation}
       secondary={secondary}
       workspaces={workspaces}
-      activeWorkspace="controllers"
-      pathname={pathname}
+      user={frameUser}
       messages={frameMessages}
-      userName={user?.name ?? ""}
-      userId={user?.username ?? ""}
-      locale={locale}
       origins={SITE_ORIGINS}
       client:load
     >
       <slot />
-    </AppFrame>
+    </Frame>
   </body>
 </html>

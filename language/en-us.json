@@ -39,7 +39,25 @@
     "closeSidebar": "Close navigation",
     "openSidebar": "Open navigation",
     "atcRoster": "ATC Roster",
-    "downloads": "Downloads"
+    "downloads": "Downloads",
+    "signIn": "Sign In",
+    "signingOut": "Signing out…",
+    "close": "Close",
+    "dismiss": "Dismiss",
+    "sidebar": "Sidebar",
+    "openUserMenu": "Open user menu",
+    "openMenu": "Open menu",
+    "siteNavigation": "Site navigation",
+    "signOutFailed": "Sign-out failed. Try again.",
+    "theme": {
+      "label": "Appearance",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "Follow system"
+    },
+    "language": {
+      "label": "Select language"
+    }
   },
   "controllers": {
     "dashboard": {

@@ -39,7 +39,25 @@
     "closeSidebar": "关闭导航",
     "openSidebar": "打开导航",
     "atcRoster": "管制员名册",
-    "downloads": "软件下载"
+    "downloads": "软件下载",
+    "signIn": "登录",
+    "signingOut": "正在退出…",
+    "close": "关闭",
+    "dismiss": "关闭提示",
+    "sidebar": "侧栏",
+    "openUserMenu": "打开用户菜单",
+    "openMenu": "打开菜单",
+    "siteNavigation": "站内导航",
+    "signOutFailed": "退出失败，请重试。",
+    "theme": {
+      "label": "外观",
+      "light": "浅色",
+      "dark": "深色",
+      "system": "跟随系统"
+    },
+    "language": {
+      "label": "选择语言"
+    }
   },
   "controllers": {
     "dashboard": {

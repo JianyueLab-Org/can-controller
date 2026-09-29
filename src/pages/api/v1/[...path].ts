@@ -37,7 +37,7 @@ interface Allowed {
 const ALLOW_LIST: Record<string, Allowed> = {
   // 外壳：账户区、退出按钮。
   "auth/session": { methods: ["GET"], who: "middleware / AppLayout" },
-  "auth/signout": { methods: ["POST"], who: "AppShell 退出登录" },
+  "auth/signout": { methods: ["POST"], who: "CanFrame 账户菜单退出登录" },
 
   // 概览：成员自己的资料（席位权限、分部、等级）。
   "pilot/data": { methods: ["GET"], who: "Dashboard.vue" },

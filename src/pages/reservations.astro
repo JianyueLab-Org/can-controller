@@ -2,7 +2,7 @@
 import AppLayout from "@/layouts/AppLayout.astro";
 import AtcReservations from "@/components/AtcReservations.vue";
 import { getLocale, getMessages } from "@/lib/i18n";
-import { MIN_SUP_RATING } from "@/lib/activities";
+import { RATING_SUP } from "@jianyuelab-org/can-ui/sites";
 
 const messages = getMessages(getLocale(Astro.cookies), "atcReservations");
 
@@ -15,7 +15,7 @@ const messages = getMessages(getLocale(Astro.cookies), "atcReservations");
  * can-api 都会在服务端再判一次同样的规则。
  */
 const sessionUserId = Astro.locals.user?.username ?? "";
-const isSup = (Astro.locals.user?.rating ?? -1) >= MIN_SUP_RATING;
+const isSup = (Astro.locals.user?.rating ?? -1) >= RATING_SUP;
 ---
 
 <AppLayout title="ATC Reservations · Cerulean Aviation Network">
