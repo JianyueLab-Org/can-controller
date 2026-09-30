@@ -59,6 +59,14 @@ const ALLOW_LIST: Record<string, Allowed> = {
 
   // ATC 预约看板：读板、开一条、以及（下面的模式）撤销一条。
   "atc/reservations": { methods: ["GET", "POST"], who: "AtcReservations.vue" },
+
+  // 通知铃（`Frame.vue` 的 `notifications`）。标记一条已读在下面的模式里。
+  notifications: { methods: ["GET"], who: "CanFrame 通知铃：列表" },
+  "notifications/unread": { methods: ["GET"], who: "CanFrame 通知铃：未读数" },
+  "notifications/read-all": {
+    methods: ["POST"],
+    who: "CanFrame 通知铃：全部已读",
+  },
 };
 
 /**
@@ -82,6 +90,11 @@ const ALLOW_PATTERNS: Array<Allowed & { test: RegExp }> = [
     test: /^atc\/reservations\/[0-9]{1,20}$/,
     methods: ["DELETE"],
     who: "AtcReservations.vue 撤销一条预约",
+  },
+  {
+    test: /^notifications\/(member|broadcast)\/[0-9]{1,20}$/,
+    methods: ["PATCH"],
+    who: "CanFrame 通知铃：标记一条已读",
   },
 ];
 
@@ -186,4 +199,5 @@ const handler: APIRoute = async (context) => {
 
 export const GET = handler;
 export const POST = handler;
+export const PATCH = handler;
 export const DELETE = handler;

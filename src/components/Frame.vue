@@ -47,6 +47,7 @@ const origins: SiteOrigins = {
     :workspaces="workspaces"
     active-workspace="controllers"
     :user="user"
+    notifications
     :messages="messages"
     :origins="origins"
     after-sign-out="web"
