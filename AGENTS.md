@@ -145,6 +145,10 @@ cookie 完成。
 关。每一条都写着谁在用它。要加页面就要加条目 —— 而且要顺手把「谁在用」写清楚，
 否则以后没人敢删任何一条。
 
+通知铃（`Frame.vue` 的 `notifications`）走同一个反代：`ALLOW_LIST` 里的
+`notifications`、`notifications/unread`、`notifications/read-all`，`ALLOW_PATTERNS`
+里的 `notifications/{member|broadcast}/{id}`（PATCH）。
+
 ### 第一次进来：没有归属分部就先选分部
 
 概览页（`/`）在成员**还没有归属分部**时，渲染的不是概览而是一道门
