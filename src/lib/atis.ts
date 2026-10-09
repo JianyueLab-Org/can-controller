@@ -505,9 +505,8 @@ export function buildAtisMakerUrl(
   //    The unsuffixed spellings are not tied to a slot, so EuroScope has no
   //    airport to resolve them against and refuses the URL ("unable to extract
   //    names from URL").
-  // 2. $atisairport appears ONLY inside $arrrwy/$deprwy/$metar. A bare
-  //    top-level `?icao=$atisairportA` is outside that proven format; the
-  //    endpoint reads the ICAO from the METAR anyway.
+  // 2. Airport macros stay nested in runway/METAR calls. can-api derives
+  //    the station from the expanded METAR header when `icao` is absent.
   const slot = opts?.slot ?? "A";
   const air = `$atisairport${slot}`;
   const code = `$atiscode${slot}`;
