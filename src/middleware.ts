@@ -41,10 +41,20 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return withSecurityHeaders(await next());
   }
 
-  const user = await resolveSession(context);
-  context.locals.user = user;
+  const session = await resolveSession(context);
+  context.locals.user = session.state === "authenticated" ? session.user : null;
 
-  if (!user) {
+  if (session.state === "unavailable") {
+    // Do not redirect or render protected content when identity is unknown.
+    return withSecurityHeaders(
+      new Response(null, {
+        status: 503,
+        headers: { "Retry-After": "5", "Cache-Control": "private, no-store" },
+      }),
+    );
+  }
+
+  if (session.state === "signed-out") {
     return withSecurityHeaders(context.redirect(signInUrl(context.url)));
   }
 
