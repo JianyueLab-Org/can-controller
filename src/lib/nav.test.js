@@ -10,7 +10,7 @@ mock.module("@jianyuelab-org/can-ui", () => ({
 
 const { buildNavigation } = await import("./nav");
 
-function links(items: ReturnType<typeof buildNavigation>): string[] {
+function links(items) {
   return items.flatMap((item) => [
     ...(item.href ? [item.href] : []),
     ...(item.children?.flatMap((child) => (child.href ? [child.href] : [])) ??

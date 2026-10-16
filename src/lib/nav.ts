@@ -43,7 +43,6 @@ import type {
   SiteOrigins,
 } from "@jianyuelab-org/can-ui";
 import {
-  RATING_ADMIN,
   RATING_INSTRUCTOR,
   RATING_SUP,
   visibleSites,
