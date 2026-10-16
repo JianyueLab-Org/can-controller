@@ -45,6 +45,7 @@ import type {
 import {
   RATING_ADMIN,
   RATING_INSTRUCTOR,
+  RATING_SUP,
   visibleSites,
   WORKSPACE_SITE_KEYS,
 } from "@jianyuelab-org/can-ui";
@@ -156,7 +157,7 @@ export function buildNavigation(t: Translator, rating?: number): NavItem[] {
   if (typeof rating === "number" && rating >= RATING_INSTRUCTOR) {
     items.push(group("instructors.title", INSTRUCTOR));
   }
-  if (rating === RATING_ADMIN) {
+  if (typeof rating === "number" && rating >= RATING_SUP) {
     items.push(group("admin.title", ADMIN));
   }
 
