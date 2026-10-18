@@ -6,20 +6,19 @@
  * 这个站上几乎每一格都是空的 —— 席位权限是空的（权限由分部授予）、课程是空的
  * （培训由归属分部的教员安排）、管制时长是 00:00:00。can-web 上它表现为一张写
  * 着「未分配」的统计卡，夹在另外两张有数字的卡中间，看起来像一条状态而不像一件
- * 待办；真正的选择入口在**考试中心**的一个设置页上（`/exams/divisions`），一个
- * 新管制员没有理由会走到那里去。所以这里把它提到最前面，并且在设置完成之前不渲
- * 染概览的其余部分 —— 那些部分此刻没有内容可显示。
+ * 待办。考试中心的 `/exams/divisions` 已经删除，旧地址 301 到本页；访问分部在
+ * `VisitingDivisions.vue` 里加。这里把归属分部提到最前面，并且在设置完成之前不
+ * 渲染概览的其余部分 —— 那些部分此刻没有内容可显示。
  *
  * **这个写操作是不可逆的。** 归属分部只能自己设一次，之后的转部要教员来做（见
  * can-api 的 `internal/api/pilot.go`：`setHome` 在 home 非空时答 `homeLocked`）。
  * 所以它和 can-web 的 `Divisions.vue` 一样走一次显式确认，而且确认框里重复一遍
  * 「设置后无法自行更改」——文案是同一批词条，不是新写的。
  *
- * **不读 `/api/v1/pilot/divisions`。** 那条 GET 会回一个 `canSetHome`，而它的定
- * 义就是 `home == nil`（同一个文件，第 233 行）—— 概览页已经从
- * `/api/v1/pilot/data` 知道 `homeDivision` 是空的，再问一次只是把同一个事实换个
- * 地方读，代价是这道门上多一个加载态和多一种失败方式。可选项来自本地的
- * `SELECTABLE_REGIONS`，规则由 can-api 在 POST 上强制。
+ * **这个组件不读 `/api/v1/pilot/divisions` 的 GET**，读它的是
+ * `VisitingDivisions.vue`。那条 GET 回的 `canSetHome` 定义就是 `home == nil`
+ * —— 概览页已经从 `/api/v1/pilot/data` 知道 `homeDivision` 是空的。可选项来自本
+ * 地的 `SELECTABLE_REGIONS`，规则由 can-api 在 POST 上强制。
  */
 import { computed, ref } from "vue";
 import { createTranslator } from "@/lib/i18n";

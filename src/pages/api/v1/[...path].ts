@@ -42,13 +42,14 @@ const ALLOW_LIST: Record<string, Allowed> = {
   // 概览：成员自己的资料（席位权限、分部、等级）。
   "pilot/data": { methods: ["GET"], who: "Dashboard.vue" },
 
-  // 第一次进来时设置归属分部。**只开 POST，没有 GET。**
-  //
-  // 那条 GET 回的 `canSetHome` 的定义就是「还没有归属分部」，而概览页已经从
-  // pilot/data 知道了这件事；把它一起开着，等于给这个站开一条它根本不调用的路
-  // 径。这个写入是不可逆的（归属分部只能自己设一次），拦它的是 can-api 自己 ——
+  // 分部：GET 读自己的归属/访问分部和能不能加访问分部（VisitingDivisions.vue）；
+  // POST 有两种 action —— setHome 只由 HomeDivisionSetup.vue 发，addVisiting 只由
+  // VisitingDivisions.vue 发。两种写入都不可逆，拦它们的是 can-api 自己 ——
   // 这里只负责「这条路径允许被转发吗」。
-  "pilot/divisions": { methods: ["POST"], who: "HomeDivisionSetup.vue" },
+  "pilot/divisions": {
+    methods: ["GET", "POST"],
+    who: "HomeDivisionSetup.vue（setHome）/ VisitingDivisions.vue（GET、addVisiting）",
+  },
 
   // ATIS 制作器要的实时 METAR。
   //
