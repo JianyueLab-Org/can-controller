@@ -14,17 +14,13 @@ import {
   originsFromEnv,
   type FrameUser,
   type NavItem,
-  type NavSecondary,
   type SiteOrigins,
-  type Workspace,
 } from "@jianyuelab-org/can-ui";
 
 const props = defineProps<{
   locale: string;
   pathname: string;
   nav: NavItem[];
-  secondary?: NavSecondary;
-  workspaces?: Workspace[];
   user: FrameUser | null;
   messages: Record<string, unknown>;
   origins?: SiteOrigins;
@@ -43,9 +39,6 @@ const origins: SiteOrigins = {
     :locale="locale"
     :pathname="pathname"
     :nav="nav"
-    :secondary="secondary"
-    :workspaces="workspaces"
-    active-workspace="controllers"
     :user="user"
     notifications
     :messages="messages"

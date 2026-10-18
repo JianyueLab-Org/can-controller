@@ -4,24 +4,7 @@
       "panel": "管制員面板",
       "atis": "ATIS 產生器",
       "rules": "管制規則",
-      "reservations": "管制預約",
-      "quickAccess": {
-        "title": "快速存取"
-      }
-    },
-    "instructors": {
-      "title": "教員",
-      "items": {
-        "roster": "花名冊",
-        "promotion": "晉升",
-        "sweatbox": "模擬機場景"
-      }
-    },
-    "admin": {
-      "title": "管理員",
-      "items": {
-        "promote": "晉升審核"
-      }
+      "reservations": "管制預約"
     },
     "signOut": "登出",
     "search": {
@@ -30,16 +13,8 @@
       "noResults": "沒有符合的頁面"
     },
     "skipToContent": "跳至主要內容",
-    "workspace": {
-      "label": "工作區",
-      "pilots": "飛行員",
-      "controllers": "管制員",
-      "exams": "考試中心"
-    },
     "closeSidebar": "關閉導覽",
     "openSidebar": "開啟導覽",
-    "atcRoster": "管制員名冊",
-    "downloads": "軟體下載",
     "signIn": "登入",
     "signingOut": "正在登出…",
     "close": "關閉",

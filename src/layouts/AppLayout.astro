@@ -3,8 +3,7 @@ import "@/styles/globals.css";
 import ThemeScript from "@jianyuelab-org/can-ui/components/ThemeScript.astro";
 import Frame from "@/components/Frame.vue";
 import { getLocale, getMessages, useTranslations } from "@/lib/i18n";
-import { buildWorkspaces } from "@jianyuelab-org/can-ui";
-import { buildNavigation, buildSecondary, SITE_ORIGINS } from "@/lib/nav";
+import { buildNavigation, SITE_ORIGINS } from "@/lib/nav";
 
 interface Props {
   title?: string;
@@ -16,33 +15,14 @@ const frameMessages = getMessages(locale, "frame");
 const t = useTranslations(locale, "frame");
 
 /**
- * 侧栏按身份分三份 —— 普通管制员、教员（多「教员」组）、ADM（再多「管理员
- * (ADM)」组）。门槛读的是会话里的 rating，can-api 每个请求都解一次，所以一次晋
- * 升在下一次翻页时就生效，而不是等到下次登录。分界和它的边角写在 `lib/nav.ts`。
+ * 侧栏是管制员中心的四个页面，每个管制员都一样，没有评级门槛。教员与管理页面是
+ * can-portal 的，从外壳的网络切换器进去。分界写在 `lib/nav.ts`。
  *
- * **这是便利，不是边界。** 菜单少一项不等于那一页被保护起来了：那几条指向的都是
- * 门户的页面，拦住普通管制员的是 can-portal 的守卫和 can-api 每条路由自己的守卫。
- * 这里的门槛只是为了不给人看一组他点下去必然被拒的链接。
- *
- * 页面内的门槛（如预约看板的「撤销他人预约」）另有各自的判断，同样读
+ * 页面内的门槛（如预约看板的「撤销他人预约」）另有各自的判断，读
  * `Astro.locals.user.rating`。
  */
 const user = Astro.locals.user;
-const navigation = buildNavigation(t, user?.rating);
-const secondary = buildSecondary(t, {
-  locale,
-  rating: user?.rating,
-  signedIn: !!user,
-});
-/**
- * 外壳侧栏顶上的分区切换器，来自 can-ui。「管制员」那一格指本站的 `/`，另外两格
- * 是绝对地址。`origins` 和 `buildSecondary` 用同一份 `SITE_ORIGINS`（`lib/nav.ts`）。
- */
-const workspaces = buildWorkspaces(t, {
-  current: "controller",
-  rating: user?.rating,
-  origins: SITE_ORIGINS,
-});
+const navigation = buildNavigation(t);
 /** 账户菜单显示名字和 `#CID`；CID 是会话里的 `username`。 */
 const frameUser = user
   ? { name: user.name, id: user.username, rating: user.rating }
@@ -67,8 +47,6 @@ const pathname = Astro.url.pathname;
       locale={locale}
       pathname={pathname}
       nav={navigation}
-      secondary={secondary}
-      workspaces={workspaces}
       user={frameUser}
       messages={frameMessages}
       origins={SITE_ORIGINS}

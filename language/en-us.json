@@ -4,24 +4,7 @@
       "panel": "ATC Panel",
       "atis": "ATIS Maker",
       "rules": "ATC Rules",
-      "reservations": "ATC Reservations",
-      "quickAccess": {
-        "title": "Quick Access"
-      }
-    },
-    "instructors": {
-      "title": "Instructors",
-      "items": {
-        "roster": "Roster",
-        "promotion": "Promotion",
-        "sweatbox": "SweatBox"
-      }
-    },
-    "admin": {
-      "title": "Admin (ADM)",
-      "items": {
-        "promote": "Promotion Approval"
-      }
+      "reservations": "ATC Reservations"
     },
     "signOut": "Sign Out",
     "search": {
@@ -30,16 +13,8 @@
       "noResults": "No matching page"
     },
     "skipToContent": "Skip to main content",
-    "workspace": {
-      "label": "Workspace",
-      "pilots": "Pilots",
-      "controllers": "ATC",
-      "exams": "Exams"
-    },
     "closeSidebar": "Close navigation",
     "openSidebar": "Open navigation",
-    "atcRoster": "ATC Roster",
-    "downloads": "Downloads",
     "signIn": "Sign In",
     "signingOut": "Signing out…",
     "close": "Close",

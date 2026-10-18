@@ -4,24 +4,7 @@
       "panel": "管制员面板",
       "atis": "ATIS 生成器",
       "rules": "管制规则",
-      "reservations": "管制预约",
-      "quickAccess": {
-        "title": "快速访问"
-      }
-    },
-    "instructors": {
-      "title": "教员",
-      "items": {
-        "roster": "花名册",
-        "promotion": "晋升",
-        "sweatbox": "模拟机场景"
-      }
-    },
-    "admin": {
-      "title": "管理员 (ADM)",
-      "items": {
-        "promote": "晋升审批"
-      }
+      "reservations": "管制预约"
     },
     "signOut": "退出登录",
     "search": {
@@ -30,16 +13,8 @@
       "noResults": "没有匹配的页面"
     },
     "skipToContent": "跳到主要内容",
-    "workspace": {
-      "label": "工作区",
-      "pilots": "飞行员",
-      "controllers": "管制员",
-      "exams": "考试中心"
-    },
     "closeSidebar": "关闭导航",
     "openSidebar": "打开导航",
-    "atcRoster": "管制员名册",
-    "downloads": "软件下载",
     "signIn": "登录",
     "signingOut": "正在退出…",
     "close": "关闭",

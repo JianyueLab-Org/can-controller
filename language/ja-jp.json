@@ -4,24 +4,7 @@
       "panel": "管制員パネル",
       "atis": "ATISメーカー",
       "rules": "管制規則",
-      "reservations": "管制予約",
-      "quickAccess": {
-        "title": "クイックアクセス"
-      }
-    },
-    "instructors": {
-      "title": "教官",
-      "items": {
-        "roster": "名簿",
-        "promotion": "昇格",
-        "sweatbox": "シミュレータ・シナリオ"
-      }
-    },
-    "admin": {
-      "title": "管理者（ADM）",
-      "items": {
-        "promote": "昇格承認"
-      }
+      "reservations": "管制予約"
     },
     "signOut": "ログアウト",
     "search": {
@@ -30,16 +13,8 @@
       "noResults": "一致するページがありません"
     },
     "skipToContent": "本文へスキップ",
-    "workspace": {
-      "label": "ワークスペース",
-      "pilots": "パイロット",
-      "controllers": "管制員",
-      "exams": "試験センター"
-    },
     "closeSidebar": "ナビゲーションを閉じる",
     "openSidebar": "ナビゲーションを開く",
-    "atcRoster": "管制員名簿",
-    "downloads": "ソフトウェア",
     "signIn": "ログイン",
     "signingOut": "ログアウト中…",
     "close": "閉じる",

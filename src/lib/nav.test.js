@@ -1,25 +1,25 @@
 import { expect, mock, test } from "bun:test";
 
-mock.module("@jianyuelab-org/can-ui", () => ({
-  RATING_ADMIN: 12,
-  RATING_INSTRUCTOR: 8,
-  RATING_SUP: 11,
-  visibleSites: () => [],
-  WORKSPACE_SITE_KEYS: [],
-}));
+mock.module("@jianyuelab-org/can-ui", () => ({}));
 
 const { buildNavigation } = await import("./nav");
 
-function links(items) {
-  return items.flatMap((item) => [
-    ...(item.href ? [item.href] : []),
-    ...(item.children?.flatMap((child) => (child.href ? [child.href] : [])) ??
-      []),
+test("the sidebar is the four controller pages, in spec order", () => {
+  expect(buildNavigation((key) => key)).toEqual([
+    { name: "controllers.panel", href: "/", icon: "home" },
+    { name: "controllers.atis", href: "/atis", icon: "speakerWave" },
+    {
+      name: "controllers.reservations",
+      href: "/reservations",
+      icon: "calendarDays",
+    },
+    { name: "controllers.rules", href: "/rules", icon: "documentText" },
   ]);
-}
+});
 
-test("SUP rating can see the promotion approval link", () => {
-  expect(links(buildNavigation((key) => key, 11))).toContain(
-    "https://portal.ceruleanavi.net/super/promotions",
-  );
+test("no item links to the portal", () => {
+  const hrefs = JSON.stringify(buildNavigation((key) => key));
+  expect(hrefs).not.toContain("portal");
+  expect(hrefs).not.toContain("/instr/");
+  expect(hrefs).not.toContain("/super/");
 });
