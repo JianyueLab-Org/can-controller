@@ -47,9 +47,6 @@ export const CAN_WEB_ORIGIN =
 /**
  * can-portal 的 origin。外壳的网络切换器从它拼门户入口（经由 `SITE_ORIGINS`）。
  *
- * 那四个页面**原本在主站**（`ceruleanavi.net/instr/*` 和 `/super/promotions`），
- * 后来整段搬去了教员与管理门户。主站上的转发页是 301，这里直接指向新地址。
- *
  * 单独一个变量而不是复用 `CAN_WEB_ORIGIN`：can-dev 当年把两个地址塞进同一个
  * `CAN_ISSUER`，结果是改其中一个的人以为自己改完了。
  */

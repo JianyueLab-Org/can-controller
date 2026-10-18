@@ -10,10 +10,10 @@ import type { IconName, NavItem, SiteOrigins } from "@jianyuelab-org/can-ui";
 import { CAN_PORTAL_ORIGIN, CAN_WEB_ORIGIN } from "@/lib/config";
 
 /**
- * 传给 `CanFrame` 的 dev/staging 覆盖。只覆盖这个仓库的
- * `config.ts` 本来就读得到的那两个变量，本地和 staging 上的网络切换器才会
- * 落在对应环境自己的主站/门户，而不是永远指向线上。生产环境这两个变量本来
- * 就是线上地址，所以行为不变。
+ * 传给 `CanFrame` 的 dev/staging 覆盖。只覆盖这个仓库的 `config.ts`
+ * 本来就读得到的那两个变量，本地和 staging 上的网络切换器才会落在对应
+ * 环境自己的主站/门户，而不是永远指向线上。生产环境这两个变量本来就是
+ * 线上地址，所以行为不变。
  */
 export const SITE_ORIGINS: SiteOrigins = {
   web: CAN_WEB_ORIGIN,

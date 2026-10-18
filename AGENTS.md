@@ -35,15 +35,14 @@ cookie，成员在主站登录过，浏览器本来就把它带到这里来；�
 如果哪天有人要在 `deploy/k8s.yaml` 里加一个 Secret，先确认那件事真的不能靠转发
 cookie 完成。
 
-**没有自己的登录页。** 未登录一律 302 去主站的 `/signin`（`src/lib/config.ts` 的
-`signInUrl()` 上写着为什么不带 `callbackUrl`）。
+**没有自己的登录页。** 未登录一律 302 去主站的 `/signin`，并带上 `callbackUrl` 回到
+原页面（`src/lib/config.ts` 的 `signInUrl()`）。
 
 ## 搬过来的和没搬过来的
 
 **搬过来了：** 上表那四个页面，以及它们要的 lib（`atis.ts` 的 METAR 解析与 ATIS
 文本生成、`atcReservations.ts` 的窗口校验、`atcRules.ts` 的分部文档索引）、
-`src/content/rules/` 下的规则文档、以及整套设计系统（`src/components/ui/`、
-`src/styles/globals.css`、`src/components/icons.ts`）。
+`src/content/rules/` 下的规则文档、以及样式表 `src/styles/globals.css`。
 
 **没搬：** 教员与管理页面（花名册、晋升、模拟机场景、晋升审批、活动、奖品、反馈）。
 它们是 **can-portal**（`portal.ceruleanavi.net`）的。这个站的侧栏里没有它们，从外壳的
@@ -53,7 +52,7 @@ cookie 完成。
 答案是否就不加。** 去掉的条目连同它们的词条一起从四本词典里删了 —— `AppLayout.astro`
 把整本 `frame` 词典当 prop 序列化进岛屿，没人用的文案会随每个页面发一遍。
 
-分区切换器是外壳的一部分，不是侧栏内容：它是成员从这个域名走出去的唯一一条路。
+网络切换器是外壳的一部分，不是侧栏内容：它是成员从这个域名走出去的唯一一条路。
 
 ## 侧栏
 
@@ -126,8 +125,7 @@ can-web 的 `Divisions.vue` 一样走一次显式确认，且确认框里重复�
 `rating` 决定页面**内容**里的几处门槛，例如预约看板上的「撤销他人预约」
 （`pages/reservations.astro`）。侧栏不读它。
 
-**这些门槛是便利，不是边界。** 真正的判断在 can-api 每条路由自己的守卫上（那三页还额
-外有 can-web 自己的守卫）；把门槛改小只会让界面多出几个点下去必然 403 的按钮。
+**这些门槛是便利，不是边界。** 真正的判断在 can-api 每条路由自己的守卫上；把门槛改小只会让界面多出几个点下去必然 403 的按钮。
 
 ### ATIS maker URL 指向主站，不是本站
 
@@ -153,8 +151,7 @@ can-dev、can-radar、can-efb 都是踩了才关的。
 
 ## 和 can-web 共享的那些文件
 
-`src/components/ui/*`、`src/components/icons.ts`、`src/styles/globals.css`、
-`src/lib/i18n.ts`、`src/lib/useOverlay.ts`、`src/lib/atis.ts`、
+`src/styles/globals.css`、`src/lib/i18n.ts`、`src/lib/useOverlay.ts`、`src/lib/atis.ts`、
 `src/lib/atcReservations.ts`、`src/lib/divisions.ts` 以及三个岛屿，都是从 can-web
 **逐字复制**的，没有抽成包。
 
