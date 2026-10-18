@@ -71,6 +71,7 @@
       "usaDivision": "アメリカ支部",
       "japanDivision": "日本支部",
       "hongkongDivision": "香港支部",
+      "rocDivision": "中華民国（台湾）支部",
       "unassigned": "未割当",
       "permissions": {
         "name": "権限",
@@ -246,7 +247,8 @@
       "1": "PRC · 中国本土",
       "2": "USA · アメリカ",
       "3": "JPN · 日本",
-      "4": "HK · 香港"
+      "4": "HKG · 香港",
+      "5": "ROC · 中華民国（台湾）"
     },
     "permissions": "席位権限",
     "noPermissions": "席位権限はありません",

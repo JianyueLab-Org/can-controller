@@ -71,6 +71,7 @@
       "usaDivision": "United States",
       "japanDivision": "Japan",
       "hongkongDivision": "Hong Kong",
+      "rocDivision": "Republic of China (Taiwan)",
       "unassigned": "Unassigned",
       "permissions": {
         "name": "Permissions",
@@ -246,7 +247,8 @@
       "1": "PRC · China Mainland",
       "2": "USA · United States",
       "3": "JPN · Japan",
-      "4": "HK · Hong Kong"
+      "4": "HKG · Hong Kong",
+      "5": "ROC · Republic of China (Taiwan)"
     },
     "permissions": "Position permissions",
     "noPermissions": "No positions yet",

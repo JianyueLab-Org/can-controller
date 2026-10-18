@@ -1,6 +1,7 @@
 import { expect, test } from "bun:test";
 import {
   errorMessageKey,
+  isSelectableRegion,
   joinableRegions,
   positionsOf,
   visitingGate,
@@ -29,6 +30,14 @@ const state = (extra = {}) => ({
   ...extra,
 });
 
+test("regions 1 to 5 are selectable, 0 is not", () => {
+  for (const region of [1, 2, 3, 4, 5]) {
+    expect(isSelectableRegion(region)).toBe(true);
+  }
+  expect(isSelectableRegion(0)).toBe(false);
+  expect(isSelectableRegion(6)).toBe(false);
+});
+
 test("no home division: the gate asks for one first", () => {
   expect(visitingGate(state({ home: null, canSetHome: true }))).toBe(
     "needsHome",
@@ -51,11 +60,11 @@ test("the API's canAddVisiting decides the lock, not the rating", () => {
 });
 
 test("joinable regions skip home and visiting, in selectable order", () => {
-  expect(joinableRegions(state({ visiting: [row(3)] }))).toEqual([2, 4]);
+  expect(joinableRegions(state({ visiting: [row(3)] }))).toEqual([2, 4, 5]);
 });
 
 test("every region joined: the gate is full", () => {
-  const s = state({ visiting: [row(2), row(3), row(4)] });
+  const s = state({ visiting: [row(2), row(3), row(4), row(5)] });
   expect(joinableRegions(s)).toEqual([]);
   expect(visitingGate(s)).toBe("full");
 });

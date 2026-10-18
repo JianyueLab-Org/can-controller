@@ -10,7 +10,7 @@
  */
 
 /** `division.region` values a member may join. 0 (Unknown) is not selectable. */
-export const SELECTABLE_REGIONS = [1, 2, 3, 4] as const;
+export const SELECTABLE_REGIONS = [1, 2, 3, 4, 5] as const;
 
 // 能不能加访问分部，由 GET 回的 `canAddVisiting` / `minVisitingRating` 决定 ——
 // can-api 用 POST 强制执行的同一条规则算出来，这里不再自己存一份门槛。

@@ -71,6 +71,7 @@
       "usaDivision": "美國分部",
       "japanDivision": "日本分部",
       "hongkongDivision": "香港分部",
+      "rocDivision": "中華民國（臺灣）分部",
       "unassigned": "未分配",
       "permissions": {
         "name": "權限",
@@ -246,7 +247,8 @@
       "1": "PRC · 中國大陸",
       "2": "USA · 美國",
       "3": "JPN · 日本",
-      "4": "HK · 香港"
+      "4": "HKG · 香港",
+      "5": "ROC · 中華民國（臺灣）"
     },
     "permissions": "席位權限",
     "noPermissions": "尚無席位權限",
