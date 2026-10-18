@@ -287,14 +287,6 @@
       "en": "English"
     }
   },
-  "notFound": {
-    "code": "404",
-    "title": "This page is off the charts",
-    "description": "The page you asked for does not exist, or it may have moved since you last flew here.",
-    "home": "Back to home",
-    "radar": "Open the radar",
-    "docs": "Browse the docs"
-  },
   "setup": {
     "title": "Choose your home division first",
     "description": "You have no home division yet. Position permissions, training and promotion are all handled by your home division, so this is the first step.",

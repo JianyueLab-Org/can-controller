@@ -265,3 +265,7 @@ curl http://127.0.0.1:18080/api/v1/pilot/data                               # 40
 
 另外：**不要**把这个域加进 can-api 的 `ALLOWED_ORIGINS`。浏览器从不直连
 can-api，那正是同源反代存在的理由。
+
+## 页面宽度
+
+整站全宽。`CanFrame` 的正文区自带 `px-4 sm:px-6 lg:px-8`，没有最大宽度；页面不写 `mx-auto max-w-*`，也不加左右内边距。窄的只有卡片、对话框和长文的行宽。
