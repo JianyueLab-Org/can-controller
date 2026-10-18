@@ -13,7 +13,7 @@
 import { SELECTABLE_REGIONS } from "@/lib/divisions";
 
 export interface AtcRuleDoc {
-  /** `division.region` the document governs — 1 PRC, 2 USA, 3 JPN, 4 HK. */
+  /** `division.region` the document governs — 1 PRC, 2 USA, 3 JPN, 4 HKG, 5 ROC/TWN. */
   region: number;
   /** URL segment under /rules and the `rules` collection id. */
   key: string;

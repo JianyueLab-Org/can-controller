@@ -66,6 +66,7 @@ function getDivisionName(region: number) {
     2: t("usaDivision"),
     3: t("japanDivision"),
     4: t("hongkongDivision"),
+    5: t("rocDivision"),
   };
   return divisions[region] || t("unknownDivision");
 }
