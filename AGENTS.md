@@ -101,8 +101,8 @@ can-ui `SITE_PAGES` 里其他站的页面（按 `minRating` 筛）。
 
 - can-web 上，「没有归属分部」表现为概览上一张写着「未分配」的统计卡，夹在另外两
   张有数字的卡中间 —— 看起来像一条状态，不像一件待办。
-- 而真正能设置它的界面在**考试中心**的一个设置页上（`/exams/divisions`），一个新
-  管制员没有理由会走到那里去。
+- 考试中心的 `/exams/divisions` 已经删除，旧地址 301 到 `/`。访问分部在
+  `VisitingDivisions.vue` 里加。
 - 在那之前，这一页上几乎每一格都是空的：席位权限由分部授予，培训由归属分部的教员
   安排，管制时长是 0。所以在设置完成之前不渲染概览的其余部分，不是在藏东西 ——
   那些部分此刻没有内容。
@@ -112,9 +112,19 @@ can-web 的 `Divisions.vue` 一样走一次显式确认，且确认框里重复�
 更改」。文案共用 `divisions` 那一批词条，只有「第一次」的那几句在 `setup` 里。
 
 它**不读** `/api/v1/pilot/divisions` 的 GET —— 那条 GET 回的 `canSetHome` 定义就是
-「还没有归属分部」，而概览页已经从 `pilot/data` 知道了。所以转发白名单里那一条只
-开了 POST；`ALLOW_LIST` 先于 `ALLOW_PATTERNS` 查也因此从「顺手」变成了**必须**，
-否则这个 POST 会被 `pilot/<id>` 那条只允许 GET 的模式判成 405。
+「还没有归属分部」，而概览页已经从 `pilot/data` 知道了。转发白名单里 `pilot/divisions`
+开了 GET 和 POST；GET 由 `VisitingDivisions.vue` 读。`ALLOW_LIST` 先于
+`ALLOW_PATTERNS` 查是**必须**的，否则这个 POST 会被 `pilot/<id>` 那条只允许 GET 的
+模式判成 405。
+
+### 访问分部
+
+有归属分部之后，概览页（`/`）上有一张访问分部卡片（`src/components/VisitingDivisions.vue`）。
+
+- 它读 `GET /api/v1/pilot/divisions`。
+- 只能加（`addVisiting`）。can-api 没有移除访问分部的动作。
+- 能不能加看 GET 回的 `canAddVisiting`；门槛文案用 `ratingShort(minVisitingRating)`。
+- 它从不发 `setHome`。
 
 ### 会话与 rating
 
@@ -152,13 +162,15 @@ can-dev、can-radar、can-efb 都是踩了才关的。
 ## 和 can-web 共享的那些文件
 
 `src/styles/globals.css`、`src/lib/i18n.ts`、`src/lib/useOverlay.ts`、`src/lib/atis.ts`、
-`src/lib/atcReservations.ts`、`src/lib/divisions.ts` 以及三个岛屿，都是从 can-web
-**逐字复制**的，没有抽成包。
+`src/lib/atcReservations.ts` 以及三个岛屿，都是从 can-web **逐字复制**的，没有抽成包。
 
 这是有意的，和三个卫星站点各自抄 `config.ts` 是同一个理由：几个站各自部署、各自
 有自己的节奏，绑成一个包意味着改主站的一个按钮圆角会顺手改掉这里。代价是它们会
 慢慢漂移，所以：**改动这些文件之前，先去 can-web 看一眼那边是什么样**，如果是通
 用的修复，两边都改。
+
+`src/lib/divisions.ts` 不再是 can-web 的副本（can-web 那份已经删除），它是这个站自己
+的分部规则。
 
 `src/styles/globals.css` 保持和 can-web 逐字一致（连那段用不上的 Leaflet 覆盖样
 式也留着），这样 `diff` 一下就能看出有没有漂移。

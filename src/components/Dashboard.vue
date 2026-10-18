@@ -11,13 +11,14 @@ import {
   StatCard,
 } from "@jianyuelab-org/can-ui";
 import HomeDivisionSetup from "@/components/HomeDivisionSetup.vue";
+import VisitingDivisions from "@/components/VisitingDivisions.vue";
 import { apiFetch } from "@/lib/canApi";
 
 // Scoped to the `controllers.dashboard` namespace — this island used to be
 // handed the entire message dictionary just to read one branch of it.
 const props = defineProps<{
   messages: Record<string, unknown>;
-  /** `divisions` 命名空间，只传给第一次进来时的那道门。 */
+  /** `divisions` 命名空间，传给第一次进来时的那道门和访问分部卡片。 */
   divisionMessages: Record<string, unknown>;
   /** `setup` 命名空间，同上。 */
   setupMessages: Record<string, unknown>;
@@ -75,13 +76,15 @@ function getDivisionName(region: number) {
  * 抽成具名函数而不是留在 `onMounted` 里，是因为它现在有第二个调用方：设置完归属
  * 分部之后要重新读一次，才能把席位权限和分部信息显示出来。整页 reload 也能做到，
  * 但会话、外壳和侧栏都没有变，重新拉这一份就够了。
+ *
+ * `quiet` 为真时不进骨架屏：加完访问分部后重读，页面不卸载。
  */
-async function load() {
+async function load(quiet = false) {
   if (!props.sessionUserId) {
     loading.value = false;
     return;
   }
-  loading.value = true;
+  if (!quiet) loading.value = true;
   error.value = null;
   try {
     const userResponse = await apiFetch("/api/v1/pilot/data");
@@ -101,7 +104,7 @@ async function load() {
   }
 }
 
-onMounted(load);
+onMounted(() => load());
 
 function permsOf(div: DivisionData) {
   return [
@@ -323,6 +326,8 @@ function formatDate(d: string) {
           </div>
         </div>
       </Card>
+
+      <VisitingDivisions :messages="divisionMessages" @saved="load(true)" />
     </div>
   </div>
 </template>
