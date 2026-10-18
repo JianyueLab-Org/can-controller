@@ -1,10 +1,12 @@
 ---
 import AppLayout from "@/layouts/AppLayout.astro";
 import AtisMaker from "@/components/AtisMaker.vue";
-import { getLocale, getMessages } from "@/lib/i18n";
+import { getLocale, getMessages, useTranslations } from "@/lib/i18n";
 import { CAN_WEB_ORIGIN } from "@/lib/config";
 
-const messages = getMessages(getLocale(Astro.cookies), "atis");
+const locale = getLocale(Astro.cookies);
+const messages = getMessages(locale, "atis");
+const tf = useTranslations(locale, "frame");
 
 /**
  * 粘进 EuroScope 的那条 ATIS maker URL 指向 **ceruleanavi.net**，不是本站。
@@ -26,6 +28,6 @@ const messages = getMessages(getLocale(Astro.cookies), "atis");
  */
 ---
 
-<AppLayout title="ATIS Maker · Cerulean Aviation Network">
+<AppLayout title={tf("controllers.atis")}>
   <AtisMaker messages={messages} origin={CAN_WEB_ORIGIN} client:load />
 </AppLayout>

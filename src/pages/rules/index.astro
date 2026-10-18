@@ -15,7 +15,7 @@ const divisions = buildAtcRules(rules.map((entry) => entry.id));
 const published = divisions.filter((division) => division.doc).length;
 ---
 
-<AppLayout title={`${t("title")} · Cerulean Aviation Network`}>
+<AppLayout title={t("title")}>
   <div class="mb-8">
     <h1 class="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
       {t("title")}

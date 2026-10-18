@@ -1,65 +1,19 @@
 /**
- * 侧栏是**一份**数据，不是每个页面各自拼的一串链接。
+ * 侧栏是**一份**数据：管制员中心的四个页面，每个管制员都一样，没有评级门槛。
+ * 教员与管理页面是 can-portal 的，从外壳的网络切换器进去。
  *
- * 它在 can-web 上叫 `ControllersShell.vue`，是一个 Vue 组件；搬过来之后拆成了
- * 「数据在这里、渲染交给 can-ui 的 `CanFrame`」两半，原因只有一个但很硬：
- *
- * **这个站的一部分链接是跨站的绝对地址**，而那些地址来自环境变量。
- * `src/lib/config.ts` 在模块顶层读 `process.env`，任何被岛屿 import 的模块这么
- * 做都会在浏览器里炸成 `process is not defined`。所以链接在 Astro 侧（服务端）
- * 拼好，作为 props 进岛屿 —— can-efb 出于同一个理由这么做。
- *
- * 名字是 i18n 的**键**，不是文案：翻译发生在 `buildNavigation()` 里，键名一个
- * 字都没改，和 can-web 的 `frame` 命名空间对得上，所以四本词典是从那边整段切
- * 过来的而不是重写的 —— 只是切过来之后又删掉了一批，见下一条。
- *
- * **这个站的侧栏只放管制员的东西 —— 而管制员分教员和普通两类。**
- *
- * 搬家的第一版把 can-web 的整条侧栏原样带了过来，理由是「菜单还在原来的位置」。
- * 那条理由不成立：加一条之前要先回答**「管制员在管制的时候用得到它吗」**，答案
- * 是否就不加 —— 在这里复制一份入口，只是把主站的目录结构又抄了一遍，抄的还是一
- * 份会和主站慢慢对不上的副本。据此去掉的是 SUP / 管理那几项（活动管理、奖品管
- * 理、处理结果公示）和活动、积分兑换、问题与建议这几条面向全体成员的服务：它们
- * 是网络的管理面，飞行员那一侧也用得到。
- *
- * **教员那一组不在此列，它过了那道题。** 教员是管制员的一种，花名册和晋升是他
- * 带学员时要做的事，不是网络的管理面 —— 所以它属于管制员中心。**但它只对教员出
- * 现**：普通管制员的侧栏里没有这一组，见 `RATING_INSTRUCTOR`。
- *
- * 收起来的是**菜单**，不是页面：那几页现在是 **can-portal 的**
- * （`portal.ceruleanavi.net`，教员与管理门户），各自有那个站的评级守卫和 can-api
- * 的路由守卫。这里少一项不等于那一页被保护起来了，多一项也不等于放开了什么 ——
- * 门槛写在这里只是为了不给普通管制员看一组他点下去必然被拒的链接。
- *
- * 去掉的条目连同它们的词条一起从四本词典里去掉了，不是留在那里没人引用：
- * `AppLayout.astro` 把整本 `frame` 词典当 prop 序列化进岛屿，所以一条没人用的
- * 文案是每个页面都要发一遍的字节。
+ * 名字是 i18n 的**键**，翻译发生在 `buildNavigation()` 里；链接在 Astro 侧（服
+ * 务端）拼好，作为 props 进岛屿。
  */
 import type { Translator } from "@/lib/i18n";
-import type {
-  IconName,
-  NavItem,
-  NavSecondary,
-  SiteOrigins,
-} from "@jianyuelab-org/can-ui";
-import {
-  RATING_INSTRUCTOR,
-  RATING_SUP,
-  visibleSites,
-  WORKSPACE_SITE_KEYS,
-} from "@jianyuelab-org/can-ui";
-import {
-  CAN_PORTAL_ORIGIN,
-  CAN_WEB_ORIGIN,
-  portalUrl,
-  webUrl,
-} from "@/lib/config";
+import type { IconName, NavItem, SiteOrigins } from "@jianyuelab-org/can-ui";
+import { CAN_PORTAL_ORIGIN, CAN_WEB_ORIGIN } from "@/lib/config";
 
 /**
- * 传给 `visibleSites`/`buildWorkspaces` 的 dev/staging 覆盖。只覆盖这个仓库的
- * `config.ts` 本来就读得到的那两个变量，本地和 staging 上点开常用链接、分区切换
- * 器才会落在对应环境自己的主站/门户，而不是永远指向线上。生产环境这两个变量本
- * 来就是线上地址，所以行为不变。
+ * 传给 `CanFrame` 的 dev/staging 覆盖。只覆盖这个仓库的 `config.ts`
+ * 本来就读得到的那两个变量，本地和 staging 上的网络切换器才会落在对应
+ * 环境自己的主站/门户，而不是永远指向线上。生产环境这两个变量本来就是
+ * 线上地址，所以行为不变。
  */
 export const SITE_ORIGINS: SiteOrigins = {
   web: CAN_WEB_ORIGIN,
@@ -79,136 +33,19 @@ export const SITE_ORIGINS: SiteOrigins = {
 const PANEL: Array<{ key: string; href: string; icon: IconName }> = [
   { key: "controllers.panel", href: "/", icon: "home" },
   { key: "controllers.atis", href: "/atis", icon: "speakerWave" },
-  { key: "controllers.rules", href: "/rules", icon: "documentText" },
   {
     key: "controllers.reservations",
     href: "/reservations",
     icon: "calendarDays",
   },
+  { key: "controllers.rules", href: "/rules", icon: "documentText" },
 ];
 
-/**
- * 两道门槛来自 can-ui：`RATING_INSTRUCTOR`（8）和 `RATING_ADMIN`（12）。上面那四个
- * 页面每个管制员都有；`buildNavigation()` 里那两行是这个站上仅有的按身份改变导航
- * 的地方。
- *
- * **ADM 这条是 `===` 而不是 `>=`，和 can-web 逐字相同。** 改它之前先去改 can-web。
- */
-
-/**
- * 教员那一组，和 ADM 那一组。四条都是 **can-portal 的**页面 —— 搬过来的只有菜
- * 单，不是页面本身。
- *
- * **它们原来在主站，现在不是了。** 那七个页面（这四条加上活动、奖品、公示）整段
- * 搬去了教员与管理门户 `portal.ceruleanavi.net`；主站上 `/instr` 和 `/super` 各自
- * 只剩一个转发页。继续写 `webUrl()` 也到得了，但那是 301 之后再一次请求 —— 而且
- * 会让这个文件一直说着一件不再为真的事。所以下面用的是 `portalUrl()`。
- *
- * 晋升审批和「晋升」分开，是因为它们是同一条流程的两端：教员提，ADM 批。合成一
- * 组会让一个只有 I1 的人以为自己按得动那个按钮。
- *
- * **两组的前缀不一样，这不是笔误，而且搬家之后也没有拉平。** `super` 读作「监
- * 理」（SUP，等级 11），而花名册、晋升、SweatBox 是教员（等级 8）的活；晋升审批
- * 确实要 ADM。门户留着这两个前缀是刻意的 —— 拉平会丢掉那道评级边界，也会让
- * `/promote` 和 `/promotions` 撞成一字之差的两个页面。can-portal 的 `AGENTS.md`
- * 上写着这道题，`src/lib/nav.ts` 是同一份菜单的另一半：改这里之前先去看它。
- */
-const INSTRUCTOR: Array<{ key: string; path: string }> = [
-  { key: "instructors.items.roster", path: "/instr/roster" },
-  { key: "instructors.items.promotion", path: "/instr/promote" },
-  // SweatBox 场景生成器。过了那道题：教员要带学员上模拟机，这是他备课时开的东
-  // 西，和花名册、晋升同一类 —— 不是网络的管理面。页面在门户。
-  { key: "instructors.items.sweatbox", path: "/instr/sweatbox" },
-];
-
-const ADMIN: Array<{ key: string; path: string }> = [
-  { key: "admin.items.promote", path: "/super/promotions" },
-];
-
-/**
- * 把上面的键解析成当前语言的文案。在 Astro 侧调用，结果作为 props 进岛屿。
- *
- * `t` 是 `frame` 命名空间上的翻译器；`rating` 来自会话（`Astro.locals.user`），
- * can-api 每个请求都解一次，所以一次晋升在下一次翻页时就生效，而不是等到下次登
- * 录。
- *
- * **rating 缺失时按普通管制员处理**，而不是按教员 —— 一个读不出等级的会话应该
- * 看到更少的东西而不是更多。`isInstructor` 里那个 `typeof` 判断就是为了这个：
- * `undefined >= 8` 本来就是 `false`，但写成 `rating! >= 8` 等于把这件事交给运气。
- * ADM 那一条用的是 `===`，缺失时天然落空。
- */
-export function buildNavigation(t: Translator, rating?: number): NavItem[] {
-  const items: NavItem[] = PANEL.map((entry) => ({
+/** 把上面的键解析成当前语言的文案。在 Astro 侧调用，结果作为 props 进岛屿。 */
+export function buildNavigation(t: Translator): NavItem[] {
+  return PANEL.map((entry) => ({
     name: t(entry.key),
     href: entry.href,
     icon: entry.icon,
   }));
-
-  const group = (titleKey: string, entries: typeof INSTRUCTOR): NavItem => ({
-    name: t(titleKey),
-    icon: "shieldCheck",
-    children: entries.map((entry) => ({
-      name: t(entry.key),
-      href: portalUrl(entry.path),
-    })),
-  });
-
-  if (typeof rating === "number" && rating >= RATING_INSTRUCTOR) {
-    items.push(group("instructors.title", INSTRUCTOR));
-  }
-  if (typeof rating === "number" && rating >= RATING_SUP) {
-    items.push(group("admin.title", ADMIN));
-  }
-
-  return items;
-}
-
-/**
- * 钉在轨底的常用链接。
- *
- * 两类东西，来源不同，这个区分是这次改动的重点：
- *
- * - **主站上的页面**（管制员名册、软件下载）—— 那是 can-web 的两页，不是站点，
- *   所以仍然由本仓库用 `webUrl()` 拼，也仍然要过那道题：管制员在管制的时候真的
- *   会开它吗。
- * - **网络上的其它站** —— 从前这里硬编码着雷达和文档两条，而全网另外三个仓库各
- *   自维护着一份**不一样**的清单，考试中心和 EFB 干脆一条都没有。现在它们来自
- *   can-ui 的 `visibleSites`：九个站一份，连站名的四种语言一起，门户和资料库按
- *   评级决定露不露。
- *
- * 它们是钉住的而不是一个「快速访问」折叠菜单 —— can-web 上正是后者，那让最常用
- * 的几条多了两次点击。
- */
-export function buildSecondary(
-  t: Translator,
-  opts: { locale: string; rating?: number; signedIn: boolean },
-): NavSecondary {
-  return {
-    label: t("controllers.quickAccess.title"),
-    items: [
-      { name: t("atcRoster"), href: webUrl("/roster"), icon: "users" },
-      {
-        name: t("downloads"),
-        href: webUrl("/downloads"),
-        icon: "arrowDownTray",
-      },
-      // `excludeCurrent` 只去掉「管制员中心」自己；分区切换器已经在轨顶画着
-      // 管制员中心和考试中心，这里要再去掉 WORKSPACE_SITE_KEYS 里剩下的那个
-      // （考试中心），不然它在切换器和这份常用链接里各出现一次。
-      ...visibleSites({
-        locale: opts.locale,
-        current: "controller",
-        rating: opts.rating,
-        signedIn: opts.signedIn,
-        excludeCurrent: true,
-        origins: SITE_ORIGINS,
-      })
-        .filter((site) => !WORKSPACE_SITE_KEYS.includes(site.key))
-        .map((site) => ({
-          name: site.name,
-          href: site.href,
-          icon: site.icon,
-        })),
-    ],
-  };
 }
