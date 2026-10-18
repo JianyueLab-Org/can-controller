@@ -37,8 +37,7 @@ export const CAN_API_ORIGIN =
  * 管制员中心自己没有登录页，也不该有：会话由 can-api 签在父域上，主站上登录过
  * 的成员到这里本来就带着 cookie。
  *
- * 侧栏底部那一排跨站链接也走它 —— 花名册、活动、奖励、反馈、支持、文档全都还
- * 在主站，这个站只搬走了「管制员自己的那四件事」。
+ * 外壳的网络切换器从它拼主站入口（经由 `SITE_ORIGINS`）。
  */
 export const CAN_WEB_ORIGIN =
   clean(process.env.CAN_WEB_ORIGIN) ||
@@ -46,11 +45,10 @@ export const CAN_WEB_ORIGIN =
   "https://ceruleanavi.net";
 
 /**
- * can-portal 的 origin。侧栏里教员那一组和 ADM 那一条指向它。
+ * can-portal 的 origin。外壳的网络切换器从它拼门户入口（经由 `SITE_ORIGINS`）。
  *
  * 那四个页面**原本在主站**（`ceruleanavi.net/instr/*` 和 `/super/promotions`），
- * 后来整段搬去了教员与管理门户。主站上留着转发页，所以继续写 `webUrl()` 也到得
- * 了 —— 但那是 301 之后再一次请求，而且会让这个文件一直说着一件不再为真的事。
+ * 后来整段搬去了教员与管理门户。主站上的转发页是 301，这里直接指向新地址。
  *
  * 单独一个变量而不是复用 `CAN_WEB_ORIGIN`：can-dev 当年把两个地址塞进同一个
  * `CAN_ISSUER`，结果是改其中一个的人以为自己改完了。
@@ -95,14 +93,4 @@ export function signInUrl(returnTo?: URL): string {
   // 片段（#...）不带：它本来就不会发到服务端。
   const target = `${origin()}${returnTo.pathname}${returnTo.search}`;
   return `${base}?callbackUrl=${encodeURIComponent(target)}`;
-}
-
-/** 主站上某个页面的绝对地址。侧栏的跨站链接都由它拼。 */
-export function webUrl(path: string): string {
-  return `${CAN_WEB_ORIGIN}${path}`;
-}
-
-/** 教员与管理门户上某个页面的绝对地址。教员组和 ADM 那条由它拼。 */
-export function portalUrl(path: string): string {
-  return `${CAN_PORTAL_ORIGIN}${path}`;
 }
