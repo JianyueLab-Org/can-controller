@@ -35,6 +35,12 @@ test("no home division: the gate asks for one first", () => {
   );
 });
 
+test("no home outranks a locked gate: needsHome comes before locked", () => {
+  expect(visitingGate(state({ home: null, canAddVisiting: false }))).toBe(
+    "needsHome",
+  );
+});
+
 test("the API's canAddVisiting decides the lock, not the rating", () => {
   expect(visitingGate(state({ rating: 12, canAddVisiting: false }))).toBe(
     "locked",

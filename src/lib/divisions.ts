@@ -1,14 +1,12 @@
 /**
- * Division membership rules, shared by the API that enforces them and the UI
- * that explains them.
+ * 本站的分部规则。
  *
- * Membership is **one-way**. A member picks a home division once; after that
- * neither the home division nor any visiting division can be changed or left
- * from the member side — transfers and removals go through an instructor.
- * Position permissions live on the division row and are only ever granted by
- * an instructor; nothing a member does here can set them.
- *
- * Browser-safe: no prisma import.
+ * 归属是单向的。
+ * 归属分部由 HomeDivisionSetup.vue 设置一次。
+ * 访问分部由 VisitingDivisions.vue 只增不减。
+ * 转分部和移除由教员处理。
+ * 席位权限由教员授予。
+ * can-api 在 POST /api/v1/pilot/divisions 上执行每一条规则。
  */
 
 /** `division.region` values a member may join. 0 (Unknown) is not selectable. */

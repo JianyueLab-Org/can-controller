@@ -78,6 +78,7 @@ function getDivisionName(region: number) {
  * 但会话、外壳和侧栏都没有变，重新拉这一份就够了。
  *
  * `quiet` 为真时不进骨架屏：加完访问分部后重读，页面不卸载。
+ * 静默重读失败时保留旧数据，也不设置 `error`。
  */
 async function load(quiet = false) {
   if (!props.sessionUserId) {
@@ -85,7 +86,7 @@ async function load(quiet = false) {
     return;
   }
   if (!quiet) loading.value = true;
-  error.value = null;
+  if (!quiet) error.value = null;
   try {
     const userResponse = await apiFetch("/api/v1/pilot/data");
     if (!userResponse.ok) throw new Error("Failed to fetch user data");
@@ -98,7 +99,9 @@ async function load(quiet = false) {
       atcStats.value = atcResult.data.atc;
     }
   } catch (err) {
-    error.value = err instanceof Error ? err.message : "An error occurred";
+    if (!quiet) {
+      error.value = err instanceof Error ? err.message : "An error occurred";
+    }
   } finally {
     loading.value = false;
   }
