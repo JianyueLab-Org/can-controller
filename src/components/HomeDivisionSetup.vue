@@ -38,6 +38,8 @@ const props = defineProps<{
   messages: Record<string, unknown>;
   /** `setup` 命名空间 —— 只有这个站有的「第一次」那几句。 */
   setupMessages: Record<string, unknown>;
+  /** can-ui 自己画的关闭按钮的名称（`lib/chrome.ts`）。 */
+  chrome: Record<string, unknown>;
 }>();
 
 const emit = defineEmits<{ (e: "saved"): void }>();
@@ -126,7 +128,7 @@ async function commit() {
         >
           <Icon name="mapPin" class="size-7" />
         </span>
-        <h1 class="mt-5 text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+        <h1 class="text-title-1 mt-5 text-ink">
           {{ ts("title") }}
         </h1>
         <p class="mt-3 max-w-lg text-muted">{{ ts("description") }}</p>
@@ -142,16 +144,6 @@ async function commit() {
           <span>{{ ts(`reasons.${reason.key}`) }}</span>
         </li>
       </ul>
-
-      <AlertBox
-        v-if="error"
-        variant="danger"
-        dismissible
-        class="mt-6"
-        @dismiss="error = null"
-      >
-        {{ error }}
-      </AlertBox>
 
       <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-end">
         <div class="flex-1">
@@ -177,18 +169,23 @@ async function commit() {
     <Dialog
       v-model:open="confirmOpen"
       size="sm"
-      :close-label="t('cancel')"
+      :messages="chrome"
       :title="
         pending !== null
           ? t('home.confirmTitle', { division: regionName(pending) })
           : ''
       "
     >
+      <!-- 失败发生在确认框打开时，所以错误也显示在框里：框外的提示被遮罩挡着，
+           看起来就像什么都没发生。 -->
+      <AlertBox v-if="error" variant="danger" class="mb-4">
+        {{ error }}
+      </AlertBox>
       <p class="text-sm leading-relaxed text-muted">
         {{ t("home.permanentWarning") }}
       </p>
       <template #footer>
-        <Button variant="ghost" :disabled="busy" @click="pending = null">
+        <Button variant="secondary" :disabled="busy" @click="pending = null">
           {{ t("cancel") }}
         </Button>
         <Button :loading="busy" @click="commit">

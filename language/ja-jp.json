@@ -36,7 +36,7 @@
   },
   "controllers": {
     "dashboard": {
-      "welcome": "おかえりなさい",
+      "welcome": "おかえりなさい、{name}",
       "subtitle": "管制員パネル — 自分の状態と席位権限を確認できます",
       "onlineTime": "管制時間",
       "currentRating": "現在のレーティング",
@@ -61,6 +61,7 @@
       "noCourses": "予定されている講習はありません",
       "contactInstructor": "教官に連絡して訓練の日程を調整してください",
       "loadingFailed": "読み込みに失敗しました",
+      "retry": "再試行",
       "noUserData": "ユーザーデータが見つかりません",
       "authorized": "権限あり",
       "unauthorized": "権限なし",
@@ -207,7 +208,6 @@
     "formEndsAtHint": "開始時刻から最大 {hours} 時間までです。",
     "endBeforeStart": "終了時刻は開始時刻より後でなければなりません。",
     "untilTime": "〜{time}",
-    "timeWithLocal": "{zulu} · {local}",
     "close": "閉じる",
     "submit": "送信",
     "errorDescriptionTooLong": "備考が長すぎます（最大 {chars} 文字）。"

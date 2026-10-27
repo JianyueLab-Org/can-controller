@@ -4,6 +4,7 @@ import { createTranslator } from "@/lib/i18n";
 import {
   AlertBox,
   Badge,
+  Button,
   Card,
   EmptyState,
   PageHeader,
@@ -23,6 +24,8 @@ const props = defineProps<{
   /** `setup` 命名空间，同上。 */
   setupMessages: Record<string, unknown>;
   sessionUserId: string;
+  /** can-ui 自己画的关闭按钮的名称（`lib/chrome.ts`），往下传给两个分部组件。 */
+  chrome: Record<string, unknown>;
 }>();
 const t = createTranslator(props.messages);
 
@@ -57,7 +60,7 @@ interface ATCStats {
 const userData = ref<UserData | null>(null);
 const atcStats = ref<ATCStats | null>(null);
 const loading = ref(true);
-const error = ref<string | null>(null);
+const failed = ref(false);
 
 function getDivisionName(region: number) {
   const divisions: Record<number, string> = {
@@ -79,7 +82,7 @@ function getDivisionName(region: number) {
  * 但会话、外壳和侧栏都没有变，重新拉这一份就够了。
  *
  * `quiet` 为真时不进骨架屏：加完访问分部后重读，页面不卸载。
- * 静默重读失败时保留旧数据，也不设置 `error`。
+ * 静默重读失败时保留旧数据，也不进错误态。
  */
 async function load(quiet = false) {
   if (!props.sessionUserId) {
@@ -87,7 +90,7 @@ async function load(quiet = false) {
     return;
   }
   if (!quiet) loading.value = true;
-  if (!quiet) error.value = null;
+  if (!quiet) failed.value = false;
   try {
     const userResponse = await apiFetch("/api/v1/pilot/data");
     if (!userResponse.ok) throw new Error("Failed to fetch user data");
@@ -99,10 +102,8 @@ async function load(quiet = false) {
       const atcResult = await atcResponse.json();
       atcStats.value = atcResult.data.atc;
     }
-  } catch (err) {
-    if (!quiet) {
-      error.value = err instanceof Error ? err.message : "An error occurred";
-    }
+  } catch {
+    if (!quiet) failed.value = true;
   } finally {
     loading.value = false;
   }
@@ -139,10 +140,12 @@ function formatDate(d: string) {
 </script>
 
 <template>
-  <Skeleton v-if="loading" variant="stats" :count="6" header />
+  <Skeleton v-if="loading" variant="stats" :count="3" header />
 
-  <AlertBox v-else-if="error" variant="danger" :title="t('loadingFailed')">
-    {{ error }}
+  <AlertBox v-else-if="failed" variant="danger" :title="t('loadingFailed')">
+    <Button size="sm" variant="secondary" class="mt-2" @click="load()">
+      {{ t("retry") }}
+    </Button>
   </AlertBox>
 
   <EmptyState v-else-if="!userData" icon="users" :title="t('noUserData')" />
@@ -156,12 +159,13 @@ function formatDate(d: string) {
     v-else-if="!userData.homeDivision"
     :messages="divisionMessages"
     :setup-messages="setupMessages"
+    :chrome="chrome"
     @saved="load"
   />
 
   <div v-else>
     <PageHeader
-      :title="`${t('welcome')}, ${userData.name}`"
+      :title="t('welcome', { name: userData.name })"
       :description="t('subtitle')"
     >
       <template #actions>
@@ -171,7 +175,7 @@ function formatDate(d: string) {
 
     <div class="space-y-6">
       <!-- Stat cards -->
-      <div class="stagger grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3">
+      <div class="stagger grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-3">
         <StatCard
           :label="t('onlineTime')"
           :value="atcStats?.formattedTotalTime || '00:00:00'"
@@ -232,15 +236,15 @@ function formatDate(d: string) {
       <Card :title="t('ratingInfo')" padding="none">
         <dl class="grid grid-cols-1 gap-4 p-6 md:grid-cols-3">
           <div class="rounded-control bg-surface-sunken p-4 text-center">
-            <dt class="text-xs uppercase tracking-wider text-faint">
+            <dt class="text-eyebrow text-faint">
               {{ t("shortName") }}
             </dt>
-            <dd class="mt-1 text-lg font-bold text-ink">
+            <dd class="mt-1 text-lg font-semibold text-ink">
               {{ userData.rating.short }}
             </dd>
           </div>
           <div class="rounded-control bg-surface-sunken p-4 text-center">
-            <dt class="text-xs uppercase tracking-wider text-faint">
+            <dt class="text-eyebrow text-faint">
               {{ t("chineseName") }}
             </dt>
             <dd class="mt-1 text-lg font-semibold text-ink">
@@ -248,10 +252,10 @@ function formatDate(d: string) {
             </dd>
           </div>
           <div class="rounded-control bg-surface-sunken p-4 text-center">
-            <dt class="text-xs uppercase tracking-wider text-faint">
+            <dt class="text-eyebrow text-faint">
               {{ t("fullName") }}
             </dt>
-            <dd class="mt-1 text-lg font-medium text-ink">
+            <dd class="mt-1 text-lg font-semibold text-ink">
               {{ userData.rating.long }}
             </dd>
           </div>
@@ -266,14 +270,12 @@ function formatDate(d: string) {
       >
         <div class="divide-y divide-subtle">
           <div
-            v-for="(div, index) in userData.division"
-            :key="index"
+            v-for="div in userData.division"
+            :key="div.id"
             class="grid grid-cols-1 gap-6 p-6 md:grid-cols-2"
           >
             <div>
-              <h3
-                class="mb-3 text-xs font-semibold uppercase tracking-widest text-faint"
-              >
+              <h3 class="text-eyebrow mb-3 text-faint">
                 {{ t("basicInfo") }}
               </h3>
               <dl class="space-y-2.5 text-sm">
@@ -304,9 +306,7 @@ function formatDate(d: string) {
             </div>
 
             <div>
-              <h3
-                class="mb-3 text-xs font-semibold uppercase tracking-widest text-faint"
-              >
+              <h3 class="text-eyebrow mb-3 text-faint">
                 {{ t("permissions.name") }}
               </h3>
               <dl class="space-y-2.5 text-sm">
@@ -331,7 +331,11 @@ function formatDate(d: string) {
         </div>
       </Card>
 
-      <VisitingDivisions :messages="divisionMessages" @saved="load(true)" />
+      <VisitingDivisions
+        :messages="divisionMessages"
+        :chrome="chrome"
+        @saved="load(true)"
+      />
     </div>
   </div>
 </template>

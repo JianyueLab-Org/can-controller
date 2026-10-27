@@ -24,6 +24,8 @@ const props = defineProps<{
   messages: Record<string, unknown>;
   sessionUserId: string;
   isSup: boolean;
+  /** can-ui 自己画的关闭按钮的名称（`lib/chrome.ts`）。 */
+  chrome: Record<string, unknown>;
 }>();
 const t = createTranslator(props.messages);
 
@@ -95,9 +97,6 @@ const CREATE_ERRORS: Record<string, string> = {
 /** datetime-local values are local browser time; restate them as Zulu. */
 function toIso(value: string): string {
   return new Date(value).toISOString();
-}
-function formatDate(iso: string): string {
-  return t("timeWithLocal", { zulu: formatZulu(iso), local: formatLocal(iso) });
 }
 
 /**
@@ -244,57 +243,72 @@ onMounted(load);
       class="mb-6"
       :variant="feedback.type === 'success' ? 'success' : 'danger'"
       dismissible
+      :messages="chrome"
       @dismiss="feedback = null"
     >
       {{ feedback.text }}
     </AlertBox>
 
-    <Card padding="none">
-      <div class="p-6">
-        <DataTable
-          :columns="columns"
-          :rows="reservations"
-          row-key="id"
-          :loading="loading"
-          :loading-label="t('loading')"
-          :empty="t('noReservations')"
-        >
-          <template #cell-callsign="{ row }">
-            <span class="font-mono">{{ row.callsign }}</span>
-          </template>
-          <template #cell-window="{ row }">
-            <div class="whitespace-normal">
-              {{ formatDate(row.startsAt) }}
-              <span class="block text-xs text-faint">{{
-                t("untilTime", { time: formatDate(row.endsAt) })
+    <Card>
+      <DataTable
+        :columns="columns"
+        :rows="reservations"
+        row-key="id"
+        :loading="loading"
+        :loading-label="t('loading')"
+        :empty="t('noReservations')"
+      >
+        <template #cell-callsign="{ row }">
+          <span class="font-mono">{{ row.callsign }}</span>
+        </template>
+        <!-- Each timestamp is one unbreakable unit: on a phone the cell is
+             narrow and a date split at its hyphen reads as two values. -->
+        <template #cell-window="{ row }">
+          <div class="whitespace-normal">
+            <span class="whitespace-nowrap">{{
+              formatZulu(row.startsAt)
+            }}</span>
+            ·
+            <span class="whitespace-nowrap">{{
+              formatLocal(row.startsAt)
+            }}</span>
+            <span class="block text-xs text-faint">
+              <span class="whitespace-nowrap">{{
+                t("untilTime", { time: formatZulu(row.endsAt) })
               }}</span>
-            </div>
-          </template>
-          <template #cell-notes="{ row }">
-            <span class="text-muted">{{ row.description || "—" }}</span>
-          </template>
-          <template #cell-actions="{ row }">
-            <div class="flex justify-end gap-2">
-              <Button
-                v-if="canManage(row)"
-                size="sm"
-                variant="ghost"
-                @click="askCancel(row)"
-              >
-                {{ t("cancel") }}
-              </Button>
-              <span v-else class="text-xs text-faint">—</span>
-            </div>
-          </template>
-        </DataTable>
-      </div>
+              ·
+              <span class="whitespace-nowrap">{{
+                formatLocal(row.endsAt)
+              }}</span>
+            </span>
+          </div>
+        </template>
+        <template #cell-notes="{ row }">
+          <span class="block max-w-xs whitespace-normal break-words text-muted">
+            {{ row.description || "—" }}
+          </span>
+        </template>
+        <template #cell-actions="{ row }">
+          <div class="flex justify-end gap-2">
+            <Button
+              v-if="canManage(row)"
+              size="sm"
+              variant="ghost"
+              @click="askCancel(row)"
+            >
+              {{ t("cancel") }}
+            </Button>
+            <span v-else class="text-xs text-faint">—</span>
+          </div>
+        </template>
+      </DataTable>
     </Card>
 
     <Dialog
       v-model:open="createOpen"
       :title="t('create')"
       :description="t('createHint')"
-      :close-label="t('close')"
+      :messages="chrome"
     >
       <form ref="createForm" class="space-y-4" @submit.prevent="create">
         <AlertBox v-if="dialogError" variant="danger">{{
@@ -306,6 +320,9 @@ onMounted(load);
           :label="t('formCallsign')"
           :hint="t('formCallsignHint')"
           :maxlength="16"
+          autocapitalize="characters"
+          autocorrect="off"
+          :spellcheck="false"
           required
         />
         <Input
@@ -348,7 +365,7 @@ onMounted(load);
       :open="!!cancelTarget"
       size="sm"
       :title="t('cancelTitle')"
-      :close-label="t('close')"
+      :messages="chrome"
       @close="cancelTarget = null"
     >
       <AlertBox v-if="dialogError" variant="danger" class="mb-4">{{

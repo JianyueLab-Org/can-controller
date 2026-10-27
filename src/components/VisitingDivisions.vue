@@ -39,6 +39,8 @@ import { apiFetch } from "@/lib/canApi";
 const props = defineProps<{
   /** `divisions` 命名空间。 */
   messages: Record<string, unknown>;
+  /** can-ui 自己画的关闭按钮的名称（`lib/chrome.ts`）。 */
+  chrome: Record<string, unknown>;
 }>();
 
 const emit = defineEmits<{ (e: "saved"): void }>();
@@ -156,6 +158,7 @@ async function commit() {
         v-if="error"
         variant="danger"
         dismissible
+        :messages="chrome"
         @dismiss="error = null"
       >
         {{ error }}
@@ -164,6 +167,7 @@ async function commit() {
         v-if="success"
         variant="success"
         dismissible
+        :messages="chrome"
         @dismiss="success = null"
       >
         {{ success }}
@@ -264,14 +268,14 @@ async function commit() {
     <Dialog
       v-model:open="confirmOpen"
       size="sm"
-      :close-label="t('cancel')"
+      :messages="chrome"
       :title="pending !== null ? regionName(pending) : ''"
     >
       <p class="text-sm leading-relaxed text-muted">
         {{ t("visiting.permanentNote") }}
       </p>
       <template #footer>
-        <Button variant="ghost" :disabled="busy" @click="pending = null">
+        <Button variant="secondary" :disabled="busy" @click="pending = null">
           {{ t("cancel") }}
         </Button>
         <Button :loading="busy" @click="commit">

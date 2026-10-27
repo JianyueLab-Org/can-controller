@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import AppLayout from "@/layouts/AppLayout.astro";
-import { AlertBox, ICON_PATHS } from "@jianyuelab-org/can-ui";
+import { AlertBox, Badge, Icon, PageHeader } from "@jianyuelab-org/can-ui";
 import { getLocale, useTranslations } from "@/lib/i18n";
 import { findAtcRuleDoc } from "@/lib/atcRules";
 
@@ -34,38 +34,28 @@ const divisionName = tRegion(String(doc.region));
     href="/rules"
     class="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-can"
   >
-    <svg
-      class="size-4"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      aria-hidden="true"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d={ICON_PATHS.arrowLeft}></path>
-    </svg>
+    <Icon name="arrowLeft" class="size-4" />
     {t("back")}
   </a>
 
   <div class="mb-8">
-    <p class="mb-1 text-xs font-semibold uppercase tracking-widest text-can">
-      {t("title")} · {divisionName}
-    </p>
-    <div class="flex flex-wrap items-center gap-3">
-      <h1
-        lang={doc.lang}
-        class="text-2xl font-bold tracking-tight text-ink sm:text-3xl"
-      >
-        {doc.title}
-      </h1>
-      {doc.draft && <span class="badge badge-warning">{tCommon("draft")}</span>}
-    </div>
-    <p class="mt-2 text-sm text-muted">
-      {t("languageNote", { language: tCommon(`languages.${doc.lang}`) })}
-    </p>
+    <PageHeader
+      flush
+      title={doc.title}
+      eyebrow={`${t("title")} · ${divisionName}`}
+      description={t("languageNote", {
+        language: tCommon(`languages.${doc.lang}`),
+      })}
+    >
+      <span slot="title" lang={doc.lang}>{doc.title}</span>
+      {
+        doc.draft && (
+          <Badge slot="actions" variant="warning">
+            {tCommon("draft")}
+          </Badge>
+        )
+      }
+    </PageHeader>
     {
       doc.draft && (
         <AlertBox variant="warning" title={tCommon("draftTitle")} class="mt-4">
@@ -75,11 +65,14 @@ const divisionName = tRegion(String(doc.region));
     }
   </div>
 
-  <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_16rem]">
+  <div class="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_16rem]">
     <article class="card p-6 sm:p-8">
+      <!-- Headings clear the sticky bar when the table of contents jumps to
+           them. Blockquotes drop the plugin's italics and curly quotes: there
+           is no italic CJK face, so the browser slants the glyphs instead. -->
       <div
         lang={doc.lang}
-        class="doc-content prose max-w-none dark:prose-invert prose-headings:tracking-tight prose-a:font-medium"
+        class="doc-content prose max-w-none dark:prose-invert prose-headings:scroll-mt-[calc(var(--frame-bar-height)+1rem)] prose-headings:tracking-tight prose-a:font-medium prose-blockquote:not-italic prose-blockquote:[quotes:none]"
       >
         <Content />
       </div>
@@ -89,7 +82,7 @@ const divisionName = tRegion(String(doc.region));
       chapters.length > 0 && (
         <aside class="order-first lg:order-none lg:sticky lg:top-24 lg:self-start">
           <nav class="card p-4" aria-label={t("onThisPage")}>
-            <h2 class="mb-3 px-2.5 text-xs font-semibold uppercase tracking-widest text-faint">
+            <h2 class="text-eyebrow mb-3 px-2.5 text-faint">
               {t("onThisPage")}
             </h2>
             <ul class="max-h-[60vh] space-y-0.5 overflow-y-auto">

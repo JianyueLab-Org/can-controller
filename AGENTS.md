@@ -161,7 +161,7 @@ can-dev、can-radar、can-efb 都是踩了才关的。
 
 ## 和 can-web 共享的那些文件
 
-`src/styles/globals.css`、`src/lib/i18n.ts`、`src/lib/useOverlay.ts`、`src/lib/atis.ts`、
+`src/lib/i18n.ts`、`src/lib/useOverlay.ts`、`src/lib/atis.ts`、
 `src/lib/atcReservations.ts` 以及三个岛屿，都是从 can-web **逐字复制**的，没有抽成包。
 
 这是有意的，和三个卫星站点各自抄 `config.ts` 是同一个理由：几个站各自部署、各自
@@ -172,8 +172,8 @@ can-dev、can-radar、can-efb 都是踩了才关的。
 `src/lib/divisions.ts` 不再是 can-web 的副本（can-web 那份已经删除），它是这个站自己
 的分部规则。
 
-`src/styles/globals.css` 保持和 can-web 逐字一致（连那段用不上的 Leaflet 覆盖样
-式也留着），这样 `diff` 一下就能看出有没有漂移。
+`src/styles/globals.css` 不再是 can-web 的副本：它只 import can-ui 的样式，再加载
+`@tailwindcss/typography`（`/rules/<分部>` 的正文用 `prose`，can-ui 不带这个插件）。
 
 `src/lib/activities.ts` 是个例外：它只切了两样东西（`formatZulu`、
 `formatLocal`），门槛是 can-ui 的 `RATING_SUP`，文件名保持不变是为了让预约看板那个岛屿的 import

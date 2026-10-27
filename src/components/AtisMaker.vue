@@ -35,6 +35,8 @@ import { apiFetch } from "@/lib/canApi";
 const props = defineProps<{
   messages: Record<string, unknown>;
   origin: string;
+  /** can-ui 自己画的关闭按钮的名称（`lib/chrome.ts`）。 */
+  chrome: Record<string, unknown>;
 }>();
 const t = createTranslator(props.messages);
 
@@ -186,6 +188,7 @@ async function copy(value: string, which: "url" | "text") {
       v-if="error"
       variant="danger"
       dismissible
+      :messages="chrome"
       class="mb-6"
       @dismiss="error = null"
     >
@@ -196,8 +199,11 @@ async function copy(value: string, which: "url" | "text") {
       <!-- Left: weather + configuration -->
       <div class="space-y-6">
         <Card :title="t('weather.title')" :subtitle="t('weather.subtitle')">
+          <!-- items-start, and the button pushed down past the label and
+               centred on the input: the field has a hint under it, so bottom
+               alignment would line the button up with the hint. -->
           <form
-            class="flex flex-col gap-3 sm:flex-row sm:items-end"
+            class="flex flex-col gap-3 sm:flex-row sm:items-start"
             @submit.prevent="fetchMetar"
           >
             <div class="flex-1">
@@ -209,9 +215,12 @@ async function copy(value: string, which: "url" | "text") {
                 :hint="t('icao.hint')"
                 :maxlength="4"
                 autocomplete="off"
+                autocapitalize="characters"
+                autocorrect="off"
+                :spellcheck="false"
               />
             </div>
-            <Button type="submit" :loading="loading">
+            <Button type="submit" :loading="loading" class="sm:mt-7">
               <template #icon
                 ><Icon name="magnifyingGlass" class="size-4"
               /></template>
@@ -221,9 +230,7 @@ async function copy(value: string, which: "url" | "text") {
 
           <template v-if="parsed">
             <div class="mt-4 rounded-control bg-surface-sunken p-3">
-              <p
-                class="mb-1 text-xs font-medium uppercase tracking-wide text-faint"
-              >
+              <p class="text-eyebrow mb-1 text-faint">
                 {{ t("metar.raw") }}
               </p>
               <p class="break-words font-mono text-sm text-ink">
@@ -237,7 +244,7 @@ async function copy(value: string, which: "url" | "text") {
                 :key="item.label"
                 class="rounded-control bg-surface-sunken p-3"
               >
-                <p class="text-xs uppercase tracking-wide text-faint">
+                <p class="text-eyebrow text-faint">
                   {{ item.label }}
                 </p>
                 <p class="mt-0.5 text-sm font-medium text-ink">
@@ -268,6 +275,9 @@ async function copy(value: string, which: "url" | "text") {
               :label="t('arr.label')"
               :placeholder="t('arr.placeholder')"
               :hint="t('arr.hint')"
+              autocapitalize="characters"
+              autocorrect="off"
+              :spellcheck="false"
             />
             <Input
               v-model="dep"
@@ -275,6 +285,9 @@ async function copy(value: string, which: "url" | "text") {
               :label="t('dep.label')"
               :placeholder="t('dep.placeholder')"
               :hint="t('dep.hint')"
+              autocapitalize="characters"
+              autocorrect="off"
+              :spellcheck="false"
             />
             <Input
               v-model="tl"
@@ -296,26 +309,25 @@ async function copy(value: string, which: "url" | "text") {
       <!-- Right: preview + EuroScope URL -->
       <div class="space-y-6">
         <Card :title="t('preview.title')" :subtitle="t('preview.subtitle')">
-          <template v-if="preview">
-            <div class="mb-3 flex justify-end">
-              <Button
-                size="sm"
-                variant="secondary"
-                @click="copy(preview, 'text')"
-              >
-                <template #icon>
-                  <Icon
-                    :name="copied === 'text' ? 'checkCircle' : 'documentText'"
-                    class="size-4"
-                  />
-                </template>
-                {{ copied === "text" ? t("copied") : t("copy") }}
-              </Button>
-            </div>
-            <pre
-              class="overflow-x-auto whitespace-pre-line rounded-control bg-surface-sunken p-4 font-mono text-sm leading-relaxed text-ink"
-              >{{ preview }}</pre>
+          <template v-if="preview" #headerActions>
+            <Button
+              size="sm"
+              variant="secondary"
+              @click="copy(preview, 'text')"
+            >
+              <template #icon>
+                <Icon
+                  :name="copied === 'text' ? 'checkCircle' : 'documentText'"
+                  class="size-4"
+                />
+              </template>
+              {{ copied === "text" ? t("copied") : t("copy") }}
+            </Button>
           </template>
+          <pre
+            v-if="preview"
+            class="overflow-x-auto whitespace-pre-line rounded-control bg-surface-sunken p-4 font-mono text-sm leading-relaxed text-ink"
+            >{{ preview }}</pre>
           <EmptyState
             v-else
             icon="speakerWave"
@@ -325,14 +337,14 @@ async function copy(value: string, which: "url" | "text") {
         </Card>
 
         <Card :title="t('url.title')" :subtitle="t('url.subtitle')">
-          <div class="mb-3 max-w-[12rem]">
+          <div class="mb-3">
             <Select
               v-model="slot"
               name="slot"
               :label="t('slot.label')"
+              :hint="t('slot.hint')"
               :options="slotOptions"
             />
-            <p class="mt-1.5 text-xs text-muted">{{ t("slot.hint") }}</p>
           </div>
           <div class="rounded-control bg-surface-sunken p-3">
             <p class="break-all font-mono text-xs text-ink">{{ makerUrl }}</p>

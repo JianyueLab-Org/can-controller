@@ -36,7 +36,7 @@
   },
   "controllers": {
     "dashboard": {
-      "welcome": "Welcome back",
+      "welcome": "Welcome back, {name}",
       "subtitle": "ATC Panel — your status and position permissions",
       "onlineTime": "Online Time",
       "currentRating": "Current Rating",
@@ -61,6 +61,7 @@
       "noCourses": "No scheduled courses",
       "contactInstructor": "Please contact instructor to schedule training",
       "loadingFailed": "Loading failed",
+      "retry": "Retry",
       "noUserData": "No user data found",
       "authorized": "Authorized",
       "unauthorized": "Unauthorized",
@@ -207,7 +208,6 @@
     "formEndsAtHint": "At most {hours} hours after the start time.",
     "endBeforeStart": "End time must be after start time.",
     "untilTime": "until {time}",
-    "timeWithLocal": "{zulu} · {local}",
     "close": "Close",
     "submit": "Submit",
     "errorDescriptionTooLong": "That note is too long — {chars} characters at most."
