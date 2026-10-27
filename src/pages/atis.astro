@@ -3,6 +3,7 @@ import AppLayout from "@/layouts/AppLayout.astro";
 import AtisMaker from "@/components/AtisMaker.vue";
 import { getLocale, getMessages, useTranslations } from "@/lib/i18n";
 import { CAN_WEB_ORIGIN } from "@/lib/config";
+import { chromeMessages } from "@/lib/chrome";
 
 const locale = getLocale(Astro.cookies);
 const messages = getMessages(locale, "atis");
@@ -29,5 +30,10 @@ const tf = useTranslations(locale, "frame");
 ---
 
 <AppLayout title={tf("controllers.atis")}>
-  <AtisMaker messages={messages} origin={CAN_WEB_ORIGIN} client:load />
+  <AtisMaker
+    messages={messages}
+    origin={CAN_WEB_ORIGIN}
+    chrome={chromeMessages(locale)}
+    client:load
+  />
 </AppLayout>

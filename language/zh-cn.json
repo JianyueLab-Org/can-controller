@@ -36,11 +36,11 @@
   },
   "controllers": {
     "dashboard": {
-      "welcome": "欢迎回来",
-      "subtitle": "管制员面板 - 查看您的状态和权限信息",
+      "welcome": "欢迎回来，{name}",
+      "subtitle": "管制员面板——查看你的状态和权限信息",
       "onlineTime": "上管时间",
       "currentRating": "当前等级",
-      "homeDivision": "Home Division",
+      "homeDivision": "归属分部",
       "sessionCount": "次上管",
       "totalPermissions": "个权限",
       "active": "活跃",
@@ -61,6 +61,7 @@
       "noCourses": "暂无预定课程",
       "contactInstructor": "请联系教员安排培训课程",
       "loadingFailed": "加载失败",
+      "retry": "重试",
       "noUserData": "未找到用户数据",
       "authorized": "已授权",
       "unauthorized": "未授权",
@@ -207,7 +208,6 @@
     "formEndsAtHint": "最长为开始时间之后 {hours} 小时。",
     "endBeforeStart": "下线时间必须晚于上线时间。",
     "untilTime": "至 {time}",
-    "timeWithLocal": "{zulu} · {local}",
     "close": "关闭",
     "submit": "提交",
     "errorDescriptionTooLong": "备注太长了，最多 {chars} 字。"

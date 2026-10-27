@@ -2,6 +2,7 @@
 import AppLayout from "@/layouts/AppLayout.astro";
 import Dashboard from "@/components/Dashboard.vue";
 import { getLocale, getMessages } from "@/lib/i18n";
+import { chromeMessages } from "@/lib/chrome";
 
 /**
  * 管制员概览。can-web 上的 `/controllers/` —— 这个站的首页就是它，前缀没了。
@@ -25,6 +26,7 @@ const sessionUserId = Astro.locals.user?.username ?? "";
     divisionMessages={divisionMessages}
     setupMessages={setupMessages}
     sessionUserId={sessionUserId}
+    chrome={chromeMessages(locale)}
     client:load
   />
 </AppLayout>
