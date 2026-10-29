@@ -5,9 +5,9 @@
  * EuroScope's "ATIS maker" is a parameterised URL (the same mechanism uniatis
  * and vatatis use): you paste a URL into EuroScope, it substitutes its built-in
  * macros ($metar, $arrrwy, $deprwy, $atiscode, $atisairport) and GETs it, then
- * speaks/shows whatever text comes back. So the server endpoint at
- * `/api/v1/atis` and the `/controllers/atis` preview both live off this module
- * — that way the preview a controller sees is exactly what EuroScope will say.
+ * speaks/shows the returned text. The Go handler at `/api/v1/atis` ports this
+ * module's parser and formatter; the `/atis` preview uses it directly.
+ * Keep both implementations equivalent.
  *
  * Browser-safe on purpose (no node/network/prisma): the Vue island imports it
  * directly. The actual network fetch of a METAR is server-only and lives in
