@@ -22,6 +22,10 @@
 SSR（standalone Node 适配器）+ Vue 岛屿 + Tailwind v4，跑在 jyl-tyo 上，由 CI 部
 署，Ingress 走 `cloudflare-tunnel`。
 
+Unsafe proxy requests require `Origin` to equal `PUBLIC_ORIGIN`.
+Missing, `null`, and foreign origins return 403 `bad_origin` before forwarding.
+Safe requests and direct server-to-server can-api calls do not require Origin.
+
 ## 三条不变量
 
 **没有数据库口令。** 一条都没有，将来也不该有。所有数据都来自 can-api。
