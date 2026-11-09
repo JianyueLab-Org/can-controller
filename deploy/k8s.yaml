@@ -59,25 +59,7 @@ spec:
       labels:
         app: can-controller
     spec:
-      # **仓库是公开的，但 ghcr 上那个包仍然是私有的**，所以这几行还得留着。
-      #
-      # 这两件事不联动，是这里唯一需要记住的点：包是在仓库还私有的时候第一次推
-      # 上去的，于是它继承了「私有」；后来把仓库改成公开，**包的可见性不会跟着
-      # 变**，而且它也改不了 —— GHCR 的 container package 可见性只能在网页上
-      # 改，REST API 没有这个端点（PATCH .../packages/container/<name> 是 404）。
-      #
-      # 私有包的症状是 ImagePullBackOff，在 `kubectl get pods` 上只表现为「起不
-      # 来」，不会说是权限问题。
-      #
-      # secret 本身不在这份清单里，由部署工作流用 GHCR_PULL_TOKEN 现建（见
-      # JianyueLab-Org/actions 的 deploy-k8s.yml，「Ensure image pull secret」那
-      # 一步），所以这里只引用名字。
-      #
-      # can-dev / can-radar / can-exam 都没有这几行，因为它们的包是公开的 ——
-      # 想和它们对齐，就去网页上把这个包改成 public，然后删掉这三行；顺序反了
-      # 会让全站拉不起来。
-      imagePullSecrets:
-        - name: ghcr-pull
+      # 包是公开的，不声明 imagePullSecrets：凭据失效时 GHCR 返回 403，不会退回匿名拉取。
       containers:
         - name: app
           # 按 sha 钉住，别用 :latest —— 那个标签没有回滚故事：没有更早的标签
