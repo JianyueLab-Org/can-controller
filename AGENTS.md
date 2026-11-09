@@ -133,8 +133,11 @@ can-web 的 `Divisions.vue` 一样走一次显式确认，且确认框里重复�
 ### 会话与 rating
 
 `src/middleware.ts` 每个请求向 can-api 解一次会话，结果放进 `Astro.locals.user`。
-**整站要登录**，所以没有 `PROTECTED_PREFIXES` 那样一份清单，只有两个例外
-（`/api/*` 和 `/healthz`，理由写在 `isUnguarded` 上）。
+**整站要登录**，所以没有 `PROTECTED_PREFIXES` 那样一份清单，只有三个例外
+（`/api/*`、`/healthz` 和 `/health`，理由写在 `isUnguarded` 上）。
+
+`/health` 给外部可用性监控：探 can-api 的 `/health`，200 / 503，结果缓存 10 秒。
+k8s 探针用 `/healthz`。
 
 `rating` 决定页面**内容**里的几处门槛，例如预约看板上的「撤销他人预约」
 （`pages/reservations.astro`）。侧栏不读它。
