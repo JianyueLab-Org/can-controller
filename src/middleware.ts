@@ -14,7 +14,7 @@ import { signInUrl } from "@/lib/config";
  * 文档改成公开」不属于一次搬家该做的决定。真要开，得在这里显式开一个口子，
  * 而不是默认就开着。
  *
- * 例外只有两条，理由各自写在 `isUnguarded` 上。
+ * 例外只有三条，理由各自写在 `isUnguarded` 上。
  *
  * 重定向去的是 **can-web 的登录页**：这个站自己没有登录页，也不该有。会话由
  * can-api 在父域上签发，主站上登录过的成员到这里本来就带着 cookie。
@@ -23,16 +23,21 @@ import { signInUrl } from "@/lib/config";
  */
 
 /**
- * 不问会话、也不重定向的两条路径。
+ * 不问会话、也不重定向的三条路径。
  *
  * - `/api/` 是本站的反代，它自己有白名单，而且它的调用方要的是状态码不是
  *   302 —— 把一个 fetch 重定向到登录页，岛屿拿到的会是一段 HTML，然后它会试
  *   着把 `<!doctype html>` 当 JSON 解析。
  * - `/healthz` 是探活，理由写在那个文件里：它必须能在 can-api 挂掉时照样回
  *   200，否则上游一抖，kubelet 就会把这边的 Pod 一起滚掉。
+ * - `/health` 给外部可用性监控，探 can-api；它不能被重定向到登录页。
  */
 function isUnguarded(pathname: string): boolean {
-  return pathname.startsWith("/api/") || pathname === "/healthz";
+  return (
+    pathname.startsWith("/api/") ||
+    pathname === "/healthz" ||
+    pathname === "/health"
+  );
 }
 
 export const onRequest = defineMiddleware(async (context, next) => {
