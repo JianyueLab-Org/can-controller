@@ -35,6 +35,10 @@ bun run build
 
 ## 部署
 
+`.dockerignore` 从构建上下文排除所有层级的 `.env*`、本地依赖、构建产物、Git 元数据和
+`navdata/`（包括 `data/navdata/`）。`.npmrc`、源码、静态资源、词典和构建脚本保留；
+运行配置由容器环境变量提供，包令牌使用 BuildKit 的 `github_token` secret。
+
 **已上线：<https://controller.ceruleanavi.net>**（jyl-tyo，`can-controller`
 namespace）。
 
