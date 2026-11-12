@@ -123,10 +123,9 @@ const UNSAFE = new Set(["POST", "PATCH", "PUT", "DELETE"]);
 /**
  * 逐字转发给 can-api 的响应头。
  *
- * `set-cookie` **必须**在里面：退出登录是 can-api 用一个 Set-Cookie 清掉会话
- * 的，漏掉它成员就永远登不出去。
+ * `set-cookie` 单独逐条追加，保留多个 cookie 和 Expires 中的逗号。
  */
-const PASS_THROUGH = ["content-type", "cache-control", "set-cookie"];
+const PASS_THROUGH = ["content-type", "cache-control"];
 
 const handler: APIRoute = async (context) => {
   const rest = context.params.path ?? "";
@@ -191,6 +190,9 @@ const handler: APIRoute = async (context) => {
   for (const name of PASS_THROUGH) {
     const value = upstream.headers.get(name);
     if (value) out.set(name, value);
+  }
+  for (const cookie of upstream.headers.getSetCookie()) {
+    out.append("set-cookie", cookie);
   }
 
   return new Response(upstream.body, { status: upstream.status, headers: out });
