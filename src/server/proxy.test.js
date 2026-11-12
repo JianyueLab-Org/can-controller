@@ -1,7 +1,7 @@
 import { afterAll, beforeEach, expect, spyOn, test } from "bun:test";
-import { CAN_API_ORIGIN, origin } from "../../../lib/config";
+import { CAN_API_ORIGIN, origin } from "../lib/config";
 
-const { GET, POST, DELETE } = await import("./[...path].ts");
+const { GET, POST, DELETE } = await import("../pages/api/v1/[...path].ts");
 
 const cookie = "can_session=synthetic-session";
 const fetchSpy = spyOn(globalThis, "fetch");
