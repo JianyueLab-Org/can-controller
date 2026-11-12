@@ -206,6 +206,9 @@ bun run lint           # format:check + astro check + vue-tsc —— CI 就跑�
 bun run build
 ```
 
+路由回归测试放在 `src/server/` 或 `src/lib/`，不放在 `src/pages/`。
+`src/server/proxy.test.js` 覆盖分部反代；`src/pages/` 的 `.js` 和 `.ts` 文件都会成为线上路由。
+
 端口 4326 是接着那条阶梯排的：4321 can-web、4322 can-dev、4323 can-radar、
 4324 can-efb、4325 can-exam。
 
